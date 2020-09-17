@@ -50,9 +50,19 @@ def load_user_page():
 
     return jsonify(responsed_json)
 
-@app.route("/user/:id", methods=["PUT"])
-def edit_user_page():
+@app.route("/user/:id", methods=["POST"])
+def operate_user_page():
     given_json = request.json
+    if given_json["is_delete"]:
+
+        return delete_user(given_json)
+
+    else:
+
+        return edit_user_page(given_json)
+
+def edit_user_page(param):
+    given_json = param
 
     given_json["password"] = generate_password_hash(given_json["password"])
 
@@ -66,8 +76,7 @@ def edit_user_page():
 
     return jsonify(responsed_json)
 
-@app.route("/user/:id", methods=["DELETE"])
-def delete_user():
+def delete_user(param):
     given_json = request.json
 
     # user_id = db_func(given_json["id"])
