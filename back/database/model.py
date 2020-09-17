@@ -1,16 +1,18 @@
 class Chatroom(object):
-    def __init__(self, tag=[], user_ids=[]):
+    def __init__(self, tag_id, tag_name, user_ids=[]):
         #self.chatroom_id = chatroom_id
-        self.tag = tag
+        self.tag_id = tag_id
+        self.tag_name = tag_name
         self.user_ids = user_ids
 
     def to_dict(self):
-        return {'tag': self.tag, 'user_ids': self.user_ids}
+        return {'tag_id': self.tag_id, 'tag_name': self.tag_name, 'user_ids': self.user_ids}
     
     def __repr__(self):
         return (
             f'Chatroom(\
-                tag={self.tag}, \
+                tag_id={self.tag_id}, \
+                tag_name={self.tag_name}\
                 user_ids={self.user_ids}\
             )'
         )
