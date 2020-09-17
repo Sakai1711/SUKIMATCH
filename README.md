@@ -1,4 +1,4 @@
 ## SukiMatch
 
 ### ディレクトリ構成
-`front`: react.jsのフロントエンドのプロジェクト
+`front`: react.jsのフロントエンドのプロジェクト
