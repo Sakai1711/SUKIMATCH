@@ -1,5 +1,5 @@
 from conf import app, socketio, jsonify
-from flask_socketio import Namespace, emit, join_room, leave_room, disconnect
+from flask_socketio import Namespace, emit, join_room, disconnect
 
 class MyNamespace(Namespace):
     def on_connect_req(self, data): # connect
@@ -15,10 +15,11 @@ class MyNamespace(Namespace):
         data = data.json
         access_token = data['access_token']
         user_id = data['user_id']
+        chatroom_id = data['chatroom_id']
         content = data['content']
         # TODO: verify access_token and get username by user_id
         result = jsonify({'username': 'A', 'content': content})
-        emit('send_message_res', result)
+        emit('send_message_res', result, room_id=chatroom_id)
 
     def on_disconnect_req(self, data): # disconnect
         data = data.json
