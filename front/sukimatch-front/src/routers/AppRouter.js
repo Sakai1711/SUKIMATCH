@@ -1,11 +1,12 @@
 import React from 'react';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Home from '../components/Home'
 
-const Landing = () => {
-  return (
-    <h1>hello</h1>
-  )
-}
+// const Landing = () => {
+//   return (
+//     <h1>hello</h1>
+//   )
+// }
 
 const Landing1 = () => {
   return (
@@ -21,15 +22,15 @@ const Landing2 = () => {
 
 const AppRouter = () => {
   return (
-  <BrowserRouter>
-    <div>
-      <Switch>
-        <Route path="/" component={Landing} exact={true} />
-        <Route path="/hoge" component={Landing1} />
-        <Route component={Landing2} />
-      </Switch>
-    </div>
-  </BrowserRouter>
+    <BrowserRouter>
+      <div>
+        <Switch>
+          <Route path="/" component={Home} exact={true} />
+          <Route path="/hoge" component={Landing1} />
+          <Route component={Landing2} />
+        </Switch>
+      </div>
+    </BrowserRouter>
   )
 };
 
