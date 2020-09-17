@@ -20,19 +20,15 @@ def get_chatroom_id_by_user_id(user_id): # user_idでchatroom_idを取得
 def add_chatroom(user_id, tag_id, tag_name): # マッチング開始ボタンを押した時
     chatrooms = db.collection(u'Chatroom').where(u'tag_id', u'==', tag_id)
     num_of_chatrooms = len(list(chatrooms.get()))
-    in_joined = False
     if num_of_chatrooms > 0:
         for room in chatrooms.stream():
             if len(room.to_dict()['user_ids']) < 4:
                 update_user_ids(user_id, room.id)
-                in_joined = True
-                break
-        return get_chatroom_id_by_user_id(user_id)
+                return get_chatroom_id_by_user_id(user_id)
 
-    if in_joined == False:
-        chatroom = Chatroom(tag_id=tag_id, tag_name=tag_name, user_ids=[user_id])
-        db.collection(u'Chatroom').add(chatroom.to_dict())
-        return get_chatroom_id_by_user_id(user_id)
+    chatroom = Chatroom(tag_id=tag_id, tag_name=tag_name, user_ids=[user_id])
+    db.collection(u'Chatroom').add(chatroom.to_dict())
+    return get_chatroom_id_by_user_id(user_id)
 
 def check_chatroom(chatroom_id): # chatroom内の人数を数える
     chatroom_ref = db.collection(u'Chatroom').document(chatroom_id)
