@@ -2,7 +2,7 @@ import requests
 
 def test_api(api_url):
     request_param = {
-        'param': 0
+        "password": "hoge"
     }
     res = requests.post(api_url, json=request_param)
     print(res.json())
