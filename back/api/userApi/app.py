@@ -1,12 +1,17 @@
 from flask import Flask, request, jsonify
-# from conf import app
+from werkzeug.security import generate_password_hash
+from conf import app
 
-from flask import Flask
-app = Flask(__name__)
+# from flask import Flask
+# app = Flask(__name__)
 
 @app.route("/user", methods=["POST"])
 def sign_up_user():
     given_json = request.json
+
+    # hash
+    given_json["password"] = "hoge"
+    given_json["password"] = generate_password_hash(given_json["password"])
 
     # user_id = db_func(given_json["username"], given_json["email"], given_json["password"])
     # provisional
