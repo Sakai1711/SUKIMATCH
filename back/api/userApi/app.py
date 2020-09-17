@@ -10,7 +10,6 @@ def sign_up_user():
     given_json = request.json
 
     # hash
-    given_json["password"] = "hoge"
     given_json["password"] = generate_password_hash(given_json["password"])
 
     # user_id = db_func(given_json["username"], given_json["email"], given_json["password"])
@@ -54,6 +53,8 @@ def load_user_page():
 @app.route("/user/:id", methods=["PUT"])
 def edit_user_page():
     given_json = request.json
+
+    given_json["password"] = generate_password_hash(given_json["password"])
 
     # user_id = db_func(given_json["username"], given_json["email"], given_json["password"])
     # provisional
