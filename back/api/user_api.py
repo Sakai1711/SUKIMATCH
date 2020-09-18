@@ -20,10 +20,11 @@ def sign_up_user():
         "user_id" : user_id
     }
 
-    return jsonify(responsed_json)
+    return jsonify(responsed_json), 200
 
-@app.route("/user/:id", methods=["GET"])
-def load_user_page():
+@app.route("/user/<string:user_id>", methods=["GET"])
+def load_user_page(user_id):
+    print(user_id)
     given_json = request.json
 
     # username, email, tag = db_func(given_json["id"])
@@ -48,18 +49,19 @@ def load_user_page():
         "tag" : tag # List
     }
 
-    return jsonify(responsed_json)
+    return jsonify(responsed_json), 200
 
-@app.route("/user/:id", methods=["POST"])
-def operate_user_page():
+@app.route("/user/<string:user_id>", methods=["POST"])
+def operate_user_page(user_id):
+    print(user_id)
     given_json = request.json
     if given_json["is_delete"]:
 
-        return delete_user(given_json)
+        return delete_user(given_json), 200
 
     else:
 
-        return edit_user_page(given_json)
+        return edit_user_page(given_json), 200
 
 def edit_user_page(param):
     given_json = param
