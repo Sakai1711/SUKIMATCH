@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-const ChatHeader = () => {
-  return (
-    <h1>
-      This is Header
-    </h1>
-  )
+class ChatHeader extends Component {
+
+  render() {
+    return (
+      <div className='chat-header'>
+        This is Header
+      </div>
+    )
+  }
 };
 
 export default ChatHeader;

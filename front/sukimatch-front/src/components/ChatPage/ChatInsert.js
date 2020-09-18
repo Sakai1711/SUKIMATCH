@@ -1,11 +1,26 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { Input, Button } from 'react-chat-elements';
 
-const ChatInsert = () => {
-  return (
-    <h1>
-      This is the insert zone of Chat
-    </h1>
-  )
+
+class ChatInsert extends Component {
+  render() {
+    return (
+      <div>
+        <Input
+          placeholder="Type here..."
+          multiline={true}
+          rightButtons={
+              <Button
+                  color='white'
+                  backgroundColor='black'
+                  text='Send'
+                  onClick={this.sendHandler}
+              />
+          }
+        />
+      </div>
+    )
+  }
 };
 
 export default ChatInsert;
