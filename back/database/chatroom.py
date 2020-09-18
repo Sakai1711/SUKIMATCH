@@ -2,11 +2,7 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 from model import User, Tag, Chatroom
-
-cred = credentials.Certificate("RAKUTEN/sukimatch/TeamA/back/database/sukimatch-21753-firebase-adminsdk-pbpyr-b48f70c7fe.json")
-firebase_admin.initialize_app(cred)
-
-db = firestore.client()
+from database import db
 
 def update_user_ids(user_id, chatroom_id): # user_idsにuser_idを追加
     chatroom_ref = db.collection(u'Chatroom').document(chatroom_id)
@@ -37,8 +33,4 @@ def check_chatroom(chatroom_id): # chatroom内の人数を数える
     
 def delete_chatroom(chatroom_id): # chatroomのdocumentの削除
     db.collection(u'Chatroom').document(chatroom_id).delete()
-
-#print(add_chatroom("user_id9", "ta", "tag1"))
-#print(check_chatroom('5XPamFhqDkRBN87FxOi8'))
-#delete_chatroom('pAIEbWrjEF6G64vdj0c4')
 
