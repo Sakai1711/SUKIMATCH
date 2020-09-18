@@ -1,4 +1,6 @@
-from conf import app, socketio, jsonify
+from . import app
+from .. import socketio
+from flask import jsonify
 from flask_socketio import Namespace, emit, join_room, disconnect
 
 class MyNamespace(Namespace):
@@ -29,5 +31,3 @@ class MyNamespace(Namespace):
 
 socketio.on_namespace(MyNamespace('/chatrooms'))
 
-#if __name__ == '__main__':
-#    socketio.run(app, debug=True)
