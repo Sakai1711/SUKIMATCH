@@ -1,5 +1,13 @@
 from flask import Flask, request, jsonify
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
 from . import app
+from model import Tag
+
+cred = credentials.Certificate('./sukimatch-21753-firebase-adminsdk-pbpyr-71cf5581f2.json')
+firebase_admin.initialize_app(cred)
+db = firestore.client()
 
 @app.route("/tag", methods=["POST"])
 def insert_tag():
@@ -41,3 +49,4 @@ def delete_tag():
         return jsonify({}), 200
     else:
         return jsonify({}), 404
+
