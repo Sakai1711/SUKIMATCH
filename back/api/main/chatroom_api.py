@@ -1,6 +1,5 @@
 from flask import Flask, request, jsonify
-import conf
-app = conf.app
+from . import app
 
 @app.route("/chatrooms/search/<chatroom_id>", methods=["GET"])
 def search_chatroom_id(chatroom_id):
@@ -23,6 +22,3 @@ def create_chatroom():
     ## DB処理
     #########
     return jsonify({ 'chatroom_id': chatroom_id }), 200
-
-if __name__ == "__main__":
-    app.run(debug=False, host='0.0.0.0', port=5000)
