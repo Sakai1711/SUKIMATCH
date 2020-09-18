@@ -79,7 +79,7 @@ def edit_user_page(param):
     return jsonify(responsed_json)
 
 def delete_user(param):
-    given_json = request.json
+    given_json = param
 
     # user_id = db_func(given_json["id"])
 
