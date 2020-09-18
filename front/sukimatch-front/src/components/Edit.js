@@ -12,6 +12,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import IconButton from '@material-ui/core/IconButton';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import { ApiClient } from '../utils/ApiClient';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -87,6 +88,12 @@ export default function Edit() {
       email: 'test@example.com',
       tags: ['movie', 'soccer'],
     })
+
+    ApiClient.get('/wether').then(response => {
+      console.log(response)
+    }).catch(err => {
+      console.log(err)
+    });
   }, []);
 
   const updateUsername = (ev) => setForm({
@@ -115,16 +122,14 @@ export default function Edit() {
   const handleAddTag = () => {
     if (newTagName) {
       updateTags(newTagName)
-      setNewTagName('')
-      setAddTagClick(false)
     }
+    setNewTagName('')
+    setAddTagClick(false)
   }
 
   const submit = () => {
     console.log(form)
   }
-
-  console.log(form.tags)
 
 
   const tagList = form.tags.map((tag, index) => (
