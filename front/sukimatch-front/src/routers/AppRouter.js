@@ -1,18 +1,11 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Home from '../components/Home'
+import Home from '../components/Home';
+import Chat from '../components/Chat';
+import Header from '../components/Header';
 
-// const Landing = () => {
-//   return (
-//     <h1>hello</h1>
-//   )
-// }
 
-const Landing1 = () => {
-  return (
-    <h1>hoge</h1>
-  )
-}
+
 
 const Landing2 = () => {
   return (
@@ -24,9 +17,10 @@ const AppRouter = () => {
   return (
     <BrowserRouter>
       <div>
+        <Header />
         <Switch>
           <Route path="/" component={Home} exact={true} />
-          <Route path="/hoge" component={Landing1} />
+          <Route path="/chat" component={Chat} />
           <Route component={Landing2} />
         </Switch>
       </div>
