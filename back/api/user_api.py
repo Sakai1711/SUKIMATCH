@@ -1,53 +1,36 @@
-from flask import request, jsonify
+from flask import Flask, request, jsonify
 from werkzeug.security import generate_password_hash
-
-from database.db_operate import add_new_user
 from conf import app
+from .database.db_operate import *
 
 # from flask import Flask
 # app = Flask(__name__)
 
 @app.route("/user", methods=["POST"])
 def sign_up_user():
-
     given_json = request.json
 
     # hash
     given_json["password"] = generate_password_hash(given_json["password"])
 
     user_id = add_new_user(
-                username=given_json["username"],
-                email=given_json["email"],
-                password=given_json["password"]
+        username=given_json["username"],
+        email=given_json["email"],
+        password=given_json["password"]
     )
-    # provisional
-    # user_id = 1010120
 
     responsed_json = {
         "user_id" : user_id
     }
 
-    return jsonify(responsed_json)
+    return jsonify(responsed_json), 200
 
-@app.route("/user/:id", methods=["GET"])
-def load_user_page():
+@app.route("/user/<string:user_id>", methods=["GET"])
+def load_user_page(user_id):
+    print(user_id)
     given_json = request.json
 
-    # username, email, tag = db_func(given_json["id"])
-
-    # provisional
-    username = "hoge"
-    email = "tmp@hoge.com"
-    tag = [{
-            "id" : 0,
-            "tag_name" : "test1"
-        },
-        {
-            "id": 1,
-            "tag_name": "test2"
-        }
-    ]
-
+    username, email, tag = load_mypage(given_json["id"])
 
     responsed_json = {
         "username" : username,
@@ -55,27 +38,33 @@ def load_user_page():
         "tag" : tag # List
     }
 
-    return jsonify(responsed_json)
+    return jsonify(responsed_json), 200
 
-@app.route("/user/:id", methods=["POST"])
-def operate_user_page():
+@app.route("/user/<string:user_id>", methods=["POST"])
+def operate_user_page(user_id):
+    print(user_id)
     given_json = request.json
+    given_json["user_id"] = user_id
+
     if given_json["is_delete"]:
 
-        return delete_user(given_json)
+        return delete_user(given_json), 200
 
     else:
 
-        return edit_user_page(given_json)
+        return edit_user_page(given_json), 200
 
 def edit_user_page(param):
     given_json = param
 
     given_json["password"] = generate_password_hash(given_json["password"])
 
-    # user_id = db_func(given_json["username"], given_json["email"], given_json["password"])
-    # provisional
-    user_id = 1010120
+    user_id = update_data(
+                user_id=given_json["user_id"],
+                username=given_json["username"],
+                email=given_json["email"],
+                password=given_json["password"]
+    )
 
     responsed_json = {
         "user_id": user_id
@@ -84,7 +73,7 @@ def edit_user_page(param):
     return jsonify(responsed_json)
 
 def delete_user(param):
-    given_json = request.json
+    given_json = param
 
     # user_id = db_func(given_json["id"])
 
