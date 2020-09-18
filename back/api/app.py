@@ -1,5 +1,7 @@
-from flask import Flask, request, jsonify
+from flask import request, jsonify
 from werkzeug.security import generate_password_hash
+
+from database.db_operate import add_new_user
 from conf import app
 
 # from flask import Flask
@@ -7,14 +9,19 @@ from conf import app
 
 @app.route("/user", methods=["POST"])
 def sign_up_user():
+
     given_json = request.json
 
     # hash
     given_json["password"] = generate_password_hash(given_json["password"])
 
-    # user_id = db_func(given_json["username"], given_json["email"], given_json["password"])
+    user_id = add_new_user(
+                username=given_json["username"],
+                email=given_json["email"],
+                password=given_json["password"]
+    )
     # provisional
-    user_id = 1010120
+    # user_id = 1010120
 
     responsed_json = {
         "user_id" : user_id
