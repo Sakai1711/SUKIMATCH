@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from werkzeug.security import generate_password_hash
-from conf import app
+from . import app
 
 # from flask import Flask
 # app = Flask(__name__)
@@ -89,6 +89,3 @@ def delete_user(param):
 
     return jsonify(responsed_json)
 
-
-if __name__ == "__main__":
-    app.run(debug=False, host='0.0.0.0', port=5000)

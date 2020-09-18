@@ -1,6 +1,5 @@
 from flask import Flask, request, jsonify
-import conf
-app = conf.app
+from . import app
 
 @app.route("/tag", methods=["POST"])
 def insert_tag():
@@ -42,6 +41,3 @@ def delete_tag():
         return jsonify({}), 200
     else:
         return jsonify({}), 404
-
-if __name__ == "__main__":
-    app.run(debug=False, host='0.0.0.0', port=5000)
