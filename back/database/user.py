@@ -1,15 +1,6 @@
-import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import firestore
-import google
-
+from google.cloud.exceptions import NotFound
 from model import User
-
-# Use a service account
-cred = credentials.Certificate('database/sukimatch-21753-firebase-adminsdk-pbpyr-2612a3104c.json')
-firebase_admin.initialize_app(cred)
-
-db = firestore.client()
+from database import db
 
 def main():
 
@@ -54,7 +45,7 @@ def load_mypage(user_id):
         user_data = user_ref.get().to_dict()
         return user_data["name"], user_data["email"], user_data["tags"]
 
-    except google.cloud.exceptions.NotFound:
+    except NotFound:
         print(u'No such document!')
 
 def update_data(user_id, username, email, password):
