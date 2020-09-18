@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import Typography from '@material-ui/core/Typography';
 
 const Header = () => {
   return (
