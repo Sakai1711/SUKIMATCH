@@ -58,7 +58,7 @@ def update_data(user_id, username, email, password):
                  name=f'{username}').to_dict()
         )
 
-    except google.cloud.exceptions.NotFound:
+    except NotFound:
         print(u'No such document!')
 
     return user_id
