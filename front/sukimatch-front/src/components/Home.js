@@ -28,7 +28,9 @@ export default function Home() {
         SukiMatch
       </Typography>
       {/* <Button className={classes.button}></Button> */}
-      <Link to='/sign_in'>始める</Link>
+      <Button color="primary" component={Link} to="/sign_in">
+        With prop forwarding
+      </Button>
     </div>
   );
 }

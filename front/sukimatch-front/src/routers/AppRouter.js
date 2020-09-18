@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Home from '../components/Home'
+import Edit from '../components/Edit'
 
 // const Landing = () => {
 //   return (
@@ -27,6 +28,7 @@ const AppRouter = () => {
         <Switch>
           <Route path="/" component={Home} exact={true} />
           <Route path="/hoge" component={Landing1} />
+          <Route path="/user/edit" children={<Edit />} />
           <Route component={Landing2} />
         </Switch>
       </div>
