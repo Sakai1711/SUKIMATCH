@@ -6,7 +6,7 @@ import ChatInsert from './ChatPage/ChatInsert';
 
 const Chat = () => {
   return (
-    <div>
+    <div className='chat-page'>
       <ChatHeader />
       <ChatBody />
       <ChatInsert />
