@@ -13,7 +13,7 @@ const useStyles = makeStyles({
     marginRight: 'auto',
     marginLeft: 'auto'
   },
-  button: {
+  Button: {
     marginRight: 'auto',
     marginLeft: 'auto'
   }
@@ -25,12 +25,14 @@ export default function Login() {
 
   return (
     <div className={classes.root}>
-      <Typography variant="h1" gutterBottom>
+      <Typography variant="h2" gutterBottom>
         ログイン
       </Typography>
+      <br />
       <form className={classes.root} noValidate autoComplete="off">
         ユーザーネーム
-        <TextField id="standard-basic" label="Standard" />
+      <TextField id="standard-basic" label="Standard" />
+      <br />
         パスワード
         <TextField
           id="standard-password-input"
@@ -38,9 +40,11 @@ export default function Login() {
           type="password"
           autoComplete="current-password"
         />
-      </form>
-      <Button className={classes.button}></Button>
-      <Link to='/'>ログイン</Link>
+        </form>
+        <br /><br />
+        <Button variant="contained" color="primary" href="/">
+            ログイン
+        </Button>
     </div>
   );
 }
