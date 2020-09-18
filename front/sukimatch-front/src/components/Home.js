@@ -24,9 +24,6 @@ export default function Home() {
 
   return (
     <div className={classes.root}>
-      <Typography variant="h2" gutterBottom>
-        SukiMatch
-      </Typography>
       {/* <Button className={classes.button}></Button> */}
       <Button color="primary" component={Link} to="/sign_in">
         With prop forwarding

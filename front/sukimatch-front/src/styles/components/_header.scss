@@ -1,0 +1,37 @@
+.header {
+  .logo{
+    margin-top: 16px;
+    text-align: center;
+    background-image: url('../images/logo.png');
+    // background-size: ;
+    height:200px;
+  }
+
+  .global-nav {
+    margin-top:15px;
+    text-align: center;
+
+    .nav-item{
+      display:inline-block;
+      margin: 0 10px;
+      width: 100px;
+      height:30px;
+      line-height: 30px;
+      text-align: center;
+      border-radius: 8px;
+      color: $word-color;
+      font-size:$s-size;
+      letter-spacing: 1px;
+      transition: 0.15s;
+      text-decoration:none;
+    }
+    .nav-item:hover {
+      background-color: $main-color;
+      color: black;
+    }
+
+    .is-active {
+      background-color: $main-color;
+    }
+  }
+}
