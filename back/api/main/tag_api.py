@@ -2,8 +2,7 @@ from flask import Flask, request, jsonify
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
-import conf
-app = conf.app
+from . import app
 from model import Tag
 
 cred = credentials.Certificate('./sukimatch-21753-firebase-adminsdk-pbpyr-71cf5581f2.json')
