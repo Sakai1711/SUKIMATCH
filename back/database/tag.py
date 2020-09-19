@@ -30,8 +30,6 @@ def exists(user_id, tag_name):
     exist_flag = 0
     tag_ref = db.collection(u'Tag').where(u'user_id', u'==', user_id).where(u'tag_name', u'==', tag_name)
     tag_docs = tag_ref.stream()
-    for tag_doc in tag_docs:
-        db.collection(u'Tag').document(tag_doc.id).delete()
+    for _ in tag_docs:
         exist_flag = 1
     return exist_flag
-
