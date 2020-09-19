@@ -1,10 +1,7 @@
 from flask import Flask, request, jsonify
 from . import app
-from auth.auth import signup, signin, verify
-from database.user import add_new_user, load_mypage, update_data, delete_data
-
-# from flask import Flask
-# app = Flask(__name__)
+import sys
+sys.path.append('../')
 
 @app.route("/user", methods=["POST"])
 def sign_up_user():
