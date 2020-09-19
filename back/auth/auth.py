@@ -42,4 +42,4 @@ def verify(access_token):
         user_id = user['users'][0]['localId']
         return user_id
     except:
-        return {}
+        return ""

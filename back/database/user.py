@@ -1,6 +1,7 @@
 from google.cloud.exceptions import NotFound
-from ..database.model import User
-from ..database.database import db
+from .model import User
+#from database import db
+from . import db
 
 
 def add_new_user(user_id, email, name):

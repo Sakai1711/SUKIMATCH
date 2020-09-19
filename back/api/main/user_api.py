@@ -2,6 +2,8 @@ from flask import Flask, request, jsonify
 from . import app
 import sys
 sys.path.append('../')
+from database.user import add_new_user, load_mypage, update_data, delete_data
+from auth.auth import signup, signin, verify
 
 @app.route("/user", methods=["POST"])
 def sign_up_user():
@@ -34,10 +36,10 @@ def sign_in_user():
     given_json = request.json
 
     # Authentication
-    access_token, user_id = signin(
-                                email=given_json["email"],
-                                password=given_json["password"]
-                            )
+    access_token = signin(
+        email=given_json["email"],
+        password=given_json["password"]
+    )
     # provisional
     # access_token = "qawse"
     # user_id = "1010120"
@@ -52,7 +54,7 @@ def sign_in_user():
 def load_user_page(access_token):
     # Convert token to ID
     user_id = verify(access_token)
-    if user_id == {}:
+    if user_id == "":
         return jsonify({}), 401
 
     username, email, tags = load_mypage(user_id)
@@ -82,7 +84,7 @@ def load_user_page(access_token):
 def operate_user_page(access_token):
     # Convert token to ID
     user_id = verify(access_token)
-    if user_id == {}:
+    if user_id == "":
         return jsonify({}), 401
     
     given_json = request.json
