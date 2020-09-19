@@ -2,7 +2,8 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 from model import Chatroom
-from database import db
+#from database import db
+from . import db
 
 def update_user_ids(user_id, chatroom_id): # user_idsにuser_idを追加
     chatroom_ref = db.collection(u'Chatroom').document(chatroom_id)
