@@ -1,7 +1,7 @@
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
-from model import Chatroom
+from .model import Chatroom
 #from database import db
 from . import db
 

@@ -1,9 +1,9 @@
 from flask import Flask, request, jsonify
 from . import app
 import sys
-#sys.path.append('../')
-from ...database import Chatroom
-from ...auth import verify
+sys.path.append('../')
+from database.chatroom import add_chatroom, check_chatroom
+from auth.auth import verify
 
 @app.route("/chatrooms/search/<chatroom_id>", methods=["GET"])
 def search_chatroom_id(chatroom_id):

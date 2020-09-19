@@ -3,7 +3,9 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 from . import app
-from ...database import Tag
+import sys
+sys.path.append('../')
+#from database.model import Tag
 
 #cred = credentials.Certificate('./sukimatch-21753-firebase-adminsdk-pbpyr-71cf5581f2.json')
 #firebase_admin.initialize_app(cred)
