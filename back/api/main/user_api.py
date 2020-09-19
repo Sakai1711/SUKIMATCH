@@ -1,61 +1,93 @@
 from flask import Flask, request, jsonify
-from werkzeug.security import generate_password_hash
 from . import app
 import sys
 sys.path.append('../')
-# from flask import Flask
-# app = Flask(__name__)
 
 @app.route("/user", methods=["POST"])
 def sign_up_user():
     given_json = request.json
 
-    # hash
-    given_json["password"] = generate_password_hash(given_json["password"])
-
-    # user_id = db_func(given_json["username"], given_json["email"], given_json["password"])
+    # Make token and id
+    access_token, user_id = signup(
+                                email=given_json["email"],
+                                password=given_json["password"]
+                            )
     # provisional
-    user_id = 1010120
+    # access_token = "qawse"
+    # user_id = "1010120"
+
+    # Store to database
+    add_new_user(
+            user_id=user_id,
+            email=given_json["email"],
+            name=given_json["username"]
+    )
 
     responsed_json = {
-        "user_id" : user_id
+        "token" : access_token
     }
 
     return jsonify(responsed_json), 200
 
-@app.route("/user/<string:user_id>", methods=["GET"])
-def load_user_page(user_id):
-    print(user_id)
+@app.route("/login", methods=["POST"])
+def sign_in_user():
     given_json = request.json
 
-    # username, email, tag = db_func(given_json["id"])
+    # Authentication
+    access_token, user_id = signin(
+                                email=given_json["email"],
+                                password=given_json["password"]
+                            )
+    # provisional
+    # access_token = "qawse"
+    # user_id = "1010120"
+
+    responsed_json = {
+        "token" : access_token
+    }
+
+    return jsonify(responsed_json), 200
+
+@app.route("/user/<string:access_token>", methods=["GET"])
+def load_user_page(access_token):
+    # Convert token to ID
+    user_id = verify(access_token)
+    if user_id == {}:
+        return jsonify({}), 401
+
+    username, email, tags = load_mypage(user_id)
 
     # provisional
-    username = "hoge"
-    email = "tmp@hoge.com"
-    tag = [{
-            "id" : 0,
-            "tag_name" : "test1"
-        },
-        {
-            "id": 1,
-            "tag_name": "test2"
-        }
-    ]
-
+    # username = "hoge"
+    # email = "tmp@hoge.com"
+    # tag = [{
+    #         "id" : 0,
+    #         "tag_name" : "test1"
+    #     },
+    #     {
+    #         "id": 1,
+    #         "tag_name": "test2"
+    #     }
+    # ]
 
     responsed_json = {
         "username" : username,
         "email" : email,
-        "tag" : tag # List
+        "tag" : tags # List
     }
 
     return jsonify(responsed_json), 200
 
-@app.route("/user/<string:user_id>", methods=["POST"])
-def operate_user_page(user_id):
-    print(user_id)
+@app.route("/user/<string:access_token>", methods=["POST"])
+def operate_user_page(access_token):
+    # Convert token to ID
+    user_id = verify(access_token)
+    if user_id == {}:
+        return jsonify({}), 401
+    
     given_json = request.json
+    given_json["user_id"] = user_id
+
     if given_json["is_delete"]:
 
         return delete_user(given_json), 200
@@ -67,14 +99,12 @@ def operate_user_page(user_id):
 def edit_user_page(param):
     given_json = param
 
-    given_json["password"] = generate_password_hash(given_json["password"])
-
-    # user_id = db_func(given_json["username"], given_json["email"], given_json["password"])
+    update_data(given_json["username"], given_json["email"], given_json["password"])
     # provisional
-    user_id = 1010120
+    # user_id = 1010120
 
     responsed_json = {
-        "user_id": user_id
+        "user_id": given_json["user_id"]
     }
 
     return jsonify(responsed_json)
@@ -82,7 +112,7 @@ def edit_user_page(param):
 def delete_user(param):
     given_json = param
 
-    # user_id = db_func(given_json["id"])
+    delete_data(given_json["user_id"])
 
     responsed_json = {
 
