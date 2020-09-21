@@ -2,11 +2,14 @@ from flask import Flask, request, jsonify
 from . import app
 import sys
 sys.path.append('../')
+<<<<<<< HEAD
 from database.user import add_new_user, load_mypage, update_data, delete_data
 from auth.auth_user import signup, signin, verify, refresh_token
 from auth.update import update_user
 from auth.delete import delete_user
 
+=======
+>>>>>>> fa4ab8bd23180bb8398e9b88bd27b399092caf87
 
 @app.route("/user", methods=["POST"])
 def sign_up_user():

@@ -43,6 +43,7 @@ def verify(access_token):
         user_id = user['users'][0]['localId']
         return user_id
     except:
+<<<<<<< HEAD:back/auth/auth_user.py
         return ""
 
 def refresh_token(access_token):
@@ -58,3 +59,6 @@ def refresh_token(access_token):
         return new_token
     except:
         return ""
+=======
+        return {}
+>>>>>>> fa4ab8bd23180bb8398e9b88bd27b399092caf87:back/auth/auth.py
