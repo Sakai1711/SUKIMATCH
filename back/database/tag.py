@@ -1,12 +1,9 @@
-import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import firestore
+import database
 from database import db
-from model import Tag
 
 def insert_tag(user_id, tag_name):
     tag_ref = db.collection(u'Tag')
-    tag = Tag(user_id, tag_name)
+    tag = database.Tag(user_id, tag_name)
     tag_ref.add(tag.to_dict())
     return
 
@@ -16,7 +13,10 @@ def get_tags(user_id):
     tag_docs = tag_ref.stream()
     for tag_doc in tag_docs:
         tag_name = tag_doc.to_dict()['tag_name']
-        tags.append({ 'tag_name': tag_name })
+        tags.append({
+            'tag_id': tag_doc.id,
+            'tag_name': tag_name
+            })
     return tags
 
 def delete_tag(user_id, tag_name):
