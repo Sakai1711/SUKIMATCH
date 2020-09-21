@@ -20,8 +20,8 @@ def load_mypage(user_id):
     except NotFound:
         print(u'No such document!')
 
-def update_data(user_id, username, email, password=None):
-    user_ref = db.collection(u'User').document(user_id)
+def update_data(user_id, username, email):
+    user_ref = db.collection(u'User').document(f'{user_id}')
 
     try:
         user_ref.update(

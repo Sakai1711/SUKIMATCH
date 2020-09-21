@@ -1,9 +1,8 @@
-import pyrebase
-import json
-
-conf = json.load(open("back/auth/conf.json", 'r'))
-firebase = pyrebase.initialize_app(conf)
-auth = firebase.auth()
+#import sys, os
+#sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+#sys.path.append('../')
+#from app import auth
+from . import auth
 
 def signup(email, password):
     """
@@ -28,6 +27,7 @@ def signin(email, password):
         access_token
     """
     user = auth.sign_in_with_email_and_password(email, password)
+    print(user)
     access_token = user['idToken']
     return access_token
 
@@ -43,4 +43,18 @@ def verify(access_token):
         user_id = user['users'][0]['localId']
         return user_id
     except:
-        return {}
+        return ""
+
+def refresh_token(access_token):
+    """
+    Parameters:
+        access_token
+    Returns:
+        user_id
+    """
+    try:
+        user = auth.refresh(access_token)
+        new_token = user['users'][0]["refresh_token"]
+        return new_token
+    except:
+        return ""

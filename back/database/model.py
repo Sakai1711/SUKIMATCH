@@ -18,9 +18,8 @@ class Chatroom(object):
         )
 
 class User(object):
-    def __init__(self, user_id, email, name, tags=[]):
+    def __init__(self, email, name, tags=[]):
         self.email = email
-        self.user_id = user_id
         self.name = name
         self.tags = tags
 
