@@ -3,7 +3,8 @@ from . import app
 import sys
 sys.path.append('../')
 from database.user import add_new_user, load_mypage, update_data, delete_data
-from auth.auth import signup, signin, verify
+from auth.auth_user import signup, signin, verify
+from auth.update import update_user
 
 @app.route("/user", methods=["POST"])
 def sign_up_user():
@@ -101,10 +102,10 @@ def operate_user_page(access_token):
 def edit_user_page(param):
     given_json = param
 
-    update_data(given_json["username"], given_json["email"], given_json["password"])
+    #update_data(given_json["username"], given_json["email"], given_json["password"])
     # provisional
     # user_id = 1010120
-
+    user = update_user(given_json["user_id"], given_json["username"], given_json["email"], given_json["password"])
     responsed_json = {
         "user_id": given_json["user_id"]
     }

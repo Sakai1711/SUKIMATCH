@@ -27,6 +27,7 @@ def signin(email, password):
         access_token
     """
     user = auth.sign_in_with_email_and_password(email, password)
+    print(user)
     access_token = user['idToken']
     return access_token
 

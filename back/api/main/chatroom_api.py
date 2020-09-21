@@ -3,7 +3,7 @@ from . import app
 import sys
 sys.path.append('../')
 from database.chatroom import add_chatroom, check_chatroom
-from auth.auth import verify
+from auth.auth_user import verify
 
 @app.route("/chatrooms/search/<chatroom_id>", methods=["GET"])
 def search_chatroom_id(chatroom_id):

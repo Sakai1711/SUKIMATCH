@@ -1,5 +1,5 @@
 from api import create_app, socketio
-from database import db
+from database import db, firebase_app
 from auth import auth
 
 app = create_app(debug=True)
