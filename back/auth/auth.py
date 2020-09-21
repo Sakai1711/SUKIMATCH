@@ -1,9 +1,8 @@
-import pyrebase
-import json
-
-conf = json.load(open("back/auth/conf.json", 'r'))
-firebase = pyrebase.initialize_app(conf)
-auth = firebase.auth()
+#import sys, os
+#sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+#sys.path.append('../')
+#from app import auth
+from . import auth
 
 def signup(email, password):
     """
@@ -43,4 +42,4 @@ def verify(access_token):
         user_id = user['users'][0]['localId']
         return user_id
     except:
-        return {}
+        return ""
