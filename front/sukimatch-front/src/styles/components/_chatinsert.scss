@@ -1,0 +1,18 @@
+.chat-insert {
+  width: 80vw;
+  margin:0 auto 30px;
+
+  .chat-input {
+    border: 2px solid #aaa;
+    border-radius: 4px;
+    margin: 8px 0;
+    outline: none;
+    padding: 8px;
+    transition: 0.3s;
+  }
+
+  .chat-input:has( [type='text']:focus) {
+    border-color: $main-color;
+    box-shadow: 0 0 8px 0 $main-color;
+  }
+}

@@ -5,8 +5,9 @@ import { Input, Button } from 'react-chat-elements';
 class ChatInsert extends Component {
   render() {
     return (
-      <div>
+      <div className="chat-insert">
         <Input
+          className="chat-input"
           placeholder="Type here..."
           multiline={true}
           rightButtons={

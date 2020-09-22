@@ -13,7 +13,7 @@ const messages = [
   {
     position: 'right',
     type: 'text',
-    text: 'サンプルチャット2',
+    text: 'サンプルチャット2hogehogehogehoge hogehoge hoge hogeh ogehogehoge hoge',
     date: new Date('2020-03-12 14:00:00'),
   },
   {
