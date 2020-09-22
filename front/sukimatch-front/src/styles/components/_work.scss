@@ -1,0 +1,13 @@
+.workBox {
+  display: table-cell;
+
+  .workTitle{
+    margin: 0 20px 20px;
+    font-size: $l-size;
+  }
+
+  .workText{
+    margin: 0 20px;
+    line-height:2;
+  }
+}
