@@ -18,20 +18,18 @@ class Chatroom(object):
         )
 
 class User(object):
-    def __init__(self, email, name, tags=[]):
+    def __init__(self, email, name):
         self.email = email
         self.name = name
-        self.tags = tags
 
     def to_dict(self):
-        return {'email': self.email, 'name': self.name, 'tags': self.tags}
+        return {'email': self.email, 'name': self.name}
     
     def __repr__(self):
         return (
             f'User(\
                 email={self.email}, \
                 name={self.name}, \
-                tags={self.tags}\
             )'
         )
 

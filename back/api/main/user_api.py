@@ -83,7 +83,6 @@ def load_user_page():
     responsed_json = {
         "username": username,
         "email": email,
-        "tag": tags  # List
     }
 
     return jsonify(responsed_json), 200
@@ -104,7 +103,7 @@ def operate_user_page():
     user = update_user(given_json["user_id"], given_json["email"], given_json["password"])
 
     # update Database
-    update_data(given_json["user_id"], given_json["username"], given_json["email"], given_json["tag"])
+    update_data(given_json["user_id"], given_json["username"], given_json["email"])
     # provisional
     # user_id = 1010120
 
