@@ -1,5 +1,5 @@
 Pyrebase==3.0.27
 Flask_SocketIO==4.3.1
-Werkzeug==1.0.1
 firebase_admin==4.4.0
 Flask==1.1.2
+Pyrebase==3.0.27
