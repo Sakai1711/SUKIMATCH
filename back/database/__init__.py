@@ -11,8 +11,7 @@ AUTH_URI = os.environ["AUTH_URI"]
 TOKEN_URI = os.environ["TOKEN_URI"]
 AUTH_PROVIDER = os.environ["AUTH_PROVIDER"]
 CLIENT_URL = os.environ["CLIENT_URL"]
-#cred = credentials.Certificate("back/sukimatch-21753-firebase-adminsdk-pbpyr-b48f70c7fe.json")
-cred = {
+config = {
   "type": "service_account",
   "project_id": "sukimatch-21753",
   "private_key_id": PRIVATE_KEY_ID,
@@ -24,6 +23,7 @@ cred = {
   "auth_provider_x509_cert_url": AUTH_PROVIDER,
   "client_x509_cert_url": CLIENT_URL
 }
+cred = credentials.Certificate(config)
 firebase_admin.initialize_app(cred)
 
 db = firestore.client()
