@@ -65,7 +65,7 @@ def load_user_page():
     if user_id == "":
         return jsonify({}), 401
 
-    username, email, tags = load_mypage(user_id)
+    username, email = load_mypage(user_id)
 
     # provisional
     # username = "hoge"
