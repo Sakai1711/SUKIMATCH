@@ -12,6 +12,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import IconButton from '@material-ui/core/IconButton';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import { ApiClient } from '../utils/ApiClient';
 
 const useStyles = makeStyles((theme) => ({
@@ -64,19 +65,21 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     display: 'flex',
     flexWrap: 'wrap'
+  },
+  tagContent: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   }
 }));
 
 
 export default function Edit() {
   const classes = useStyles();
-
-  const [userId, setUserId] = useState('');
   const [edit, setEdit] = useState(false);
   const [addTagClick, setAddTagClick] = useState(false);
   const [form, setForm] = useState({
     username: '',
-    email: '',
     tags: [],
   })
   const [newTagName, setNewTagName] = useState('')
@@ -89,11 +92,11 @@ export default function Edit() {
       tags: ['movie', 'soccer'],
     })
 
-    ApiClient.get('/wether').then(response => {
-      console.log(response)
-    }).catch(err => {
-      console.log(err)
-    });
+    // ApiClient.post('/user').then(response => {
+    //   console.log(response)
+    // }).catch(err => {
+    //   console.log(err)
+    // });
   }, []);
 
   const updateUsername = (ev) => setForm({
@@ -101,19 +104,11 @@ export default function Edit() {
     username: ev.target.value
   })
 
-  const updateEmail = (ev) => setForm({
-    ...form,
-    email: ev.target.value
-  })
-
-  const updateTags = (tag) => {
-    const newTags = form.tags
-    newTags.push(tag)
+  const updateTags = (tags) => {
     setForm({
       ...form,
-      tags: newTags
+      tags: tags
     })
-
   }
 
   //新しいタグを作るときのフォームが変更されたとき
@@ -121,9 +116,16 @@ export default function Edit() {
 
   const handleAddTag = () => {
     if (newTagName) {
-      updateTags(newTagName)
+      const newTags = form.tags
+      newTags.push(newTagName)
+      updateTags(newTags)
     }
     setNewTagName('')
+    setAddTagClick(false)
+  }
+
+  const handleDeleteTag = (targetTagName) => {
+    updateTags(form.tags.filter(name => name !== targetTagName))
     setAddTagClick(false)
   }
 
@@ -134,10 +136,13 @@ export default function Edit() {
 
   const tagList = form.tags.map((tag, index) => (
     <Card className={classes.card} key={index}>
-      <CardContent>
-        <Typography color="textSecondary" gutterBottom>
+      <CardContent className={classes.tagContent}>
+        <Typography variant='h5' color="textSecondary" gutterBottom>
           {tag}
         </Typography>
+        <IconButton aria-label="add to shopping cart" onClick={() => handleDeleteTag(tag)}>
+          <DeleteForeverIcon fontSize="large" />
+        </IconButton>
       </CardContent>
     </Card>
   ))
@@ -163,8 +168,6 @@ export default function Edit() {
             </div>
 
             <TextField required id="standard-required" label="username" variant="outlined" InputProps={{ readOnly: !edit }} value={form.username} onChange={updateUsername} className={classes.inputForm} />
-
-            <TextField required id="standard-required" label="email" variant="outlined" InputProps={{ readOnly: !edit }} value={form.email} onChange={updateEmail} className={classes.inputForm} />
 
             <Typography>my tags</Typography>
 

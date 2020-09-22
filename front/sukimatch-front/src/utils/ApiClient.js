@@ -2,7 +2,6 @@ import axios from "axios";
 
 
 export const ApiClient = createAxiosInstance();
-
 function createAxiosInstance() {
   axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 
@@ -15,7 +14,6 @@ function createAxiosInstance() {
   });
 
   // interceptors.request.use で送信時に引数に入れた関数が動作する
-  // 引数で渡ってくるのは axios の設定(送信先や通信方式も持つ今まさに通信を実行しようとしている設定)で、返り値が通信時に実際に使われる axios の設定になる
   axiosInstance.interceptors.request.use((request) => {
     // もしヘッダーに API トークンを記述するならば
     //request.headers['Authorization'] = `Bearer ${getApiToken()}`
@@ -34,8 +32,6 @@ function createAxiosInstance() {
   axiosInstance.interceptors.response.use(
     (response) => response, // 第一引数は通信成功時処理。受けた内容をそのまま通過
     (error) => { // 第二引数は通信失敗時処理
-      // 通信エラーの内容全体をインデント付きのJSONにして alert 表示
-      // これだけだととても見難いので適宜プロジェクトに合わせて必要な情報だけ取る処理にした方がベター
       alert('エラー発生')
     }
   )
