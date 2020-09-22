@@ -4,7 +4,7 @@ from firebase_admin import firestore
 import os
 
 PRIVATE_KEY_ID = os.environ["PRIVATE_KEY_ID"]
-PRIVATE_KEY = os.environ["PRIVATE_KEY"]
+PRIVATE_KEY = os.environ["PRIVATE_KEY"].replace('\\n', '\n')
 CLIENT_EMAIL = os.environ["CLIENT_EMAIL"]
 CLIENT_ID = os.environ["CLIENT_ID"]
 AUTH_URI = os.environ["AUTH_URI"]
