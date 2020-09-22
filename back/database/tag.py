@@ -1,9 +1,13 @@
-import database
-from database import db
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
+from .model import Tag
+#from database import db
+from . import db
 
 def insert_tag(user_id, tag_name):
     tag_ref = db.collection(u'Tag')
-    tag = database.Tag(user_id, tag_name)
+    tag = Tag(user_id, tag_name)
     tag_ref.add(tag.to_dict())
     return
 

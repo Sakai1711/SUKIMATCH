@@ -1,5 +1,9 @@
-import database
-from database import db, firestore
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
+from .model import Chatroom
+#from database import db
+from . import db
 
 def update_user_ids(user_id, chatroom_id): # user_idsにuser_idを追加
     chatroom_ref = db.collection(u'Chatroom').document(chatroom_id)
@@ -19,7 +23,7 @@ def add_chatroom(user_id, tag_name): # マッチング開始ボタンを押し�
                 update_user_ids(user_id, room.id)
                 return get_chatroom_id_by_user_id(user_id)
 
-    chatroom = database.Chatroom(tag_name=tag_name, user_ids=[user_id])
+    chatroom = Chatroom(tag_name=tag_name, user_ids=[user_id])
     db.collection(u'Chatroom').add(chatroom.to_dict())
     return get_chatroom_id_by_user_id(user_id)
 
