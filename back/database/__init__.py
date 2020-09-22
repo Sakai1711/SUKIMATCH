@@ -6,7 +6,7 @@ import os
 PRIVATE_KEY_ID = os.environ["PRIVATE_KEY_ID"]
 PRIVATE_KEY = os.environ["PRIVATE_KEY"]
 CLIENT_EMAIL = os.environ["CLIENT_EMAIL"]
-CLIEND_ID = os.environ["CLIENT_ID"]
+CLIENT_ID = os.environ["CLIENT_ID"]
 AUTH_URI = os.environ["AUTH_URI"]
 TOKEN_URI = os.environ["TOKEN_URI"]
 AUTH_PROVIDER = os.environ["AUTH_PROVIDER"]
@@ -18,7 +18,7 @@ cred = {
   "private_key_id": PRIVATE_KEY_ID,
   "private_key": PRIVATE_KEY,
   "client_email": CLIENT_EMAIL,
-  "client_id": CLIEND_ID,
+  "client_id": CLIENT_ID,
   "auth_uri": AUTH_URI,
   "token_uri": TOKEN_URI,
   "auth_provider_x509_cert_url": AUTH_PROVIDER,
