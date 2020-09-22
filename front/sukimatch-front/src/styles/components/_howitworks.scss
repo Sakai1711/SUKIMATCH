@@ -11,3 +11,9 @@
     table-layout: fixed;
   }
 }
+
+@media(max-width: 768px){
+  .works-wrapper{
+    display:block;
+  }
+}

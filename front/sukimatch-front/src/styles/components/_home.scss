@@ -69,7 +69,7 @@
   .site-sub::after {
     content: '';
     display: inline-block;
-    width: 140px;
+    width: 120px;
     height: 2px;
     margin: 0 30px;
     background-color: #fff;
@@ -83,6 +83,10 @@
   .button {
     margin: 10px;
   }
+
+  // ------------------------------------
+  // about
+  // ------------------------------------
 
   #about {
     background-color: $color-white;
@@ -120,3 +124,65 @@
 
   }
 }
+
+    /* --------------------------------
+  * with SmartPhone
+  * -------------------------------- */
+
+  @media (max-width: 1024px) {
+    .home {
+      background-image: none;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .titleMain,.titleSub {
+      font-size: $m-size;
+    }
+
+    .home{
+      .button:hover{
+        opacity: 1;
+      }
+
+      .titleMain,.titleSub {
+        font-size: calc(#{$l-size} - 4px);
+      }
+
+
+      // ------------------------------------
+      // header
+      // ------------------------------------
+
+    
+      #header {
+        padding: 60px;
+      }
+    
+      .site-sub {
+        font-size: $m-size;
+      }
+      .site-sub::before,
+      .site-sub::after {
+        display: block;
+        width: 80%;
+        margin: 10px auto;
+      }
+    
+      .site-title {
+        margin: 35px;
+        font-size: $l-size;
+      }
+
+      // ------------------------------------
+      // about
+      // ------------------------------------
+
+      #about {
+        background-color: $color-white;
+        color: black;
+        padding: 80px 30px;
+
+      }
+    }
+  }
