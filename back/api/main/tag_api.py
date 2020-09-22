@@ -6,7 +6,7 @@ from . import app
 import sys
 sys.path.append('../')
 from database.tag import insert_tag, get_tags, delete_tag, exists
-from auth import verify
+from auth.auth import verify
 
 @app.route("/tag", methods=["POST"])
 def insert_db_tag():

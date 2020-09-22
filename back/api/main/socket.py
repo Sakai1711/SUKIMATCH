@@ -6,7 +6,7 @@ import sys
 sys.path.append('../')
 from database.user import load_mypage
 from database.chatroom import delete_chatroom
-from auth import verify
+from auth.auth import verify
 
 class MyNamespace(Namespace):
     def on_connect_req(self, data): # connect
