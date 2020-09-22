@@ -121,4 +121,3 @@ def delete_user(param):
     }
 
     return jsonify(responsed_json)
-

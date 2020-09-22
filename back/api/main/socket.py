@@ -40,4 +40,3 @@ class MyNamespace(Namespace):
             delete_chatroom(chatroom_id)
 
 socketio.on_namespace(MyNamespace('/chatrooms'))
-
