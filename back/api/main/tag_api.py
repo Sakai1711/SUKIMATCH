@@ -14,6 +14,8 @@ def insert_db_tag():
     given_json = request.json
     tag_name = given_json['tag_name']
     user_id = verify(access_token)
+    if user_id == '':
+        return jsonify({}), 401
     exist_flag = exists(user_id, tag_name)
     if exist_flag == 1:
         return jsonify({}), 400
@@ -24,6 +26,8 @@ def insert_db_tag():
 def get_db_tags():
     access_token = request.headers.get("access_token")
     user_id = verify(access_token)
+    if user_id == '':
+        return jsonify({}), 401
     tags = get_tags(user_id)
     return jsonify({ 'tags': tags }), 200
 
@@ -33,11 +37,10 @@ def delete_db_tag():
     given_json = request.json
     tag_name = given_json['tag_name']
     user_id = verify(access_token)
+    if user_id == '':
+        return jsonify({}), 401
     exist_flag = exists(user_id, tag_name)
     if exist_flag == 0:
         return jsonify({}), 404
     delete_tag(user_id, tag_name)
     return jsonify({}), 204
-
-if __name__ == "__main__":
-    app.run(debug=False, host='0.0.0.0', port=5000)

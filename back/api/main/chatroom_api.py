@@ -9,6 +9,8 @@ from auth.auth import verify
 def get_chatroom_users(chatroom_id):
     access_token = request.headers.get("access_token")
     user_id = verify(access_token)
+    if user_id == '':
+        return jsonify({}), 401
     users = check_chatroom(chatroom_id)
     if users != 4:
         return jsonify({}), 205
@@ -20,8 +22,7 @@ def join_chatroom():
     given_json = request.json
     tag_name = given_json['tag_name']
     user_id = verify(access_token)
+    if user_id == '':
+        return jsonify({}), 401
     chatroom_id = add_chatroom(user_id, tag_name)
     return jsonify({ 'chatroom_id': chatroom_id }), 200
-
-if __name__ == "__main__":
-    app.run(debug=False, host='0.0.0.0', port=5000)
