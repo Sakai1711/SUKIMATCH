@@ -8,7 +8,7 @@ class Work extends Component {
   render() {
     return (
       <div className='workBox'>
-        <i>icon</i>
+        {this.props.icon}
         <div className='workTitle'>
           {this.props.title}
         </div>

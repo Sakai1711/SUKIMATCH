@@ -9,7 +9,7 @@ class Feature extends Component {
     return (
       <div className='feature'>
         <div className='content icon'>
-          icon
+          {this.props.icon}
         </div>
         <div className='content content-body'>
           <div className='reason'>

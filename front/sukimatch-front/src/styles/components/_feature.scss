@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   text-align: center;
-  margin: 16px 0;
+  margin: 50px 0;
 
   p {
     display: inline-block;
@@ -11,6 +11,12 @@
 
   .content {
     margin: 0 8px;
+  }
+
+  .icon-feature{
+    color: $main-color;
+    margin: 16px;
+    font-size: calc(#{$xl-size}*4);
   }
 
   .icon {
@@ -53,7 +59,7 @@
 }
 
 
-@media (max-width: 768px) {
+@media (max-width: 962px) {
   .feature{
     display: block;
 
