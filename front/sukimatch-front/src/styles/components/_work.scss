@@ -1,0 +1,23 @@
+.workBox {
+  display: table-cell;
+
+  .workTitle{
+    margin: 0 20px 20px;
+    font-size: $l-size;
+  }
+
+  .workText{
+    margin: 0 20px;
+    line-height:2;
+  }
+}
+
+@media(max-width: 768px){
+  .workBox{
+    display:block;
+
+    .workText{
+      margin:0;
+    }
+  }
+}
