@@ -2,14 +2,11 @@ from flask import Flask, request, jsonify
 from . import app
 import sys
 sys.path.append('../')
-<<<<<<< HEAD
+
 from database.user import add_new_user, load_mypage, update_data, delete_data
 from auth.auth_user import signup, signin, verify, refresh_token
 from auth.update import update_user
 from auth.delete import delete_user
-
-=======
->>>>>>> fa4ab8bd23180bb8398e9b88bd27b399092caf87
 
 @app.route("/user", methods=["POST"])
 def sign_up_user():
@@ -58,8 +55,11 @@ def sign_in_user():
     return jsonify(responsed_json), 200
 
 
-@app.route("/user/<string:access_token>", methods=["GET"])
-def load_user_page(access_token):
+@app.route("/user/load", methods=["GET"])
+def load_user_page():
+
+    access_token = request.headers.get("access_token")
+
     # Convert token to ID
     user_id = verify(access_token)
     if user_id == "":
@@ -89,8 +89,9 @@ def load_user_page(access_token):
     return jsonify(responsed_json), 200
 
 
-@app.route("/user/<string:access_token>", methods=["POST"])
-def operate_user_page(access_token):
+@app.route("/user/edit", methods=["POST"])
+def operate_user_page():
+    access_token = request.headers.get("access_token")
     # Convert token to ID
     user_id = verify(access_token)
     if user_id == "":
@@ -99,24 +100,11 @@ def operate_user_page(access_token):
     given_json = request.json
     given_json["user_id"] = user_id
 
-    if given_json["is_delete"]:
-
-        given_json["token"] = access_token
-        return delete_account(given_json), 200
-
-    else:
-
-        return edit_user_page(given_json), 200
-
-
-def edit_user_page(param):
-    given_json = param
-
     # update Auth data
-    user = update_user(given_json["user_id"], given_json["username"], given_json["email"], given_json["password"])
+    user = update_user(given_json["user_id"], given_json["email"], given_json["password"])
 
     # update Database
-    update_data(given_json["username"], given_json["email"], given_json["password"])
+    update_data(given_json["user_id"], given_json["username"], given_json["email"], given_json["tag"])
     # provisional
     # user_id = 1010120
 
@@ -128,11 +116,18 @@ def edit_user_page(param):
         "user_id": new_token
     }
 
-    return jsonify(responsed_json)
+    return jsonify(responsed_json), 200
 
+@app.route("/user/delete", methods=["POST"])
+def delete_account():
+    access_token = request.headers.get("access_token")
+    # Convert token to ID
+    user_id = verify(access_token)
+    if user_id == "":
+        return jsonify({}), 401
 
-def delete_account(param):
-    given_json = param
+    given_json = request.json
+    given_json["user_id"] = user_id
 
     # delete Auth data
     delete_user(given_json["user_id"])
@@ -143,4 +138,4 @@ def delete_account(param):
 
     }
 
-    return jsonify(responsed_json)
+    return jsonify(responsed_json), 200
