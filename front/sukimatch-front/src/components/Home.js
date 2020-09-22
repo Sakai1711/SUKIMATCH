@@ -5,6 +5,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import Feature from './Feature';
 import HowItWorks from './HowItWorks';
+import SettingsIcon from '@material-ui/icons/Settings';
+import ChatIcon from '@material-ui/icons/Chat';
+import TimerIcon from '@material-ui/icons/Timer';
+
 
 
 const useStyles = makeStyles({
