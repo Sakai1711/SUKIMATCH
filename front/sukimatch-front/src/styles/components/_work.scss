@@ -11,3 +11,13 @@
     line-height:2;
   }
 }
+
+@media(max-width: 768px){
+  .workBox{
+    display:block;
+
+    .workText{
+      margin:0;
+    }
+  }
+}
