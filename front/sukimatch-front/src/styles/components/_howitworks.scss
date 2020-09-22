@@ -1,0 +1,13 @@
+.works {
+  color: $word-color;
+  .heading {
+    font-size: $xl-size;
+  }
+
+  .works-wrapper {
+    display: table;
+    width: 80%;
+    margin: 50px auto 0;
+    table-layout: fixed;
+  }
+}
