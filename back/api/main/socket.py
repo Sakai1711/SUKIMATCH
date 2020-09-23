@@ -10,7 +10,8 @@ from auth.auth import verify
 import time
 
 class MyNamespace(Namespace):
-    def on_ping(self):
+    def on_ping(self, data):
+        print("ping")
         emit('pong')
 
     def on_connect_req(self, data): # connect
