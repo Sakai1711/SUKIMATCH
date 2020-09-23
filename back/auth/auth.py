@@ -27,6 +27,7 @@ def signin(email, password):
         access_token
     """
     user = auth.sign_in_with_email_and_password(email, password)
+    print(user)
     access_token = user['idToken']
     return access_token
 
@@ -43,3 +44,18 @@ def verify(access_token):
         return user_id
     except:
         return ""
+
+def refresh_token(access_token):
+    """
+    Parameters:
+        access_token
+    Returns:
+        user_id
+    """
+    try:
+        user = auth.refresh(access_token)
+        new_token = user['users'][0]["refresh_token"]
+        return new_token
+    except:
+        return ""
+
