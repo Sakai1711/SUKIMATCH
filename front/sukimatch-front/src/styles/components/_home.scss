@@ -1,0 +1,188 @@
+.home {
+  text-align: center;
+  color: $color-white;
+  .button {
+    display:inline-block;
+    width: 200px;
+    padding: 20px;
+    border-radius: 4px;
+    background-color: $button-color;
+    color: $color-white;
+    text-decoration:none;
+    letter-spacing: $letter-spacing-1;
+    font-size: $s-size;
+  }
+
+
+  // ------------------------------------
+  // each section title
+  // ------------------------------------
+
+  .titleMain,.titleSub {
+    position: relative;
+    display: inline-block;
+    margin: 30px 0 15px;
+    padding-bottom: 15px;
+    letter-spacing: 2px;
+    font-size: $xl-size;
+  }
+
+  .titleMain::before,
+  .titleMain::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-bottom: 1px solid #999;
+  }
+  .titleMain::before {
+    bottom: 5px;
+  }
+
+  .titleSub {
+    display: block;
+    font-size: calc(#{$xl-size} - 16px);
+  }
+
+
+  // ------------------------------------
+  // header
+  // ------------------------------------
+  
+  .button:hover {
+    opacity:0.9;
+  }
+
+  #header {
+    margin-top: 16px;
+    padding: 170px 30px 80px;
+    background: #151515;
+  }
+
+  .site-sub {
+    margin: 0 0 30px;
+    letter-spacing: $letter-spacing-1;
+    font-size: $m-size;
+  }
+  .site-sub::before,
+  .site-sub::after {
+    content: '';
+    display: inline-block;
+    width: 120px;
+    height: 2px;
+    margin: 0 30px;
+    background-color: #fff;
+    vertical-align: middle;
+  }
+
+  .site-title {
+    margin: 50px 0 40px;
+    font-size: $xl-size;
+  }
+  .button {
+    margin: 10px;
+  }
+
+  // ------------------------------------
+  // about
+  // ------------------------------------
+
+  #about {
+    background-color: $color-white;
+    color: black;
+    padding: 80px 30px;
+
+    .aboutTitle{
+      margin-bottom: 50px;
+    }
+
+  }
+
+      /* --------------------------------
+  * border
+  * -------------------------------- */
+
+  .main-sub{
+    border-top: 6px solid $main-color;
+    border-bottom: 6px solid $sub-color;
+    height: 18px;
+    width: 100%;
+    transform-origin: top left;
+    transform: rotate(6deg);
+  }
+
+
+    /* --------------------------------
+  * howItWorks
+  * -------------------------------- */
+
+  #howItWorks{
+    margin-top: 64px;
+    padding: 80px 0;
+    background-color: $color-white;
+
+  }
+}
+
+    /* --------------------------------
+  * with SmartPhone
+  * -------------------------------- */
+
+  @media (max-width: 1024px) {
+    .home {
+      background-image: none;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .titleMain,.titleSub {
+      font-size: $m-size;
+    }
+
+    .home{
+      .button:hover{
+        opacity: 1;
+      }
+
+      .titleMain,.titleSub {
+        font-size: calc(#{$l-size} - 4px);
+      }
+
+
+      // ------------------------------------
+      // header
+      // ------------------------------------
+
+    
+      #header {
+        padding: 60px;
+      }
+    
+      .site-sub {
+        font-size: $m-size;
+      }
+      .site-sub::before,
+      .site-sub::after {
+        display: block;
+        width: 80%;
+        margin: 10px auto;
+      }
+    
+      .site-title {
+        margin: 35px;
+        font-size: $l-size;
+      }
+
+      // ------------------------------------
+      // about
+      // ------------------------------------
+
+      #about {
+        background-color: $color-white;
+        color: black;
+        padding: 80px 30px;
+
+      }
+    }
+  }

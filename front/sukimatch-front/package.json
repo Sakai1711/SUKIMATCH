@@ -8,7 +8,9 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "axios": "^0.20.0",
     "bootstrap": "^4.5.2",
+    "express": "4.15.4",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-bootstrap": "^1.3.0",
@@ -20,8 +22,10 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build:prod": "react-scripts build -p --env production",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "heroku-postbuild": "yarn run build:prod"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -32,6 +36,7 @@
       "not dead",
       "not op_mini all"
     ],
+    "homepage": ".",
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
