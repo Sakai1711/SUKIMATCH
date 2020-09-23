@@ -277,7 +277,7 @@ class MyNamespace(Namespace):
         chatroom_id = data['chatroom_id']
         print("chatroom_id: ", chatroom_id)
         if verify(access_token) != "":
-            #join_room(chatroom_id)
+            join_room(chatroom_id)
             emit('connect_res', {'status': 'ok'}, broadcast=False)
             print("sent connect_res")
         else:
@@ -298,7 +298,7 @@ class MyNamespace(Namespace):
             print("2. sent send_message_res")
             result = {'username': username, 'content': content, 'access_token': access_token}
             print("3. sent send_message_res")
-            emit('send_message_res', result, broadcast=True)
+            emit('send_message_res', result, broadcast=True, room=chatroom_id)
             print("4. sent send_message_res")
         else:
             emit('send_message_res', {'status': 'incorrect access token'}, broadcast=False)
