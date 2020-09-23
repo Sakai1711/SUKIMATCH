@@ -261,15 +261,14 @@ def _corsify_actual_response(response):
 class MyNamespace(Namespace):
     def on_connect(self):
         print("connect")
+        print("rooms: ", rooms())
         dt_now = datetime.datetime.now()
         emit('pong_pong', {'time': dt_now.strftime('%Y-%m-%d %H:%M:%S')}, broadcast=False)
 
     def on_ping_ping(self, data):
-        print("ping")
-        print("rooms: ", rooms)
-        print("===============")
         time.sleep(7)
         dt_now = datetime.datetime.now()
+        print("ping    ", dt_now )
         emit('pong_pong', {'time': dt_now.strftime('%Y-%m-%d %H:%M:%S')}, broadcast=False)
 
     def on_connect_req(self, data): # connect
@@ -280,6 +279,7 @@ class MyNamespace(Namespace):
         if verify(access_token) != "":
             join_room(chatroom_id)
             emit('connect_res', {'status': 'ok'}, broadcast=False)
+            print("sent connect_res")
         else:
             emit('connect_res', {'status': 'incorrect access token'}, broadcast=False)
 
@@ -295,6 +295,7 @@ class MyNamespace(Namespace):
             username, _ = load_mypage(user_id)
             result = {'username': username, 'content': content, 'access_token': access_token}
             emit('send_message_res', result, room_id=chatroom_id)
+            print("sent send_message_res")
         else:
             emit('send_message_res', {'status': 'incorrect access token'}, broadcast=False)
 
