@@ -262,14 +262,14 @@ class MyNamespace(Namespace):
     def on_connect(self):
         print("connect")
         dt_now = datetime.datetime.now()
-        emit('pong_pong', {'time': dt_now.strftime('%Y-%m-%d %H:%M:%S')})
+        emit('pong_pong', {'time': dt_now.strftime('%Y-%m-%d %H:%M:%S')}, broadcast=False)
 
     def on_ping_ping(self, data):
         print("ping")
         print("rooms: ", rooms)
         time.sleep(7)
         dt_now = datetime.datetime.now()
-        emit('pong_pong', {'time': dt_now.strftime('%Y-%m-%d %H:%M:%S')})
+        emit('pong_pong', {'time': dt_now.strftime('%Y-%m-%d %H:%M:%S')}, broadcast=False)
 
     def on_connect_req(self, data): # connect
         print("connect_req")
@@ -278,9 +278,9 @@ class MyNamespace(Namespace):
         print("chatroom_id: ", chatroom_id)
         if verify(access_token) != "":
             join_room(chatroom_id)
-            emit('connect_res', {'status': 'ok'})
+            emit('connect_res', {'status': 'ok'}, broadcast=False)
         else:
-            emit('connect_res', {'status': 'incorrect access token'})
+            emit('connect_res', {'status': 'incorrect access token'}, broadcast=False)
 
     def on_send_message_req(self, data): # send message
         print("send_message_req")
@@ -295,7 +295,7 @@ class MyNamespace(Namespace):
             result = {'username': username, 'content': content, 'access_token': access_token}
             emit('send_message_res', result, room_id=chatroom_id)
         else:
-            emit('send_message_res', {'status': 'incorrect access token'})
+            emit('send_message_res', {'status': 'incorrect access token'}, broadcast=False)
 
     def on_disconnect_req(self, data): # disconnect
         print("disconnect")
