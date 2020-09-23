@@ -2,6 +2,8 @@ from flask import Flask, request, jsonify
 from . import app
 import sys
 sys.path.append('../')
+from database.user import add_new_user, load_mypage, update_data, delete_data
+from auth.auth import signup, signin, verify
 
 from database.user import add_new_user, load_mypage, update_data, delete_data
 from database.tag import insert_tag, get_tags, delete_tag

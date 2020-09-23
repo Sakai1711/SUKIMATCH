@@ -14,8 +14,8 @@ def get_chatroom_id_by_user_id(user_id): # user_idでchatroom_idを取得
     for chatroom in chatroom_ref:
         return chatroom.id
 
-def add_chatroom(user_id, tag_id, tag_name): # マッチング開始ボタンを押した時
-    chatrooms = db.collection(u'Chatroom').where(u'tag_id', u'==', tag_id)
+def add_chatroom(user_id, tag_name): # マッチング開始ボタンを押した時
+    chatrooms = db.collection(u'Chatroom').where(u'tag_name', u'==', tag_name)
     num_of_chatrooms = len(list(chatrooms.get()))
     if num_of_chatrooms > 0:
         for room in chatrooms.stream():
@@ -23,7 +23,7 @@ def add_chatroom(user_id, tag_id, tag_name): # マッチング開始ボタンを
                 update_user_ids(user_id, room.id)
                 return get_chatroom_id_by_user_id(user_id)
 
-    chatroom = Chatroom(tag_id=tag_id, tag_name=tag_name, user_ids=[user_id])
+    chatroom = Chatroom(tag_name=tag_name, user_ids=[user_id])
     db.collection(u'Chatroom').add(chatroom.to_dict())
     return get_chatroom_id_by_user_id(user_id)
 
