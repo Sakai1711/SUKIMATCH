@@ -1,0 +1,18 @@
+.chat-header {
+  width: 80vw;
+  margin: 0 auto;
+  padding: 8px;
+  border-top:  2px solid #666;
+  border-bottom:  2px solid #666;
+  font-size: calc(#{$s-size}+4px);
+}
+
+.alert-time-60{
+ font-size: calc(#{$m-size}+6px);
+ color: $color-red;
+ font-weight: bold;
+}
+
+.alert-time-10{
+  font-size: calc(#{$m-size}*1.6);
+ }
