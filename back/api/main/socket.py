@@ -18,8 +18,9 @@ class MyNamespace(Namespace):
         print("connect_req")
         access_token = data['access_token']
         chatroom_id = data['chatroom_id']
+        print("chatroom_id: ", chatroom_id)
         if verify(access_token) != "":
-            join_room(chatroom_id)
+            #join_room(chatroom_id)
             emit('connect_res', {'status': 'ok'})
         else:
             emit('connect_res', {'status': 'incorrect access token'})
@@ -29,6 +30,8 @@ class MyNamespace(Namespace):
         access_token = data['access_token']
         chatroom_id = data['chatroom_id']
         content = data['content']
+        print("chatroom_id: ", chatroom_id)
+        print("content: ", content)
         user_id = verify(access_token)
         if user_id != "":
             username, _ = load_mypage(user_id)
