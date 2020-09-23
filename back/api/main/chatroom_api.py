@@ -13,8 +13,8 @@ def get_chatroom_users(chatroom_id):
         return _corsify_actual_response(jsonify({})), 401
     users = check_chatroom(chatroom_id)
     if users != 4:
-        return _corsify_actual_response(jsonify({})), 205
-    return _corsify_actual_response(jsonify({})), 200
+        return _corsify_actual_response(jsonify({ 'num_of_users': users })), 205
+    return _corsify_actual_response(jsonify({ 'num_of_users': users })), 200
 
 @app.route("/chatrooms", methods=["POST"])
 def join_chatroom():
