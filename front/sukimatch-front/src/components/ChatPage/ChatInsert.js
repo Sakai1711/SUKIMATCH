@@ -1,24 +1,44 @@
 import React, { Component } from 'react';
-import { Input, Button } from 'react-chat-elements';
 
 
 class ChatInsert extends Component {
+  constructor(){
+    super();
+    this.state = {
+      value: "",
+    }
+    this.clickHandler = this.clickHandler.bind(this);
+    this.inputValueHandler = this.inputValueHandler.bind(this);
+  }
+
+  clickHandler(e) {
+    e.preventDefault();
+    console.log("hoges")
+    if (this.state.value === "") {
+      return
+    }else {
+      document.getElementById('chat-input').value = "";
+      this.props.sendHandler(this.state.value);
+      this.setState(() => ({
+        value: ""
+      }));
+    }
+  }
+
+  inputValueHandler(e) {
+    const inputValue = e.target.value;
+    this.setState(() => ({
+      value: inputValue,
+    }));
+  }
+
   render() {
     return (
       <div className="chat-insert">
-        <Input
-          className="chat-input"
-          placeholder="Type here..."
-          multiline={true}
-          rightButtons={
-              <Button
-                  color='white'
-                  backgroundColor='black'
-                  text='Send'
-                  onClick={this.sendHandler}
-              />
-          }
-        />
+        <form className="chat-form">
+          <input type="textarea" id="chat-input" className="chat-input" placeholder="text chat here..." onChange={this.inputValueHandler} />
+          <button className="send-button" href="#" onClick={this.clickHandler}>send</button>
+        </form>
       </div>
     )
   }

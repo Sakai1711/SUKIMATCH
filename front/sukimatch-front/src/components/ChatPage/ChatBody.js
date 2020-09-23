@@ -31,14 +31,6 @@ const messages = [
 ];
 
 class ChatBody extends Component {
-    constructor() {
-      super();
-      this.sendHandler = this.sendHandler.bind(this);
-    }
-
-    sendHandler() {
-      console.log('clicked!');
-    }
 
     render() {
       return (
@@ -46,9 +38,8 @@ class ChatBody extends Component {
           <MessageList
             toBottomHeight={'100%'}
             lockable={true}
-            dataSource={messages} 
+            dataSource={this.props.messages} 
           />
-
         </div>
       );
     }
