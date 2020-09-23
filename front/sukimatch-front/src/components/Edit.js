@@ -13,6 +13,7 @@ import CardContent from '@material-ui/core/CardContent';
 import IconButton from '@material-ui/core/IconButton';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { ApiClient } from '../utils/ApiClient';
 
 const useStyles = makeStyles((theme) => ({
@@ -76,31 +77,30 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Edit() {
   const classes = useStyles();
-  const [edit, setEdit] = useState(false);
   const [addTagClick, setAddTagClick] = useState(false);
   const [form, setForm] = useState({
     username: '',
-    tags: [],
+    mytags: [],
+    newTagNames: [],
+    deleteTagNames: []
   })
+  const [mytags, setMyTags] = useState([])
   const [newTagName, setNewTagName] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    // TODO: /user/:id でユーザー情報取得
-    setForm({
-      username: 'test user',
-      email: 'test@example.com',
-      tags: ['movie', 'soccer'],
-    })
-
-    ApiClient.get('/user/eyJhbGciOiJSUzI1NiIsImtpZCI6IjFlNjYzOGY4NDlkODVhNWVkMGQ1M2NkNDI1MzE0Y2Q1MGYwYjY1YWUiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vc3VraW1hdGNoLTIxNzUzIiwiYXVkIjoic3VraW1hdGNoLTIxNzUzIiwiYXV0aF90aW1lIjoxNjAwODIwMjY2LCJ1c2VyX2lkIjoidllsRUF4bkg2bVE2RU5hSFhValVwSXVraHFuMiIsInN1YiI6InZZbEVBeG5INm1RNkVOYUhYVWpVcEl1a2hxbjIiLCJpYXQiOjE2MDA4MjAyNjYsImV4cCI6MTYwMDgyMzg2NiwiZW1haWwiOiJ0ZXN0NEBleGFtcGxlLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJ0ZXN0NEBleGFtcGxlLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.CCrbSdZVcbncAmCb8Brr91vyzq139lMkaxaEeMbZC5e5zbDYr1AlWwGrdZE0iq6vxFwXf4Tgt4QEQ55cY-cZf3ZLf1QqT-i8SkMM0jZe1LDirgFN6Cpbl6NMCI9JpOqAYn6ibRHWV74CAdf_x9Fq58V6M8tQ3ee8MevZ-3y10KHIMxODjv8sa5KRwU04Vw6x3S8yqEOYuQBItAxT_cmDviH4u9g6a1XRM6zb4WS8_MK0lGQi5kUNwy2Rbv6pbFJbPaRvyT7qlXVVNIHz5bZKtkSFgAknFujVafRTwO-NPxf709jzVF8MizRZ-unqrBc7ubp6uoVZI9N9gjJOqguPbw'
+    setIsLoading(true)
+    ApiClient.get('/user/load'
     ).then(res => {
       setForm({
         ...form,
         username: res.data.username,
-        tags: res.data.tags.map(tag => tag.tag_name)
       })
+      setMyTags(res.data.tag)
+      setIsLoading(false)
     }).catch(err => {
       console.log(err)
+      setIsLoading(false)
     });
   }, []);
 
@@ -109,51 +109,90 @@ export default function Edit() {
     username: ev.target.value
   })
 
-  const updateTags = (tags) => {
+  const updateTags = (tags) => setMyTags(tags)
+
+
+  const updateNewTagNames = (newTagNames) => {
     setForm({
       ...form,
-      tags: tags
+      newTagNames: newTagNames
     })
   }
+
+  const updateDeleteTagNames = (deleteTagName) => {
+    const deleteTagNames = form.deleteTagNames
+    deleteTagNames.push(deleteTagName)
+    setForm({
+      ...form,
+      deleteTagNames: deleteTagNames
+    })
+  }
+
 
   //新しいタグを作るときのフォームが変更されたとき
   const updateNewTagName = (ev) => setNewTagName(ev.target.value)
 
   const handleAddTag = () => {
     if (newTagName) {
-      const newTags = form.tags
-      newTags.push(newTagName)
+      // mytagsの更新
+      const newTags = mytags
+      newTags.push({
+        tag_name: newTagName
+      })
+
+      //newTagNames（新しく追加する予定のタグ名一覧）の更新
+      const addedTagNames = form.newTagNames
+      addedTagNames.push(newTagName)
+      updateNewTagNames(addedTagNames)
       updateTags(newTags)
     }
     setNewTagName('')
     setAddTagClick(false)
   }
 
-  const handleDeleteTag = (targetTagName) => {
-    updateTags(form.tags.filter(name => name !== targetTagName))
+  const handleDeleteTag = (targetTag) => {
+    if (targetTag.tag_name) {
+      // DBに登録済みの場合
+      updateDeleteTagNames(targetTag.tag_name)
+    } else {
+      // DBに登録されていないものを削除する場合（タグの追加→削除を一画面で行う場合）
+      const newTagNames = form.newTagNames.filter(tagName => tagName !== targetTag.tag_name)
+      updateNewTagNames(newTagNames)
+    }
+    updateTags(mytags.filter(tag => tag.tag_name !== targetTag.tag_name))
     setAddTagClick(false)
   }
 
   const submit = () => {
-    ApiClient.get('/user', {
-      withCredentials: true
-    }).then(res => {
+    setIsLoading(true)
+    const editBody = {
+      username: form.username,
+      new_tag_names: form.newTagNames,
+      delete_tag_ids: form.deleteTagNames
+    }
+    console.log(editBody)
+    ApiClient.post('/user/edit', editBody
+    ).then(res => {
       setForm({
         ...form,
         username: res.data.username,
-        tags: res.data.tags.map(tag => tag.tag_name)
+        newTagNames: [],
+        deleteTagNames: []
       })
+      setIsLoading(false)
+      //location.reload()
     }).catch(err => {
       console.log(err)
+      setIsLoading(false)
     });
   }
 
 
-  const tagList = form.tags.map((tag, index) => (
+  const tagList = mytags.map((tag, index) => (
     <Card className={classes.card} key={index}>
       <CardContent className={classes.tagContent}>
         <Typography variant='h5' color="textSecondary" gutterBottom>
-          {tag}
+          {tag.tag_name}
         </Typography>
         <IconButton aria-label="add to shopping cart" onClick={() => handleDeleteTag(tag)}>
           <DeleteForeverIcon fontSize="large" />
@@ -168,59 +207,48 @@ export default function Edit() {
         <div className={classes.main}>
           <Paper className={classes.paper}>
             <Typography variant='h3'>My page</Typography>
+            {isLoading ? <CircularProgress /> :
+              <>
+                <div className={classes.accountInfo}>
+                  <AccountCircleIcon />
+                </div>
 
-            <div className={classes.accountInfo}>
-              <AccountCircleIcon />
-              <Button
-                variant="contained"
-                color="primary"
-                startIcon={<EditIcon />}
-                disabled={edit}
-                onClick={() => setEdit(true)}
-              >
-                Edit
-              </Button>
-            </div>
+                <TextField required id="standard-required" label="username" variant="outlined" value={form.username} onChange={updateUsername} className={classes.inputForm} />
 
-            <TextField required id="standard-required" label="username" variant="outlined" InputProps={{ readOnly: !edit }} value={form.username} onChange={updateUsername} className={classes.inputForm} />
+                <Typography>my tags</Typography>
 
-            <Typography>my tags</Typography>
-
-            <div className={classes.tagList}>
-              {tagList}
-              {addTagClick ?
-                <Card className={classes.card}>
-                  <CardContent>
-                    <TextField
-                      required
-                      id="standard-required"
-                      value={newTagName}
-                      onChange={updateNewTagName}
-                    />
-                    <IconButton color="primary" aria-label="add to shopping cart" onClick={() => handleAddTag()}>
+                <div className={classes.tagList}>
+                  {tagList}
+                  {addTagClick ?
+                    <Card className={classes.card}>
+                      <CardContent>
+                        <TextField
+                          required
+                          id="standard-required"
+                          value={newTagName}
+                          onChange={updateNewTagName}
+                        />
+                        <IconButton color="primary" aria-label="add to shopping cart" onClick={() => handleAddTag()}>
+                          <AddCircleOutlineIcon />
+                        </IconButton>
+                      </CardContent>
+                    </Card> :
+                    <IconButton color="primary" aria-label="add to shopping cart" onClick={() => setAddTagClick(true)}>
                       <AddCircleOutlineIcon />
                     </IconButton>
-                  </CardContent>
-                </Card> :
-                <IconButton color="primary" aria-label="add to shopping cart" onClick={() => setAddTagClick(true)}>
-                  <AddCircleOutlineIcon />
-                </IconButton>
-              }
+                  }
 
-            </div>
-            <Button
-              variant="contained"
-              startIcon={<EditIcon />}
-              className={classes.finishButton}
-              disabled={!edit}
-              onClick={() => {
-                setEdit(false)
-                submit()
-              }}
-            >
-              finish
-            </Button>
-
+                </div>
+                <Button
+                  variant="contained"
+                  startIcon={<EditIcon />}
+                  className={classes.finishButton}
+                  onClick={submit}
+                >
+                  save
+                </Button>
+              </>
+            }
           </Paper>
         </div>
       </Grid>
