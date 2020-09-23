@@ -14,5 +14,5 @@ def create_app(debug=False):
     from .main import app as app_blueprint
     app.register_blueprint(app_blueprint)
 
-    socketio.init_app(app, cors_allowed_origins="*")
+    socketio.init_app(app, cors_allowed_origins="*", ping_interval=10)
     return app
