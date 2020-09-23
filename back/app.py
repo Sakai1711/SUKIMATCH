@@ -267,6 +267,7 @@ class MyNamespace(Namespace):
     def on_ping_ping(self, data):
         print("ping")
         print("rooms: ", rooms)
+        print("===============")
         time.sleep(7)
         dt_now = datetime.datetime.now()
         emit('pong_pong', {'time': dt_now.strftime('%Y-%m-%d %H:%M:%S')}, broadcast=False)
