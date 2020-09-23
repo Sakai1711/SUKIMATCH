@@ -10,6 +10,7 @@ from auth.auth import verify
 
 class MyNamespace(Namespace):
     def on_connect_req(self, data): # connect
+        print("connect_req")
         access_token = data['access_token']
         chatroom_id = data['chatroom_id']
         if verify(access_token) != "":
@@ -19,6 +20,7 @@ class MyNamespace(Namespace):
             emit('connect_res', {'status': 'incorrect access token'})
 
     def on_send_message_req(self, data): # send message
+        print("send_message_req")
         access_token = data['access_token']
         chatroom_id = data['chatroom_id']
         content = data['content']
@@ -31,6 +33,7 @@ class MyNamespace(Namespace):
             emit('send_message_res', {'status': 'incorrect access token'})
 
     def on_disconnect_req(self, data): # disconnect
+        print("disconnect")
         access_token = data['access_token']
         chatroom_id = data['chatroom_id']
         user_id = verify(access_token)
