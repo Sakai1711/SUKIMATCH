@@ -7,6 +7,7 @@ from flask_socketio import Namespace, emit, join_room, disconnect
 from flask_cors import CORS
 import sys
 import time
+import datetime
 #sys.path.append('../')
 from database.tag import insert_tag, get_tags, delete_tag, exists
 from database.user import add_new_user, load_mypage, update_data, delete_data
@@ -261,7 +262,8 @@ class MyNamespace(Namespace):
     def on_ping_ping(self, data):
         print("ping")
         time.sleep(3)
-        emit('pong_pong')
+        dt_now = datetime.datetime.now()
+        emit('pong_pong', {'time': dt_now.strftime('%Y-%m-%d %H:%M:%S')})
 
     def on_connect_req(self, data): # connect
         print("connect_req")
