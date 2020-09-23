@@ -12,6 +12,7 @@ import time
 class MyNamespace(Namespace):
     def on_ping_ping(self, data):
         print("ping")
+        time.sleep(3)
         emit('pong_pong')
 
     def on_connect_req(self, data): # connect
