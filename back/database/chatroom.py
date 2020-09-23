@@ -39,3 +39,6 @@ def delete_chatroom(chatroom_id): # chatroomのdocumentの削除
     except:
         return
 
+def delete_user(chatroom_id, user_id): # chatroomのuserの削除
+    chatroom_ref = db.collection(u'Chatroom').document(chatroom_id)
+    chatroom_ref.update({u'user_ids': firestore.ArrayRemove([user_id])})
