@@ -7,8 +7,13 @@ sys.path.append('../')
 from database.user import load_mypage
 from database.chatroom import delete_chatroom
 from auth.auth import verify
+import time
 
 class MyNamespace(Namespace):
+    def on_ping(self):
+        time.sleep(3)
+        emit('pong')
+
     def on_connect_req(self, data): # connect
         print("connect_req")
         access_token = data['access_token']
@@ -41,4 +46,3 @@ class MyNamespace(Namespace):
             delete_chatroom(chatroom_id)
 
 socketio.on_namespace(MyNamespace('/chat'))
-
