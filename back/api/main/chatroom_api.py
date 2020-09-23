@@ -25,4 +25,8 @@ def create_chatroom():
     #########
     ## DB処理
     #########
-    return jsonify({ 'chatroom_id': chatroom_id }), 200
+    return _corsify_actual_response(jsonify({ 'chatroom_id': chatroom_id })), 200
+
+def _corsify_actual_response(response):
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
