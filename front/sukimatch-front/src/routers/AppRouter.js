@@ -4,6 +4,10 @@ import Edit from '../components/Edit'
 import Home from '../components/Home';
 import Chat from '../components/Chat';
 import Header from '../components/Header';
+
+import Login from '../components/Login';
+import Signup from '../components/Signup';
+
 import StartSearch from '../components/SearchPage/StartSearch';
 
 
@@ -24,7 +28,8 @@ const AppRouter = () => {
           <Route path="/user/edit" component={Edit} />
           <Route path="/search" component={StartSearch} />
           <Route path="/chat" component={Chat} />
-          <Route component={Landing2} />
+          <Route path="/login" component={Login} />
+          <Route path="/signup" component={Signup} />
         </Switch>
       </div>
     </BrowserRouter>
