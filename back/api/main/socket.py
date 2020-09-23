@@ -19,7 +19,7 @@ class MyNamespace(Namespace):
         access_token = data['access_token']
         chatroom_id = data['chatroom_id']
         if verify(access_token) != "":
-            join_room(chatroom_id)
+            # join_room(chatroom_id)
             emit('connect_res', {'status': 'ok'})
         else:
             emit('connect_res', {'status': 'incorrect access token'})
