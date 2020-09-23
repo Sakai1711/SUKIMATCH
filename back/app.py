@@ -260,8 +260,10 @@ def _corsify_actual_response(response):
 
 class MyNamespace(Namespace):
     def on_connect(self):
-        emit('pong_pong')
-        
+        print("connect")
+        dt_now = datetime.datetime.now()
+        emit('pong_pong', {'time': dt_now.strftime('%Y-%m-%d %H:%M:%S')})
+
     def on_ping_ping(self, data):
         print("ping")
         print("rooms: ", rooms)
