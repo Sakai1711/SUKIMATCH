@@ -259,6 +259,9 @@ def _corsify_actual_response(response):
     return response
 
 class MyNamespace(Namespace):
+    def on_connect(self):
+        emit('pong_pong')
+        
     def on_ping_ping(self, data):
         print("ping")
         print("rooms: ", rooms)
