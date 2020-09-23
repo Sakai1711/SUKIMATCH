@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { Link } from 'react-router-dom';
 import { Box } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -33,7 +32,31 @@ export default class Signup extends Component {
       isSubmitted: false,
       enterLastCheck: false,
       };
-}
+  }
+
+  storageAvailable = (type) => {
+    try {
+        var storage = window[type],
+            x = '__storage_test__';
+        storage.setItem(x, x);
+        storage.removeItem(x);
+        return true;
+    }
+    catch(e) {
+        return e instanceof DOMException && (
+            // everything except Firefox
+            e.code === 22 ||
+            // Firefox
+            e.code === 1014 ||
+            // test name field too, because code might not be present
+            // everything except Firefox
+            e.name === 'QuotaExceededError' ||
+            // Firefox
+            e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+            // acknowledge QuotaExceededError only if there's something already stored
+            storage.length !== 0;
+    }
+  };
 
   handleChange = (prop) => (event) => {
     this.setState({[prop]: event.target.value });
@@ -61,7 +84,7 @@ export default class Signup extends Component {
     }else{
       this.setState({hasNameError: false});
     }
-  }
+  };
 
   isEmptyEmail = () => {
     if(this.state.username === ''){
@@ -69,7 +92,7 @@ export default class Signup extends Component {
     }else{
       this.setState({hasEmailError: false});
     }
-  }
+  };
 
   isEmptyPass = () => {
     if(this.state.username === ''){
@@ -77,7 +100,7 @@ export default class Signup extends Component {
     }else{
       this.setState({hasPassError: false});
     }
-  }
+  };
 
   confirmSubmit = () => {
     if (this.state.hasEmailError || this.state.hasNameError || this.state.hasPassError || this.state.isSubmitted || this.state.conPassError || this.state.lastCheck){
@@ -85,7 +108,7 @@ export default class Signup extends Component {
     }else{
       this.setState({canSubmit: true});
     }
-  }
+  };
 
   lastCheck = () => {
    // this.isEmptyName;
@@ -93,6 +116,10 @@ export default class Signup extends Component {
    //this.isEmptyPass;
    // this.matchPassword;
     this.setState({enterLastCheck: !this.state.enterLastCheck });
+  };
+
+  keepSession = () => {
+    sessionStorage.setItem('key', 'value');
   };
 
   render(){
@@ -258,7 +285,9 @@ export default class Signup extends Component {
           Have you completed the input?
           <br />
           {this.state.canSubmit ?
-          <Button variant="contained" color="primary" href="/user" onChange={this.handleChange('isSubmitted')}>
+          <Button variant="contained" color="primary" href="/user" 
+                  onChange={this.handleChange('isSubmitted')}
+                  >
               Sign up
           </Button>
           : 

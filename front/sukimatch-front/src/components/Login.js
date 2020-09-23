@@ -2,10 +2,7 @@ import React, { useState, Component } from 'react';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom';
 import { Box } from '@material-ui/core';
-import { spacing } from '@material-ui/system';
 import IconButton from '@material-ui/core/IconButton';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -43,6 +40,8 @@ export default class Login extends Component{
 
   handleClickisSubmitted = () => {
     this.setState({isSubmitted: !this.state.isSubmitted });
+    
+    sessionStorage.setItem('key', 'value');
   }
 
   isEmptyEmail = () => {

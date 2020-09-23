@@ -13,7 +13,7 @@ const Header = () => {
       <nav className='global-nav'>
         <NavLink to="/" className='nav-item' activeClassName='is-active' exact={true} >Home</NavLink>
         <NavLink to="/user" className='nav-item' activeClassName='is-active' exact={true} >Mypage</NavLink>
-        <NavLink to="/user/hoge" className='nav-item' activeClassName='is-active' >Log in</NavLink>
+        <NavLink to="/login" className='nav-item' activeClassName='is-active' >Log in</NavLink>
         <NavLink to="/user/edit" className='nav-item' activeClassName='is-active' >Edit</NavLink>
       </nav>
     </header>
