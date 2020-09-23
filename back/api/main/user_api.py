@@ -13,10 +13,13 @@ def sign_up_user():
     given_json = request.json
 
     # Make token and id
-    access_token, user_id = signup(
-        email=given_json["email"],
-        password=given_json["password"]
-    )
+    try:
+        access_token, user_id = signup(
+            email=given_json["email"],
+            password=given_json["password"]
+        )
+    except:
+        return _corsify_actual_response(jsonify({})), 400
     # provisional
     # access_token = "qawse"
     # user_id = "1010120"
