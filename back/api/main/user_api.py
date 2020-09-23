@@ -103,31 +103,30 @@ def edit_user_page():
     given_json["user_id"] = user_id
 
     # tags
-    past_tags = transform_tags_dict(get_tags(user_id))
-    current_tags = transform_tags_dict(given_json["tag"])
     # New Tag
-    for t_id, t_name in zip(current_tags["ids"], current_tags["names"]):
-        if not t_id in past_tags["ids"]:
-            insert_tag(user_id, t_name)
+    for t_name in given_json["new_tag_names"]:
+        insert_tag(user_id, t_name)
     # Delete Tag
-    for t_id, t_name in zip(past_tags["ids"], past_tags["names"]):
-        if not t_id in current_tags["ids"]:
-            delete_tag(user_id, t_name)
+    for t_id in given_json["delete_tag_ids"]:
+            delete_tag(user_id, t_id)
 
     # update Auth data
-    user = update_user(given_json["user_id"], given_json["email"], given_json["password"])
+    # user = update_user(given_json["user_id"], given_json["email"], given_json["password"])
+    # パスワード、メールはもう変更しない仕様に！
+    # フロントからメール情報は送られてこなくなったので、データベースからロード（仮）
+    _, email = load_mypage(user_id)
 
     # update Database
-    update_data(given_json["user_id"], given_json["username"], given_json["email"])
+    update_data(given_json["user_id"], given_json["username"], email)
     # provisional
     # user_id = 1010120
 
     # "firebase_admin.update_user"でuidが変わる...??
     # リフレッシュすればいける？
-    new_token = refresh_token(given_json["token"])
+    # new_token = refresh_token(given_json["token"])
 
     responsed_json = {
-        "token": new_token
+        "token": access_token
     }
 
     return jsonify(responsed_json), 200
