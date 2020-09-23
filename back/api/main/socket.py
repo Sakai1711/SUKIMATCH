@@ -12,7 +12,7 @@ import time
 class MyNamespace(Namespace):
     def on_ping_ping(self, data):
         print("ping")
-        socketio.emit('pong')
+        socketio.emit('pong_pong')
 
     def on_connect_req(self, data): # connect
         print("connect_req")
