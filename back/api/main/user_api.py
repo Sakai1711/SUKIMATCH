@@ -96,7 +96,7 @@ def edit_user_page():
     # Convert token to ID
     user_id = verify(access_token)
     if user_id == "":
-        return jsonify({}), 401
+        return _corsify_actual_response(jsonify({})), 401
 
     given_json = request.json
     given_json["user_id"] = user_id
@@ -107,7 +107,7 @@ def edit_user_page():
         insert_tag(user_id, t_name)
     # Delete Tag
     for t_id in given_json["delete_tag_ids"]:
-            delete_tag(user_id, t_id)
+        delete_tag(user_id, t_id)
 
     # update Auth data
     # user = update_user(given_json["user_id"], given_json["email"], given_json["password"])
