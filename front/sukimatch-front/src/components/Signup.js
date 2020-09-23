@@ -107,7 +107,7 @@ class Signup extends Component {
       password: this.state.password,
     }
     ).then(res => {
-      sessionStorage.setItem('access_token', res.data.access_token);
+      sessionStorage.setItem('access_token', res.data.token);
       console.log('');
       this.props.history.push('/search')
     }).catch(err => {
@@ -241,7 +241,8 @@ class Signup extends Component {
             <FormHelperText id="component-error-text">
               Confirm password do not match.
             </FormHelperText>
-          </FormControl>:
+          </FormControl>
+          :
           <FormControl className="passform" variant="outlined">
             <InputLabel htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
             <OutlinedInput
