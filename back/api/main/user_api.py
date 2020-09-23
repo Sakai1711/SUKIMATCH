@@ -3,7 +3,7 @@ from . import app
 import sys
 sys.path.append('../')
 from database.user import add_new_user, load_mypage, update_data, delete_data
-from database.tag import insert_tag, get_tags, delete_tag
+from database.tag import insert_tag, get_tags, delete_tag, exists
 from auth.auth import signup, signin, verify, refresh_token
 from auth.update import update_user
 from auth.delete import delete_user
@@ -106,8 +106,10 @@ def edit_user_page():
     for t_name in given_json["new_tag_names"]:
         insert_tag(user_id, t_name)
     # Delete Tag
-    for t_id in given_json["delete_tag_ids"]:
-        delete_tag(user_id, t_id)
+    for t_name in given_json["delete_tag_names"]:
+        if exists(user_id, t_name) == 0:
+            return _corsify_actual_response(jsonify({})), 404
+        delete_tag(user_id, t_name)
 
     # update Auth data
     # user = update_user(given_json["user_id"], given_json["email"], given_json["password"])
