@@ -24,17 +24,19 @@ class MyNamespace(Namespace):
         content = data['content']
         user_id = verify(access_token)
         if user_id != "":
-            username, _, _ = load_mypage(user_id)
-            result = {'status': 'ok', 'username': username, 'content': content}
+            username, _ = load_mypage(user_id)
+            result = {'username': username, 'content': content, 'access_token': access_token}
             emit('send_message_res', result, room_id=chatroom_id)
         else:
             emit('send_message_res', {'status': 'incorrect access token'})
 
-    def on_disconnect(self, data): # disconnect
+    def on_disconnect_req(self, data): # disconnect
         access_token = data['access_token']
         chatroom_id = data['chatroom_id']
         user_id = verify(access_token)
         if user_id != "":
             delete_chatroom(chatroom_id)
+        # TODO: 4人から
 
 socketio.on_namespace(MyNamespace('/chat'))
+

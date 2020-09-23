@@ -26,3 +26,8 @@ def join_chatroom():
         return jsonify({}), 401
     chatroom_id = add_chatroom(user_id, tag_name)
     return jsonify({ 'chatroom_id': chatroom_id }), 200
+
+def _corsify_actual_response(response):
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
+

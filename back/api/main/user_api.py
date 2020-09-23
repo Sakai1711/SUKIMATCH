@@ -35,7 +35,7 @@ def sign_up_user():
         "token": access_token
     }
 
-    return jsonify(responsed_json), 200
+    return _corsify_actual_response(jsonify(responsed_json)), 200
 
 
 @app.route("/login", methods=["POST"])
@@ -55,7 +55,7 @@ def sign_in_user():
         "token": access_token
     }
 
-    return jsonify(responsed_json), 200
+    return _corsify_actual_response(jsonify(responsed_json)), 200
 
 
 @app.route("/user/load", methods=["GET"])
@@ -90,7 +90,7 @@ def load_user_page():
         "tag": tags
     }
 
-    return jsonify(responsed_json), 200
+    return _corsify_actual_response(jsonify(responsed_json)), 200
 
 
 @app.route("/user/edit", methods=["POST"])
@@ -131,7 +131,7 @@ def edit_user_page():
         "token": access_token
     }
 
-    return jsonify(responsed_json), 200
+    return _corsify_actual_response(jsonify(responsed_json)), 200
 
 def transform_tags_dict(tags):
     """
@@ -171,5 +171,9 @@ def delete_account():
     responsed_json = {
 
     }
+    return _corsify_actual_response(jsonify(responsed_json)), 200
 
-    return jsonify(responsed_json), 200
+def _corsify_actual_response(response):
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
+

@@ -44,3 +44,8 @@ def delete_db_tag():
         return jsonify({}), 404
     delete_tag(user_id, tag_name)
     return jsonify({}), 204
+      
+def _corsify_actual_response(response):
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
+
