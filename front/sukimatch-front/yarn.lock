@@ -9532,6 +9532,10 @@ react-icons@^2.2.5:
   integrity sha512-0n4lcGqzJFcIQLoQytLdJCE0DKSA9dkwEZRYoGrIDJZFvIT6Hbajx5mv9geqhqFiNjUgtxg8kPyDfjlhymbGFg==
   dependencies:
     react-icon-base "2.1.0"
+react-hook-form@^6.8.4:
+  version "6.8.4"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-6.8.4.tgz#1aed2f7badba3622324e37d68f7637868ea54cf2"
+  integrity sha512-qFd5SPPQUZWe+yXF6yjuJXKK8cLXywrzQuw74nL1jptW9Fad4HsEzfh+53Jg3c5TFPIwdIxrMNUvQfd0/p1y/w==
 
 react-is@^16.12.0, react-is@^16.3.2, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.0, react-is@^16.8.1, react-is@^16.8.4:
   version "16.13.1"
