@@ -19,6 +19,9 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import Searching from './Searching'
+import { ApiClient } from '../../utils/ApiClient';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -76,6 +79,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center'
+  },
+  loading: {
+    margin: theme.spacing(5)
   }
 }));
 
@@ -83,24 +89,27 @@ const useStyles = makeStyles((theme) => ({
 export default function StartSearch() {
   const classes = useStyles();
 
-  useEffect(() => {
-    // TODO: /user/:id でユーザー情報取得
-    setForm({
-      username: 'test user',
-      tags: ['movie', 'soccer'],
-    })
-
-  }, []);
-
   const [edit, setEdit] = useState(false);
-  const [addTagClick, setAddTagClick] = useState(false);
   const [form, setForm] = useState({
     username: '',
     tags: [],
   })
-  const [newTagName, setNewTagName] = useState('')
   const [selectedTag, setSelectedTag] = useState('');
 
+  const [mytags, setMyTags] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    setIsLoading(true)
+    ApiClient.get('/user/load'
+    ).then(res => {
+      setMyTags(res.data.tag)
+      setIsLoading(false)
+    }).catch(err => {
+      console.log(err)
+      setIsLoading(false)
+    });
+  }, []);
 
   const handleTagChange = (event) => {
     setSelectedTag(event.target.value);
@@ -122,18 +131,20 @@ export default function StartSearch() {
                   startIcon={<EditIcon />}
                 >
                   Edit
-              </Button>
+                </Button>
               </Link>
             </div>
 
             <div>
               <FormControl component="fieldset">
                 <FormLabel component="legend">Select Search Tag</FormLabel>
-                <RadioGroup className={classes.tagList} aria-label="gender" name="gender1" value={selectedTag} onChange={handleTagChange} row>
-                  {form.tags.map((tag, index) => (
-                    <FormControlLabel key={index} value={tag} control={<Radio />} label={tag} />
-                  ))}
-                </RadioGroup>
+                {isLoading ? <CircularProgress className={classes.loading} /> :
+                  <RadioGroup className={classes.tagList} aria-label="gender" name="gender1" value={selectedTag} onChange={handleTagChange} row>
+                    {mytags.map((tag, index) => (
+                      <FormControlLabel key={index} value={tag.tag_name} control={<Radio />} label={tag.tag_name} />
+                    ))}
+                  </RadioGroup>
+                }
               </FormControl>
             </div>
             <Searching searchTag={selectedTag} />

@@ -67,7 +67,7 @@ class Signup extends Component {
   };
 
   isEmptyEmail = () => {
-    if(this.state.username === ''){
+    if(this.state.email === ''){
       this.setState({hasEmailError: true});
     }else{
       this.setState({hasEmailError: false});
@@ -75,7 +75,7 @@ class Signup extends Component {
   };
 
   isEmptyPass = () => {
-    if(this.state.username === ''){
+    if(this.state.password.length < 6){
       this.setState({hasPassError: true});
     }else{
       this.setState({hasPassError: false});
@@ -107,7 +107,7 @@ class Signup extends Component {
       password: this.state.password,
     }
     ).then(res => {
-      sessionStorage.setItem('access_token', res.data.access_token);
+      sessionStorage.setItem('access_token', res.data.token);
       console.log('');
       this.props.history.push('/search')
     }).catch(err => {
@@ -180,10 +180,10 @@ class Signup extends Component {
             />
             {this.state.hasPassError ?
             <FormHelperText id="component-error-text">
-              Password is required.
+              Password should be at least 6 characters.
             </FormHelperText> : <br />}
           </FormControl>
-          <br />
+          <br /><br />
 
       {/* ---通常パスワードのエラー--- */}
       {/*
@@ -241,7 +241,8 @@ class Signup extends Component {
             <FormHelperText id="component-error-text">
               Confirm password do not match.
             </FormHelperText>
-          </FormControl>:
+          </FormControl>
+          :
           <FormControl className="passform" variant="outlined">
             <InputLabel htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
             <OutlinedInput
