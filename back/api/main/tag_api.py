@@ -52,3 +52,6 @@ def delete_tag():
     else:
         return jsonify({}), 404
 
+def _corsify_actual_response(response):
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response

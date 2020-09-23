@@ -25,7 +25,7 @@ class MyNamespace(Namespace):
         user_id = verify(access_token)
         if user_id != "":
             username, _, _ = load_mypage(user_id) # TODO: no tag
-            result = {'username': username, 'content': content}
+            result = {'username': username, 'content': content, 'access_token': access_token}
             emit('send_message_res', result, room_id=chatroom_id)
         else:
             emit('send_message_res', {'status': 'incorrect access token'})
