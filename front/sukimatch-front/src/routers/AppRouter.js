@@ -29,7 +29,7 @@ const AppRouter = () => {
           <Route path="/search" component={StartSearch} />
           <Route path="/chat" component={Chat} />
           <Route path="/login" component={Login} />
-          <Route path="/user" component={Signup} />
+          <Route path="/signup" component={Signup} />
         </Switch>
       </div>
     </BrowserRouter>

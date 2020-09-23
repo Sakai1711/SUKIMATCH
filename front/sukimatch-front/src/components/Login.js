@@ -14,7 +14,6 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { ApiClient } from '../utils/ApiClient';
 import { withRouter } from 'react-router';
 
-
 class Login extends Component{
   constructor(props){
       super(props);
@@ -27,6 +26,7 @@ class Login extends Component{
           showPassword: false,
           canSubmit: false,
           invalidPassError: false,
+          firstBug: true,
         };
   }
 
@@ -59,7 +59,7 @@ class Login extends Component{
   }
 
   isEmptyEmail = () => {
-    if(this.state.username === ''){
+    if(this.state.email === ''){
       this.setState({hasEmailError: true});
     }else{
       this.setState({hasEmailError: false});
@@ -67,35 +67,43 @@ class Login extends Component{
   }
 
   isEmptyPass = () => {
-    if(this.state.username === ''){
+    if(this.state.password === ''){
       this.setState({hasPassError: true});
     }else{
       this.setState({hasPassError: false});
     }
   }
 
+  confirmSubmit = () => {
+    this.isEmptyEmail();
+    this.isEmptyPass();
+    if (this.state.hasEmailError || this.state.hasPassError || this.state.isSubmitted || this.state.firstBug){
+      this.setState({canSubmit: false});
+    }else{
+      this.setState({canSubmit: true});
+    }
+    this.setState({firstBug: false});
+  };
 
   render(){
     return (
-      <div className='loginpage'>
-          <br /><br />
-        <Typography variant="h2" gutterBottom>
+      <div className='login'>
+        <Typography className='title' variant="h2" gutterBottom>
           Login
         </Typography>
-        <br /><br />
         <Box textAlign="center">
-          <form className='form' noValidate autoComplete="off">
+          <form className='form' noValidate autoComplete="off" onBlur={this.confirmSubmit}>
           <TextField 
             id="standard-basic" 
             label="Email"
+            aria-describedby="component-error-text"
             onChange={this.handleChange('email')}
             onBlur={this.isEmptyEmail}
           />
           {this.state.hasEmailError ?
             <FormHelperText id="component-error-text">
               Email is required.
-            </FormHelperText> : <br />}
-          <br />
+            </FormHelperText> : <br /> }
           <br />
 
         {this.state.invalidPassError ?
@@ -146,15 +154,23 @@ class Login extends Component{
               Password is required.
             </FormHelperText> : <br />}
           </FormControl>
-          }
+        }
       </form>
-      <br /><br /><br />
-      <Button className='button' variant="contained" color="primary"
+      <br /><br />
+      {this.state.canSubmit ?
+        <Button className='button' variant="contained" color="primary"
+              onChange={this.handleChange('isSubmitted')}
               onClick={this.handleClickisSubmitted}>
           Login
-      </Button>
-      {/* space */}　{/* space */}
-      <Button className='button' variant="contained" color="primary" href="/signup">
+      　</Button>
+      　: 
+      　<Button className='button' variant="contained" onClick={this.confirmSubmit}>
+        　Have you completed the input?
+      　</Button>
+      }
+
+      <span>　　If you don't have account...　</span>
+      <Button className='signup-button' variant="contained" color="primary" href="/signup">
           Signup
       </Button>
       <br /><br /><br />

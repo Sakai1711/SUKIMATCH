@@ -8,8 +8,10 @@
         margin-left: 100px;
     }
     .button{
-        margin-right: 'auto';
-        margin-left: 'auto';
+        margin: 0 auto;
+    }
+    .signup-button{
+        text-align: right;
     }
     #component-error-text{
         text-align: center;

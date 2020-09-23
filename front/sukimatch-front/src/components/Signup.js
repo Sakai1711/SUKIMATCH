@@ -34,6 +34,7 @@ class Signup extends Component {
       isSubmitted: false,
       enterLastCheck: false,
       invalidPassError: false,
+      firstBug: true,
       };
   }
 
@@ -82,18 +83,19 @@ class Signup extends Component {
   };
 
   confirmSubmit = () => {
-    if (this.state.hasEmailError || this.state.hasNameError || this.state.hasPassError || this.state.isSubmitted || this.state.conPassError || this.state.lastCheck){
+    if (this.state.hasEmailError || this.state.hasNameError || this.state.hasPassError || this.state.isSubmitted || this.state.conPassError || this.state.enterLastCheck || this.state.firstBug){
       this.setState({canSubmit: false});
     }else{
       this.setState({canSubmit: true});
     }
+    this.setState({firstBug: false});
   };
 
   lastCheck = () => {
-   this.isEmptyName();
-   // this.isEmptyEmail;
-   //this.isEmptyPass;
-   // this.matchPassword;
+    this.isEmptyName();
+    this.isEmptyEmail();
+    this.isEmptyPass();
+    this.matchPassword();
     this.setState({enterLastCheck: !this.state.enterLastCheck });
   };
 
@@ -270,7 +272,6 @@ class Signup extends Component {
         <Checkbox
             onChange={this.lastCheck}
             onClick={this.confirmSubmit}
-            onBlur={this.confirmSubmit}
             name="checkedB"
             color="primary"
           />
