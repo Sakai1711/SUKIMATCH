@@ -16,6 +16,7 @@ def signup(email, password):
     user = auth.create_user_with_email_and_password(email, password)
     access_token = user['idToken']
     user_id = user['localId']
+    print(user)
     return access_token, user_id
 
 def signin(email, password):
@@ -28,6 +29,7 @@ def signin(email, password):
     """
     user = auth.sign_in_with_email_and_password(email, password)
     access_token = user['idToken']
+    print(user)
     return access_token
 
 def verify(access_token):
@@ -37,8 +39,11 @@ def verify(access_token):
     Returns:
         user_id
     """
+    user = auth.get_account_info(access_token)
+    print(user)
     try:
         user = auth.get_account_info(access_token)
+        print(user)
         user_id = user['users'][0]['localId']
         return user_id
     except:

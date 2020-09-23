@@ -36,6 +36,7 @@ class MyNamespace(Namespace):
         user_id = verify(access_token)
         if user_id != "":
             delete_chatroom(chatroom_id)
+        # TODO: 4人から
 
 socketio.on_namespace(MyNamespace('/chat'))
 
