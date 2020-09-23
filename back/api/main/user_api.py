@@ -29,7 +29,7 @@ def sign_up_user():
         "token" : access_token
     }
 
-    return jsonify(responsed_json), 200
+    return _corsify_actual_response(jsonify(responsed_json)), 200
 
 @app.route("/login", methods=["POST"])
 def sign_in_user():
@@ -48,7 +48,7 @@ def sign_in_user():
         "token" : access_token
     }
 
-    return jsonify(responsed_json), 200
+    return _corsify_actual_response(jsonify(responsed_json)), 200
 
 @app.route("/user/<string:access_token>", methods=["GET"])
 def load_user_page(access_token):
@@ -78,7 +78,7 @@ def load_user_page(access_token):
         "tag" : tags # List
     }
 
-    return jsonify(responsed_json), 200
+    return _corsify_actual_response(jsonify(responsed_json)), 200
 
 @app.route("/user/<string:access_token>", methods=["POST"])
 def operate_user_page(access_token):
@@ -122,3 +122,13 @@ def delete_user(param):
 
     return jsonify(responsed_json)
 
+def _build_cors_prelight_response():
+    response = make_response()
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    response.headers.add("Access-Control-Allow-Headers", "*")
+    response.headers.add("Access-Control-Allow-Methods", "*")
+    return response
+
+def _corsify_actual_response(response):
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
