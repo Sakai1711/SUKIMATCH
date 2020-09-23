@@ -63,7 +63,7 @@ def load_user_page():
     # Convert token to ID
     user_id = verify(access_token)
     if user_id == "":
-        return jsonify({}), 401
+        return _corsify_actual_response(jsonify({})), 401
 
     username, email = load_mypage(user_id)
     tags = get_tags(user_id)
@@ -155,7 +155,7 @@ def delete_account():
     # Convert token to ID
     user_id = verify(access_token)
     if user_id == "":
-        return jsonify({}), 401
+        return _corsify_actual_response(jsonify({})), 401
 
     given_json = request.json
     given_json["user_id"] = user_id

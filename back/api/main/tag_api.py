@@ -15,21 +15,21 @@ def insert_db_tag():
     tag_name = given_json['tag_name']
     user_id = verify(access_token)
     if user_id == '':
-        return jsonify({}), 401
+        return _corsify_actual_response(jsonify({})), 401
     exist_flag = exists(user_id, tag_name)
     if exist_flag == 1:
-        return jsonify({}), 400
+        return _corsify_actual_response(jsonify({})), 400
     insert_tag(user_id, tag_name)
-    return jsonify({}), 204
+    return _corsify_actual_response(jsonify({})), 204
 
 @app.route("/tags", methods=["GET"])
 def get_db_tags():
     access_token = request.headers.get("access_token")
     user_id = verify(access_token)
     if user_id == '':
-        return jsonify({}), 401
+        return _corsify_actual_response(jsonify({})), 401
     tags = get_tags(user_id)
-    return jsonify({ 'tags': tags }), 200
+    return _corsify_actual_response(jsonify({ 'tags': tags })), 200
 
 @app.route("/tag/delete", methods=["POST"])
 def delete_db_tag():
@@ -38,12 +38,12 @@ def delete_db_tag():
     tag_name = given_json['tag_name']
     user_id = verify(access_token)
     if user_id == '':
-        return jsonify({}), 401
+        return _corsify_actual_response(jsonify({})), 401
     exist_flag = exists(user_id, tag_name)
     if exist_flag == 0:
-        return jsonify({}), 404
+        return _corsify_actual_response(jsonify({})), 404
     delete_tag(user_id, tag_name)
-    return jsonify({}), 204
+    return _corsify_actual_response(jsonify({})), 204
       
 def _corsify_actual_response(response):
     response.headers.add("Access-Control-Allow-Origin", "*")
