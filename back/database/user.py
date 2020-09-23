@@ -16,18 +16,19 @@ def load_mypage(user_id):
     user_ref = db.collection(u'User').document(f'{user_id}')
     try:
         user_data = user_ref.get().to_dict()
-        return user_data["name"], user_data["email"], user_data["tags"]
+        return user_data["name"], user_data["email"]
 
     except NotFound:
         print(u'No such document!')
 
-def update_data(user_id, username, email, password=None):
-    user_ref = db.collection(u'User').document(user_id)
+def update_data(user_id, username, email):
+    user_ref = db.collection(u'User').document(f'{user_id}')
 
     try:
         user_ref.update(
             User(email=f'{email}',
-                 name=f'{username}').to_dict()
+                 name=f'{username}',
+                 ).to_dict()
         )
 
     except NotFound:
