@@ -41,7 +41,7 @@ def delete_db_tag():
         return jsonify({}), 401
     exist_flag = exists(user_id, tag_name)
     if exist_flag == 0:
-        return jsonify({}), 401
+        return jsonify({}), 404
     delete_tag(user_id, tag_name)
     return jsonify({}), 204
       
