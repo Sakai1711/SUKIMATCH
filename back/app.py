@@ -288,12 +288,13 @@ class MyNamespace(Namespace):
         access_token = data['access_token']
         chatroom_id = data['chatroom_id']
         content = data['content']
+        username = data['username']
         print("chatroom_id: ", chatroom_id)
         print("content: ", content)
         user_id = verify(access_token)
         print("1. sent send_message_res")
         if user_id != "":
-            username, _ = load_mypage(user_id)
+            #username, _ = load_mypage(user_id)
             print("2. sent send_message_res")
             result = {'username': username, 'content': content, 'access_token': access_token}
             print("3. sent send_message_res")
