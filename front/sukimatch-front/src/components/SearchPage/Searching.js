@@ -1,26 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom';
-import Grid from '@material-ui/core/Grid';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import TextField from '@material-ui/core/TextField';
-import EditIcon from '@material-ui/icons/Edit';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
 import Modal from '@material-ui/core/Modal';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import CloseIcon from '@material-ui/icons/Close';
+import { ApiClient } from '../../utils/ApiClient';
+import { Link } from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -31,7 +18,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
     display: 'flex',
-    // alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column'
   },
@@ -54,34 +40,84 @@ const useStyles = makeStyles((theme) => ({
 export default function Searching(props) {
   const classes = useStyles();
 
-  useEffect(() => {
-  }, []);
-
+  const [search, setSearch] = useState(false);
+  const [isFind, setIsFind] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const handleOpen = () => {
+
+  useEffect(() => {
+    // 検索中の場合は3秒に一回 /chatrooms/:chatrood_id を叩く
+    if (search) {
+      const chatroomId = sessionStorage.getItem('chatroom_id');
+      const interval = setInterval(() => {
+        ApiClient.get(`/chatrooms/${chatroomId}`).then(res => {
+          if (res.status == 205) {
+            setIsFind(true)
+            setSearch(false)
+          }
+        }).catch(err => {
+          console.log(err)
+        });
+      }, 3000)
+      return function cleanUp() {
+        clearInterval(interval);
+      }
+    }
+  }, [search]);
+
+  const handleSearchClick = () => {
     if (props.searchTag) {
-      setOpen(true);
+      setOpen(true)
+      setSearch(true);
+      ApiClient.post('/chatrooms', {
+        tag_name: props.searchTag
+      }).then(res => {
+        console.log(res)
+        sessionStorage.setItem('chatroom_id', res.data.chatroom_id);
+      }).catch(err => {
+        console.log(err)
+      });
     }
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setSearch(false);
+    setOpen(true)
   };
   const body = (
     <div className={classes.paper}>
-      <Typography variant='h4' className={classes.modalItem}>
-        Searching friend who talk with you about {props.searchTag} ...
-      </Typography>
-      <LinearProgress />
-      <Button
-        variant="contained"
-        startIcon={<CloseIcon />}
-        className={classes.cancelButton}
-        onClick={handleClose}
-      >
-        cancel
-      </Button>
+      {isFind ?
+        <>
+          <Typography variant='h4' className={classes.modalItem}>
+            Found some people to talk with you!
+          </Typography>
+
+          <Link to="/chat">
+            <Button
+              variant="contained"
+              startIcon={<CloseIcon />}
+              className={classes.cancelButton}
+            >
+              go to chatroom
+            </Button>
+          </Link>
+        </>
+        :
+        <>
+          <Typography variant='h4' className={classes.modalItem}>
+            Searching friend who talk with you about {props.searchTag} ...
+          </Typography>
+          <LinearProgress />
+          <Button
+            variant="contained"
+            startIcon={<CloseIcon />}
+            className={classes.cancelButton}
+            onClick={handleClose}
+          >
+            cancel
+          </Button>
+        </>
+      }
     </div>
   );
 
@@ -91,7 +127,7 @@ export default function Searching(props) {
         variant="contained"
         startIcon={<SearchIcon />}
         className={classes.finishButton}
-        onClick={handleOpen}
+        onClick={handleSearchClick}
       >
         start searching!
       </Button>

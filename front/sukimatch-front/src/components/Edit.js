@@ -71,6 +71,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center'
+  },
+  loading: {
+    margin: theme.spacing(5)
   }
 }));
 
@@ -175,12 +178,10 @@ export default function Edit() {
     ).then(res => {
       setForm({
         ...form,
-        username: res.data.username,
         newTagNames: [],
         deleteTagNames: []
       })
       setIsLoading(false)
-      //location.reload()
     }).catch(err => {
       console.log(err)
       setIsLoading(false)
@@ -207,7 +208,7 @@ export default function Edit() {
         <div className={classes.main}>
           <Paper className={classes.paper}>
             <Typography variant='h3'>My page</Typography>
-            {isLoading ? <CircularProgress /> :
+            {isLoading ? <CircularProgress className={classes.loading} /> :
               <>
                 <div className={classes.accountInfo}>
                   <AccountCircleIcon />
