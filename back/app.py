@@ -16,7 +16,10 @@ from auth.update import update_user
 from auth.delete import delete_user
 
 app = Flask(__name__)
-CORS(app)
+app.config['SECRET_KEY'] = 'secretkey'
+app.config['DEBUG'] = True
+app.config['CORS_HEADERS'] = 'Content-Type'
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 @app.route("/user", methods=["POST"])
@@ -284,7 +287,7 @@ class MyNamespace(Namespace):
             result = {'username': username, 'content': content, 'access_token': access_token}
             socketio.emit('send_message_res', result, room_id=chatroom_id)
         else:
-            socktio.emit('send_message_res', {'status': 'incorrect access token'})
+            socketio.emit('send_message_res', {'status': 'incorrect access token'})
 
     def on_disconnect_req(self, data): # disconnect
         print("disconnect")
