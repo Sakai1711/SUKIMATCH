@@ -23,8 +23,7 @@
     "build": "react-scripts build",
     "build:prod": "react-scripts build -p --env production",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "heroku-postbuild": "yarn run build:prod"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
