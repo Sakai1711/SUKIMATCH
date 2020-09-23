@@ -13,6 +13,8 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { ApiClient } from '../utils/ApiClient';
 import { withRouter } from 'react-router';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 class Login extends Component {
   constructor(props) {
@@ -27,6 +29,7 @@ class Login extends Component {
       canSubmit: false,
       invalidPassError: false,
       firstBug: true,
+      isLoading: false,
     };
   }
 
@@ -44,13 +47,14 @@ class Login extends Component {
 
   handleClickisSubmitted = () => {
     this.setState({ isSubmitted: !this.state.isSubmitted });
+    this.setState({ isLoading: true });
     ApiClient.post('/login', {
       email: this.state.email,
       password: this.state.password,
     }
     ).then(res => {
       sessionStorage.setItem('access_token', res.data.access_token);
-      console.log('Error');
+      this.setState({ isLoading: false });
       this.props.history.push('/search')
     }).catch(err => {
       this.setState({ invalidPassError: true });
@@ -156,24 +160,29 @@ class Login extends Component {
               </FormControl>
             }
           </form>
-          <br /><br />
-          {this.state.canSubmit ?
-            <Button className='button' variant="contained" color="primary"
-              onChange={this.handleChange('isSubmitted')}
-              onClick={this.handleClickisSubmitted}>
-              Login
-      　</Button>
-            :
-            <Button className='button' variant="contained" onClick={this.confirmSubmit}>
-              Have you completed the input?
-      　</Button>
-          }
 
-          <span>　　If you don't have account...　</span>
-          <Button className='signup-button' variant="contained" color="primary" href="/signup">
-            Signup
-      </Button>
-          <br /><br /><br />
+          <br /><br />
+          {this.state.isLoading ? <CircularProgress /> :
+            <>
+              {this.state.canSubmit ?
+                <Button className='button' variant="contained" color="primary"
+                  onChange={this.handleChange('isSubmitted')}
+                  onClick={this.handleClickisSubmitted}>
+                  Login
+      　        </Button>
+                :
+                <Button className='button' variant="contained" onClick={this.confirmSubmit}>
+                  Have you completed the input?
+      　        </Button>
+              }
+
+              <span>　　If you don't have account...　</span>
+              <Button className='signup-button' variant="contained" color="primary" href="/signup">
+                Signup
+              </Button>
+              <br /><br /><br />
+            </>
+          }
         </Box>
       </div>
     );

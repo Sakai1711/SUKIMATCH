@@ -14,6 +14,7 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Checkbox from '@material-ui/core/Checkbox';
 import { ApiClient } from '../utils/ApiClient';
 import { withRouter } from 'react-router';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 class Signup extends Component {
 
@@ -35,6 +36,7 @@ class Signup extends Component {
       enterLastCheck: false,
       invalidPassError: false,
       firstBug: true,
+      isLoading: false,
     };
   }
 
@@ -101,6 +103,8 @@ class Signup extends Component {
 
   handleClickisSubmitted = () => {
     this.setState({ isSubmitted: !this.state.isSubmitted });
+    this.setState({ isLoading: true });
+
     ApiClient.post('/user', {
       username: this.state.username,
       email: this.state.email,
@@ -108,10 +112,11 @@ class Signup extends Component {
     }
     ).then(res => {
       sessionStorage.setItem('access_token', res.data.token);
-      console.log('');
+      this.setState({ isLoading: false });
       this.props.history.push('/search')
     }).catch(err => {
       this.setState({ invalidPassError: true });
+      this.setState({ isLoading: false });
       console.log('Invalid input.');
     });
   }
@@ -269,25 +274,30 @@ class Signup extends Component {
             }
           </form>
           <br /><br />
-          <Checkbox
-            onChange={this.lastCheck}
-            onClick={this.confirmSubmit}
-            name="checkedB"
-            color="primary"
-          />
-          Have you completed the input?
-          <br />
-          {this.state.canSubmit ?
-            <Button variant="contained" color="primary"
-              onChange={this.handleChange('isSubmitted')}
-              onClick={this.handleClickisSubmitted}
-            >
-              Sign up
-          </Button>
-            :
-            <Button variant="contained" disabled>
-              Sign up
-          </Button>}
+          {this.state.isLoading ? <CircularProgress /> :
+            <>
+              <Checkbox
+                onChange={this.lastCheck}
+                onClick={this.confirmSubmit}
+                name="checkedB"
+                color="primary"
+              />
+                  Have you completed the input?
+                  <br />
+              {this.state.canSubmit ?
+                <Button variant="contained" color="primary"
+                  onChange={this.handleChange('isSubmitted')}
+                  onClick={this.handleClickisSubmitted}
+                >
+                  Sign up
+                  </Button>
+                :
+                <Button variant="contained" disabled>
+                  Sign up
+                  </Button>}
+            </>
+          }
+
           <br /><br /><br />
         </Box>
       </div>

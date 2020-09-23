@@ -43,6 +43,8 @@ export default function Searching(props) {
   const [search, setSearch] = useState(false);
   const [isFind, setIsFind] = useState(false);
   const [open, setOpen] = useState(false);
+  // 検索中に現在集まっている人数
+  const [currentMember, setCuurentMember] = useState('')
 
 
   useEffect(() => {
@@ -51,7 +53,7 @@ export default function Searching(props) {
       const chatroomId = sessionStorage.getItem('chatroom_id');
       const interval = setInterval(() => {
         ApiClient.get(`/chatrooms/${chatroomId}`).then(res => {
-          if (res.status == 205) {
+          if (res.status == 200) {
             setIsFind(true)
             setSearch(false)
           }
@@ -66,6 +68,7 @@ export default function Searching(props) {
   }, [search]);
 
   const handleSearchClick = () => {
+    // タグが選択されていれば検索開始
     if (props.searchTag) {
       setOpen(true)
       setSearch(true);
@@ -81,8 +84,15 @@ export default function Searching(props) {
   };
 
   const handleClose = () => {
-    setSearch(false);
-    setOpen(true)
+    // 閉じるときはchatroomのメンバーから削除
+    const chatroomId = sessionStorage.getItem('chatroom_id');
+    ApiClient.post(`/chatrooms/${chatroomId}/delete`).then(res => {
+      setSearch(false)
+    }).catch(err => {
+      console.log(err)
+      setSearch(false)
+    });
+    setOpen(false)
   };
   const body = (
     <div className={classes.paper}>
