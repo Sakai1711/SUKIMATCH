@@ -4,8 +4,7 @@ import Edit from '../components/Edit'
 import Home from '../components/Home';
 import Chat from '../components/Chat';
 import Header from '../components/Header';
-
-
+import StartSearch from '../components/SearchPage/StartSearch';
 
 
 const Landing2 = () => {
@@ -23,6 +22,7 @@ const AppRouter = () => {
           <Route path="/" component={Home} exact={true} />
           {/* <Route path="/hoge" component={Landing1} /> */}
           <Route path="/user/edit" component={Edit} />
+          <Route path="/search" component={StartSearch} />
           <Route path="/chat" component={Chat} />
           <Route component={Landing2} />
         </Switch>

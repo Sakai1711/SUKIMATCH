@@ -92,11 +92,16 @@ export default function Edit() {
       tags: ['movie', 'soccer'],
     })
 
-    // ApiClient.post('/user').then(response => {
-    //   console.log(response)
-    // }).catch(err => {
-    //   console.log(err)
-    // });
+    ApiClient.get('/user/eyJhbGciOiJSUzI1NiIsImtpZCI6IjFlNjYzOGY4NDlkODVhNWVkMGQ1M2NkNDI1MzE0Y2Q1MGYwYjY1YWUiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vc3VraW1hdGNoLTIxNzUzIiwiYXVkIjoic3VraW1hdGNoLTIxNzUzIiwiYXV0aF90aW1lIjoxNjAwODIwMjY2LCJ1c2VyX2lkIjoidllsRUF4bkg2bVE2RU5hSFhValVwSXVraHFuMiIsInN1YiI6InZZbEVBeG5INm1RNkVOYUhYVWpVcEl1a2hxbjIiLCJpYXQiOjE2MDA4MjAyNjYsImV4cCI6MTYwMDgyMzg2NiwiZW1haWwiOiJ0ZXN0NEBleGFtcGxlLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJ0ZXN0NEBleGFtcGxlLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.CCrbSdZVcbncAmCb8Brr91vyzq139lMkaxaEeMbZC5e5zbDYr1AlWwGrdZE0iq6vxFwXf4Tgt4QEQ55cY-cZf3ZLf1QqT-i8SkMM0jZe1LDirgFN6Cpbl6NMCI9JpOqAYn6ibRHWV74CAdf_x9Fq58V6M8tQ3ee8MevZ-3y10KHIMxODjv8sa5KRwU04Vw6x3S8yqEOYuQBItAxT_cmDviH4u9g6a1XRM6zb4WS8_MK0lGQi5kUNwy2Rbv6pbFJbPaRvyT7qlXVVNIHz5bZKtkSFgAknFujVafRTwO-NPxf709jzVF8MizRZ-unqrBc7ubp6uoVZI9N9gjJOqguPbw'
+    ).then(res => {
+      setForm({
+        ...form,
+        username: res.data.username,
+        tags: res.data.tags.map(tag => tag.tag_name)
+      })
+    }).catch(err => {
+      console.log(err)
+    });
   }, []);
 
   const updateUsername = (ev) => setForm({
@@ -130,7 +135,17 @@ export default function Edit() {
   }
 
   const submit = () => {
-    console.log(form)
+    ApiClient.get('/user', {
+      withCredentials: true
+    }).then(res => {
+      setForm({
+        ...form,
+        username: res.data.username,
+        tags: res.data.tags.map(tag => tag.tag_name)
+      })
+    }).catch(err => {
+      console.log(err)
+    });
   }
 
 
