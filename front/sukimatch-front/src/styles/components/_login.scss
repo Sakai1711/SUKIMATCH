@@ -1,0 +1,18 @@
+.login{
+    width: '100%';
+    max-width: 500;
+    margin-right: 'auto';
+    margin-left: 'auto';
+    
+    .title{
+        margin-left: 100px;
+    }
+    .button{
+        margin-right: 'auto';
+        margin-left: 'auto';
+    }
+    #component-error-text{
+        text-align: center;
+        color: red;
+    }
+}
