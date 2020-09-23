@@ -1,4 +1,4 @@
-import React, { useState, Component } from 'react';
+import React, { Component } from 'react';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -11,8 +11,11 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { ApiClient } from '../utils/ApiClient';
+import { withRouter } from 'react-router';
 
-export default class Login extends Component{
+
+class Login extends Component{
   constructor(props){
       super(props);
       this.state={
@@ -23,6 +26,7 @@ export default class Login extends Component{
           hasPassError: false,
           showPassword: false,
           canSubmit: false,
+          invalidPassError: false,
         };
   }
 
@@ -40,8 +44,18 @@ export default class Login extends Component{
 
   handleClickisSubmitted = () => {
     this.setState({isSubmitted: !this.state.isSubmitted });
-    
-    sessionStorage.setItem('key', 'value');
+    ApiClient.post('/login',{
+      email: this.state.email,
+      password: this.state.password,
+    }
+    ).then(res => {
+      sessionStorage.setItem('access_token', res.data.access_token);
+      console.log('Error');
+      this.props.history.push('/search')
+    }).catch(err => {
+      this.setState({invalidPassError: true});
+      console.log('Error!');
+    });
   }
 
   isEmptyEmail = () => {
@@ -82,7 +96,31 @@ export default class Login extends Component{
               Email is required.
             </FormHelperText> : <br />}
           <br />
+          <br />
 
+        {this.state.invalidPassError ?
+          <FormControl error className="passform-error" color="secondary">
+            <InputLabel htmlFor="component-error">Password</InputLabel>
+            <Input
+              id="standard-adornment-password"
+              type={this.state.showPassword ? 'text' : 'password'}
+              value={this.state.password}
+              onChange={this.handleChange('password')}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={this.handleClickShowPassword}
+                    onMouseDown={this.handleMouseDownPassword}
+                  >
+                    {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+            <FormHelperText id="component-error-text">Error: Passwords do not match.</FormHelperText>
+          </FormControl>
+          :
           <FormControl className="passform">
             <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
             <Input
@@ -108,33 +146,10 @@ export default class Login extends Component{
               Password is required.
             </FormHelperText> : <br />}
           </FormControl>
-
-              <br /><br />
-          <FormControl error className="passform-error" color="secondary">
-            <InputLabel htmlFor="component-error">Password</InputLabel>
-            <Input
-              id="standard-adornment-password"
-              type={this.state.showPassword ? 'text' : 'password'}
-              value={this.state.password}
-              onChange={this.handleChange('password')}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={this.handleClickShowPassword}
-                    onMouseDown={this.handleMouseDownPassword}
-                  >
-                    {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-            <FormHelperText id="component-error-text">Error: Passwords do not match.</FormHelperText>
-          </FormControl>
-
+          }
       </form>
       <br /><br /><br />
-      <Button className='button' variant="contained" color="primary" href="/user"
+      <Button className='button' variant="contained" color="primary"
               onClick={this.handleClickisSubmitted}>
           Login
       </Button>
@@ -148,3 +163,4 @@ export default class Login extends Component{
     );
   }
 }
+export default withRouter(Login)

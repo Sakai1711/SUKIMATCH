@@ -4,14 +4,11 @@ import Edit from '../components/Edit'
 import Home from '../components/Home';
 import Chat from '../components/Chat';
 import Header from '../components/Header';
-<<<<<<< HEAD
 
 import Login from '../components/Login';
 import Signup from '../components/Signup';
 
-=======
 import StartSearch from '../components/SearchPage/StartSearch';
->>>>>>> v1.0.0
 
 
 const Landing2 = () => {
@@ -32,7 +29,7 @@ const AppRouter = () => {
           <Route path="/search" component={StartSearch} />
           <Route path="/chat" component={Chat} />
           <Route path="/login" component={Login} />
-          <Route path="/signup" component={Signup} />
+          <Route path="/user" component={Signup} />
         </Switch>
       </div>
     </BrowserRouter>

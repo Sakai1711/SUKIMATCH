@@ -12,8 +12,10 @@ import FormControl from '@material-ui/core/FormControl';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Checkbox from '@material-ui/core/Checkbox';
+import { ApiClient } from '../utils/ApiClient';
+import { withRouter } from 'react-router';
 
-export default class Signup extends Component {
+class Signup extends Component {
   
   constructor(props){
     super(props);
@@ -31,32 +33,9 @@ export default class Signup extends Component {
       canSubmit: false,
       isSubmitted: false,
       enterLastCheck: false,
+      invalidPassError: false,
       };
   }
-
-  storageAvailable = (type) => {
-    try {
-        var storage = window[type],
-            x = '__storage_test__';
-        storage.setItem(x, x);
-        storage.removeItem(x);
-        return true;
-    }
-    catch(e) {
-        return e instanceof DOMException && (
-            // everything except Firefox
-            e.code === 22 ||
-            // Firefox
-            e.code === 1014 ||
-            // test name field too, because code might not be present
-            // everything except Firefox
-            e.name === 'QuotaExceededError' ||
-            // Firefox
-            e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
-            // acknowledge QuotaExceededError only if there's something already stored
-            storage.length !== 0;
-    }
-  };
 
   handleChange = (prop) => (event) => {
     this.setState({[prop]: event.target.value });
@@ -111,16 +90,29 @@ export default class Signup extends Component {
   };
 
   lastCheck = () => {
-   // this.isEmptyName;
+   this.isEmptyName();
    // this.isEmptyEmail;
    //this.isEmptyPass;
    // this.matchPassword;
     this.setState({enterLastCheck: !this.state.enterLastCheck });
   };
 
-  keepSession = () => {
-    sessionStorage.setItem('key', 'value');
-  };
+  handleClickisSubmitted = () => {
+    this.setState({isSubmitted: !this.state.isSubmitted });
+    ApiClient.post('/user',{
+      username: this.state.username,
+      email: this.state.email,
+      password: this.state.password,
+    }
+    ).then(res => {
+      sessionStorage.setItem('access_token', res.data.access_token);
+      console.log('');
+      this.props.history.push('/search')
+    }).catch(err => {
+      this.setState({invalidPassError: true});
+      console.log('Invalid input.');
+    });
+  }
 
   render(){
     return (
@@ -285,8 +277,9 @@ export default class Signup extends Component {
           Have you completed the input?
           <br />
           {this.state.canSubmit ?
-          <Button variant="contained" color="primary" href="/user" 
+          <Button variant="contained" color="primary" 
                   onChange={this.handleChange('isSubmitted')}
+                  onClick={this.handleClickisSubmitted}
                   >
               Sign up
           </Button>
@@ -300,3 +293,4 @@ export default class Signup extends Component {
     );
   }
 }
+export default withRouter(Signup)
