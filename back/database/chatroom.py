@@ -33,5 +33,9 @@ def check_chatroom(chatroom_id): # chatroom内の人数を数える
     return len(user_ids)
     
 def delete_chatroom(chatroom_id): # chatroomのdocumentの削除
-    db.collection(u'Chatroom').document(chatroom_id).delete()
+    try:
+        db.collection(u'Chatroom').document(chatroom_id).delete()
+        return
+    except:
+        return
 
