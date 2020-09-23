@@ -298,7 +298,7 @@ class MyNamespace(Namespace):
             print("2. sent send_message_res")
             result = {'username': username, 'content': content, 'access_token': access_token}
             print("3. sent send_message_res")
-            emit('send_message_res', result, broad_case=True)
+            emit('send_message_res', result, broad_cast=True)
             print("4. sent send_message_res")
         else:
             emit('send_message_res', {'status': 'incorrect access token'}, broadcast=False)
