@@ -49,7 +49,8 @@ class Login extends Component {
       password: this.state.password,
     }
     ).then(res => {
-      sessionStorage.setItem('access_token', res.data.token);
+      sessionStorage.setItem('access_token', res.data.access_token);
+      console.log('Error');
       this.props.history.push('/search')
     }).catch(err => {
       this.setState({ invalidPassError: true });

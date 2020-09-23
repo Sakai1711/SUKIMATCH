@@ -67,7 +67,7 @@ class Signup extends Component {
   };
 
   isEmptyEmail = () => {
-    if (this.state.username === '') {
+    if (this.state.email === '') {
       this.setState({ hasEmailError: true });
     } else {
       this.setState({ hasEmailError: false });
@@ -75,7 +75,7 @@ class Signup extends Component {
   };
 
   isEmptyPass = () => {
-    if (this.state.username === '') {
+    if (this.state.password.length < 6) {
       this.setState({ hasPassError: true });
     } else {
       this.setState({ hasPassError: false });
