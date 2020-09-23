@@ -3,7 +3,7 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 from flask_socketio import SocketIO
-from flask_socketio import Namespace, emit, join_room, disconnect
+from flask_socketio import Namespace, emit, join_room, disconnect, rooms
 from flask_cors import CORS
 import sys
 import time
@@ -261,8 +261,9 @@ def _corsify_actual_response(response):
 class MyNamespace(Namespace):
     def on_ping_ping(self, data):
         print("ping")
-        time.sleep(3)
+        time.sleep(10)
         dt_now = datetime.datetime.now()
+        print("rooms: ", rooms)
         emit('pong_pong', {'time': dt_now.strftime('%Y-%m-%d %H:%M:%S')})
 
     def on_connect_req(self, data): # connect
