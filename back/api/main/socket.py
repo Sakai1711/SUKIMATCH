@@ -10,7 +10,7 @@ from auth.auth import verify
 import time
 
 class MyNamespace(Namespace):
-    def on_ping(self, data):
+    def on_ping_ping(self, data):
         print("ping")
         socketio.emit('pong')
 
