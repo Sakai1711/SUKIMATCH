@@ -3,7 +3,9 @@ import axios from "axios";
 
 export const ApiClient = createAxiosInstance();
 function createAxiosInstance() {
-  axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+  axios.defaults.headers.post['Access-Control-Allow-Origin'] = 'https://sukimatch-21753.herokuapp.com';
+  axios.defaults.headers.get['Access-Control-Allow-Origin'] = 'https://sukimatch-21753.herokuapp.com';
+  axios.defaults.headers.get['Access-Control-Allow-Credentials'] = true
 
   // axios.create でいきなり axios を呼んだ時に使われる通信部(AxiosInstance)がインスタンス化される
   const axiosInstance = axios.create({
