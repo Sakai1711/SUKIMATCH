@@ -3,11 +3,8 @@ from . import app
 import sys
 sys.path.append('../')
 from database.user import add_new_user, load_mypage, update_data, delete_data
-from auth.auth import signup, signin, verify
-
-from database.user import add_new_user, load_mypage, update_data, delete_data
 from database.tag import insert_tag, get_tags, delete_tag
-from auth.auth_user import signup, signin, verify, refresh_token
+from auth.auth import signup, signin, verify, refresh_token
 from auth.update import update_user
 from auth.delete import delete_user
 
