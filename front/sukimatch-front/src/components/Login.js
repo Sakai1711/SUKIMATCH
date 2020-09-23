@@ -49,7 +49,7 @@ class Login extends Component{
       password: this.state.password,
     }
     ).then(res => {
-      sessionStorage.setItem('access_token', res.data.access_token);
+      sessionStorage.setItem('access_token', res.data.token);
       console.log('Error');
       this.props.history.push('/search')
     }).catch(err => {
