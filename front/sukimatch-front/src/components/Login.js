@@ -63,6 +63,7 @@ class Login extends Component{
       this.setState({hasEmailError: true});
     }else{
       this.setState({hasEmailError: false});
+      this.setState({firstBug: false});
     }
   }
 
