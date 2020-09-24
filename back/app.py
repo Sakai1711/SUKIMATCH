@@ -294,6 +294,7 @@ class MyNamespace(Namespace):
         if rooms() is not None:
             close_room(rooms()[0])
             disconnect()
+            print("disconnected!")
         else:
             dt_now = datetime.datetime.now()
             emit('pong_pong', {'time': dt_now.strftime('%Y-%m-%d %H:%M:%S')}, broadcast=False)
