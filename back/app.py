@@ -44,11 +44,13 @@ def sign_up_user():
     # user_id = "1010120"
 
     # Store to database
+    """
     add_new_user(
         user_id=user_id,
         email=given_json["email"],
         name=given_json["username"]
     )
+    """
 
     responsed_json = {
         #"token": access_token
@@ -333,25 +335,22 @@ class MyNamespace(Namespace):
         print("chatroom_id: ", chatroom_id)
         print("content: ", content)
         #user_id = verify(access_token)
-        print("1. sent send_message_res")
         if user_id != "":
             #username, _ = load_mypage(user_id)
-            print("2. sent send_message_res")
             result = {'username': username, 'content': content, 'user_id': user_id} #, 'access_token': access_token}
-            print("3. sent send_message_res")
             emit('send_message_res', result, broadcast=True, room=chatroom_id)
-            print("4. sent send_message_res")
+            print("sent send_message_res")
         else:
             emit('send_message_res', {'status': 'incorrect access token'}, broadcast=False)
 
     def on_disconnect_req(self, data): # disconnect
-        print("disconnect")
+        print("disconnect_req")
         #access_token = data['access_token']
         user_id = data['user_id']
         chatroom_id = data['chatroom_id']
         #user_id = verify(access_token)
-        if user_id != "":
-            delete_chatroom(chatroom_id)
+        #if user_id != "":
+            #delete_chatroom(chatroom_id)
 
 socketio.on_namespace(MyNamespace('/chat'))
 
