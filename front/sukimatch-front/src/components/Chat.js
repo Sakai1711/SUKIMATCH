@@ -3,6 +3,8 @@ import ChatBody from './ChatPage/ChatBody';
 import ChatHeader from './ChatPage/ChatHeader';
 import ChatInsert from './ChatPage/ChatInsert';
 import io from 'socket.io-client';
+import 'firebase/firestore';
+import { database } from '../../firebase/firebase';
 
 function Chat() {
   const [message, setMessage] = useState([]);
@@ -83,9 +85,14 @@ function Chat() {
     // chatroom_id: sessionStorage.getItem('chatroom_id'),
 
     // Todo delete this line and implement it to on('disconnect_res')
-    window.location.href= "/search";
+    database.collection("Chatroom")
+    .doc(sessionStorage.getItem('chatroom_id'))
+    .delete()
+    .then(function() {
+      sessionStorage.removeItem('chatroom_id')
+      window.location.href= "/search";
+    });
   }
-
 
     const delayFunction = (d) => {
       console.log('pong_pong');
