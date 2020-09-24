@@ -348,7 +348,7 @@ class MyNamespace(Namespace):
         if user_id != "":
             #username, _ = load_mypage(user_id)
             result = {'username': username, 'content': content, 'user_id': user_id} #, 'access_token': access_token}
-            emit('send_message_res', result, broadcast=True, room=chatroom_id)
+            emit('send_message_res', result, broadcast=True)#, room=chatroom_id)
             print("sent send_message_res")
         else:
             emit('send_message_res', {'status': 'incorrect access token'}, broadcast=False)
