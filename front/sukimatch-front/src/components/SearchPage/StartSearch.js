@@ -95,8 +95,9 @@ export default function StartSearch() {
 
   const [selectedTag, setSelectedTag] = useState('');
 
-  const [mytags, setMyTags] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
+  const [mytags, setMyTags] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [waitingChat, setWaitingChat] = useState([]);
 
   useEffect(() => {
     setIsLoading(true)
@@ -112,51 +113,88 @@ export default function StartSearch() {
       setIsLoading(false);
     })
 
+    database.collection("Chatroom")
+    .get()
+    .then(querySnapshot => {
+      let datas = querySnapshot.docs.map((doc) => doc.data());
+      datas = datas.filter((data) => (data.user_ids.length < 4))
+      datas = datas.map((data) => {
+        return [data.tag_name,data.user_ids.length]
+      });
+      setWaitingChat(datas.slice(0,5));
+    })
+
   }, []);
+
 
   const handleTagChange = (event) => {
     setSelectedTag(event.target.value);
   };
 
   return (
-    <Grid container alignItems="center" justify="center">
-      <Grid item xs={8}>
-        <div className={classes.main}>
-          <Paper className={classes.paper}>
-            <Typography variant='h3'>Start searching</Typography>
+    <div>
+      <Grid container alignItems="center" justify="center">
+        <Grid item xs={8}>
+          <div className={classes.main}>
+            <Paper className={classes.paper}>
+              <Typography variant='h3'>Start searching</Typography>
 
-            <div className={classes.accountInfo}>
-              <AccountCircleIcon />
-              <Link to="/user/edit">
-                <Button
-                  variant="contained"
-                  color="primary"
-                  startIcon={<EditIcon />}
-                >
-                  Edit
-                </Button>
-              </Link>
+              <div className={classes.accountInfo}>
+                <AccountCircleIcon />
+                <Link to="/user/edit">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    startIcon={<EditIcon />}
+                  >
+                    Edit
+                  </Button>
+                </Link>
+              </div>
+
+              <div>
+                <FormControl component="fieldset">
+                  <FormLabel component="legend">Select Search Tag</FormLabel>
+                  <FormLabel component="legend">Don't have one?</FormLabel>
+                  <FormLabel component="legend"> Click the edit button and make one!</FormLabel>
+                  {isLoading ? <CircularProgress className={classes.loading} /> :
+                    <RadioGroup className={classes.tagList} aria-label="gender" name="gender1" value={selectedTag} onChange={handleTagChange} row>
+                      {mytags.map((tag, index) => (
+                        <FormControlLabel key={index} value={tag.tag_name} control={<Radio />} label={tag.tag_name} />
+                      ))}
+                    </RadioGroup>
+                  }
+                </FormControl>
+              </div>
+              <Searching searchTag={selectedTag} />
+
+            </Paper>
+          </div>
+        </Grid>
+      </Grid >
+      <div className="waiting-chat">
+        <h2>Chats that are waiting for you!!</h2>
+        {waitingChat.toString() !== [] ?
+        waitingChat.map((value) => {
+          return(
+            <div className="chat">
+              <div className="topic">
+                Topic <div className="topicName">{value[0]}</div>
+              </div>
+              <div className="numberofwait">
+                {value[1]}/4 People waiting
+              </div>
             </div>
-
-            <div>
-              <FormControl component="fieldset">
-                <FormLabel component="legend">Select Search Tag</FormLabel>
-                <FormLabel component="legend">Don't have one?</FormLabel>
-                <FormLabel component="legend"> Click the edit button and make one!</FormLabel>
-                {isLoading ? <CircularProgress className={classes.loading} /> :
-                  <RadioGroup className={classes.tagList} aria-label="gender" name="gender1" value={selectedTag} onChange={handleTagChange} row>
-                    {mytags.map((tag, index) => (
-                      <FormControlLabel key={index} value={tag.tag_name} control={<Radio />} label={tag.tag_name} />
-                    ))}
-                  </RadioGroup>
-                }
-              </FormControl>
-            </div>
-            <Searching searchTag={selectedTag} />
-
-          </Paper>
+          )
+        }) 
+        :
+        <div className="nothing">
+          No chat is currently waiting...
+          <br></br>
+          Please start one!
         </div>
-      </Grid>
-    </Grid >
+        }
+      </div>
+    </div>
   );
 }

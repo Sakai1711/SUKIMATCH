@@ -101,7 +101,7 @@ export default function Searching(props) {
           ));
         }else{
           database.collection("Chatroom")
-          .doc(data[0].doc.id)
+          .doc(data[0].id)
           .set({
             user_ids: [...data[0].data().user_ids, sessionStorage.getItem('user_id')]
           })
