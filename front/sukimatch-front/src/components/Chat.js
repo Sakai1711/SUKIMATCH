@@ -4,28 +4,15 @@ import ChatHeader from './ChatPage/ChatHeader';
 import ChatInsert from './ChatPage/ChatInsert';
 import io from 'socket.io-client';
 
-
-const socket = io.connect('https://sukimatch-21753.herokuapp.com/chat');
-
 function Chat() {
   const [message, setMessage] = useState([]);
   const [status, setStatus] = useState(false);
+  let socket = "";
 
-
-  const sendHandler = (msgs) => {
-    const msg = msgs;
-    socket.emit('send_message_req',{user_id: sessionStorage.getItem('user_id'), chatroom_id: sessionStorage.getItem('chatroom_id'), content: msg, username: "makoto"},() => {
-      console.log('send_message_req has been sent')
-    });
-    // user_id: sessionStorage.getItem('user_id'), 
-    // chatroom_id: sessionStorage.getItem('chatroom_id'),
-    console.log('=========================');
-    console.log(msg);
-    console.log('=========================');
-  };
 
   useEffect(() => {
     if(window.location.pathname === '/chat'){
+      socket = io.connect('https://sukimatch-21753.herokuapp.com/chat');
       socket.on("connect", function() {
         console.log('connected');
         // socket.emit('connect_req',{user_id: sessionStorage.getItem('user_id'), chatroom_id: sessionStorage.getItem('chatroom_id')});
@@ -46,6 +33,18 @@ function Chat() {
 
 
   },[]);
+
+  const sendHandler = (msgs) => {
+    const msg = msgs;
+    socket.emit('send_message_req',{user_id: sessionStorage.getItem('user_id'), chatroom_id:"culxeiDi0XNmVkFIiI6h", content: msg, username: "makoto"},() => {
+      console.log('send_message_req has been sent')
+    });
+    // user_id: sessionStorage.getItem('user_id'), 
+    // chatroom_id: sessionStorage.getItem('chatroom_id'),
+    console.log('=========================');
+    console.log(msg);
+    console.log('=========================');
+  };
 
   socket.on('connect_res',(data) => {
     console.log("==================================");
