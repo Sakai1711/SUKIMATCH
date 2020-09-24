@@ -340,6 +340,7 @@ class MyNamespace(Namespace):
         chatroom_id = str(data['chatroom_id'])
         content = data['content']
         username = data['username']
+        """
         print("user_id: ", user_id)
         print("chatroom_id: ", chatroom_id)
         print("content: ", content)
@@ -348,12 +349,15 @@ class MyNamespace(Namespace):
         print('MA8B8LCgexZWPO4QceKr' == chatroom_id)
         print('MA8B8LCgexZWPO4QceKr' == data['chatroom_id'])
         print(chatroom_id == data['chatroom_id'])
+        """
         #join_room(chatroom_id)
         if user_id != "":
             chatroom_id = 'MA8B8LCgexZWPO4QceKr'
+            """
             print('MA8B8LCgexZWPO4QceKr' == chatroom_id)
             print('MA8B8LCgexZWPO4QceKr' == data['chatroom_id'])
             print(chatroom_id == data['chatroom_id'])
+            """
             result = {'username': username, 'content': content, 'user_id': user_id}
             emit('send_message_res', result, room=data['chatroom_id']) 
             #emit('send_message_res', result, room=chatroom_id)
