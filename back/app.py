@@ -345,13 +345,14 @@ class MyNamespace(Namespace):
         print("content: ", content)
         print("username: ", username)
         print("rooms: ", rooms())
-        print('1600951366968' == chatroom_id)
-        print('1600951366968' == data['chatroom_id'])
+        print('MA8B8LCgexZWPO4QceKr' == chatroom_id)
+        print('MA8B8LCgexZWPO4QceKr' == data['chatroom_id'])
         print(chatroom_id == data['chatroom_id'])
+        join_room(chatroom_id)
         if user_id != "":
-            chatroom_id = '1600951366968'
-            print('1600951366968' == chatroom_id)
-            print('1600951366968' == data['chatroom_id'])
+            chatroom_id = 'MA8B8LCgexZWPO4QceKr'
+            print('MA8B8LCgexZWPO4QceKr' == chatroom_id)
+            print('MA8B8LCgexZWPO4QceKr' == data['chatroom_id'])
             print(chatroom_id == data['chatroom_id'])
             result = {'username': username, 'content': content, 'user_id': user_id}
             emit('send_message_res', result, room=data['chatroom_id']) 
