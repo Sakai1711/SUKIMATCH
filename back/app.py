@@ -337,7 +337,7 @@ class MyNamespace(Namespace):
         print("send_message_req")
         #access_token = data['access_token']
         user_id = data['user_id']
-        chatroom_id = data['chatroom_id']
+        chatroom_id = str(data['chatroom_id'])
         content = data['content']
         username = data['username']
         print("user_id: ", user_id)
@@ -345,13 +345,13 @@ class MyNamespace(Namespace):
         print("content: ", content)
         print("username: ", username)
         print("rooms: ", rooms())
-        print('wvmBS9SONe15DQuyk1qp' == chatroom_id)
-        print('wvmBS9SONe15DQuyk1qp' == data['chatroom_id'])
+        print('1600951366968' == chatroom_id)
+        print('1600951366968' == data['chatroom_id'])
         print(chatroom_id == data['chatroom_id'])
         if user_id != "":
-            chatroom_id = 'wvmBS9SONe15DQuyk1qp'
-            print('wvmBS9SONe15DQuyk1qp' == chatroom_id)
-            print('wvmBS9SONe15DQuyk1qp' == data['chatroom_id'])
+            chatroom_id = '1600951366968'
+            print('1600951366968' == chatroom_id)
+            print('1600951366968' == data['chatroom_id'])
             print(chatroom_id == data['chatroom_id'])
             result = {'username': username, 'content': content, 'user_id': user_id}
             emit('send_message_res', result, room=data['chatroom_id']) 
