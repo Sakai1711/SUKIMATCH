@@ -15,6 +15,24 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { ApiClient } from '../utils/ApiClient';
+import * as firebase from 'firebase';
+import 'firebase/firestore';
+import { database } from '../firebase/firebase'
+
+// const firebaseConfig = {
+//   apiKey: "AIzaSyBZVqFfWYUaRK4hUvypjWF3DzkLTdn3U44",
+//   authDomain: "sukimatch-21753.firebaseapp.com",
+//   databaseURL: "https://sukimatch-21753.firebaseio.com",
+//   projectId: "sukimatch-21753",
+//   storageBucket: "sukimatch-21753.appspot.com",
+//   messagingSenderId: "162386429266",
+//   appId: "1:162386429266:web:9c7256ae9d7a231c6f268b",
+//   measurementId: "G-2698PD0QWJ"
+// };
+
+// Initialize Firebase
+// firebase.initializeApp(firebaseConfig);
+// const database = firebase.firestore();
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -92,19 +110,35 @@ export default function Edit() {
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
+    const userId = sessionStorage.getItem('user_id');
     setIsLoading(true)
-    ApiClient.get('/user/load'
-    ).then(res => {
-      setForm({
-        ...form,
-        username: res.data.username,
-      })
-      setMyTags(res.data.tag)
-      setIsLoading(false)
-    }).catch(err => {
-      console.log(err)
-      setIsLoading(false)
-    });
+
+    database.collection("User")
+      .get()
+      .then(querySnapshot => {
+        const data = querySnapshot.docs.filter((doc) => doc.id === userId);
+        console.log(data[0].data())
+        const userInfo = data[0].data()
+        setForm({
+          ...form,
+          username: userInfo.name,
+        })
+        setIsLoading(false)
+      });
+    // ApiClient.get('/user/load'
+    // ).then(res => {
+    //   setForm({
+    //     ...form,
+    //     username: res.data.username,
+    //   })
+    //   setMyTags(res.data.tag)
+    //   setIsLoading(false)
+    // }).catch(err => {
+    //   console.log(err)
+    //   setIsLoading(false)
+    // });
+
+
   }, []);
 
   const updateUsername = (ev) => setForm({
