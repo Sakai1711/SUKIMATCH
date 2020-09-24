@@ -9,7 +9,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import { ApiClient } from '../../utils/ApiClient';
 import { Link } from 'react-router-dom';
 import 'firebase/firestore';
-import { database } from '../../firebase/firebase';
+import { database, waitingChat } from '../../firebase/firebase';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -61,12 +61,9 @@ export default function Searching(props) {
         .then(querySnapshot => {
           const chatroomId = sessionStorage.getItem('chatroom_id');
           const data = querySnapshot.docs.filter((doc) => doc.id === chatroomId);
-          console.log("===================");
-          console.log(data);
-          console.log(data[0]);
-          console.log("===================");
+          setWaitingNumber(data[0].data().user_ids.length);
+          console.log(data[0].data().user_ids.length);
           if (data[0].data().user_ids.length >= 4) {
-            setWaitingNumber(data[0].data().user_ids.length);
             setIsFind(true);
             setSearch(false);
             clearInterval(interval);
@@ -167,7 +164,7 @@ export default function Searching(props) {
         <>
           <Typography variant='h4' className={classes.modalItem}>
             Searching friend who talk with you about #{props.searchTag}. <br />
-            Found {currentMemberNum} / 4 now. Please wait a moment ...
+            Found {waitingNumber} / 4 now. Please wait a moment ...
           </Typography>
           <LinearProgress />
           <div className="numberWaiting">
