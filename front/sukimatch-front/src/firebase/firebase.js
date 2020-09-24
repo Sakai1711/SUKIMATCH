@@ -24,11 +24,21 @@ const database = firebase.firestore();
 //   console.log(data);
 // });
 
+export const userTag = (user_id) => {
+  // or get all docs matching the query
+  database.collection("User")
+  .get()
+  .then(querySnapshot => {
+    const data = querySnapshot.docs.filter((doc) => doc.id === user_id);
+    return data[0].data().tags
+  });
+}
 
-// or get all docs matching the query
-database.collection("User")
-.get()
-.then(querySnapshot => {
-  const data = querySnapshot.docs.filter((doc) => doc.id === "pGFFGnq9sKRnCCMihfUSX0JZM6t1");
-  console.log(data[0].data().tags);
-});
+export const waitingNumber = (chatroom_id) => {
+  database.collection("Chatroom")
+  .get()
+  .then(querySnapshot => {
+    const data = querySnapshot.docs.filter((doc) => doc.id === chatroom_id);
+    return data[0].data().user_ids.length
+  })
+}
