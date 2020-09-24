@@ -14,8 +14,10 @@ def add_new_user(user_id, email, name):
 
 def load_mypage(user_id):
     user_ref = db.collection(u'User').document(f'{user_id}')
+    print("user_ref: ", user_ref)
     try:
         user_data = user_ref.get().to_dict()
+        print("user_data: ", user_data)
         return user_data["name"], user_data["email"]
 
     except NotFound:

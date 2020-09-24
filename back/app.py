@@ -76,8 +76,9 @@ def sign_in_user():
     # provisional
     # access_token = "qawse"
     # user_id = "1010120"
-
+    print("79")
     username, _ = load_mypage(user_id)
+    print("81")
     responsed_json = {
         #"token": access_token
         "user_id": user_id,
@@ -97,10 +98,10 @@ def load_user_page():
     #user_id = verify(access_token)
     if user_id == "":
         return _corsify_actual_response(jsonify({})), 401
-
+    print("101")
     #username, email = load_mypage(user_id)
     tags = get_tags(user_id)
-
+    print("104")
     # provisional
     # username = "hoge"
     # email = "tmp@hoge.com"

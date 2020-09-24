@@ -15,12 +15,14 @@ def get_tags(user_id):
     tags = []
     tag_ref = db.collection(u'Tag').where(u'user_id', u'==', user_id)
     tag_docs = tag_ref.stream()
+    print("tag_docs: ", tag_docs)
     for tag_doc in tag_docs:
         tag_name = tag_doc.to_dict()['tag_name']
         tags.append({
             'tag_id': tag_doc.id,
             'tag_name': tag_name
             })
+    print("tags: ", tags)
     return tags
 
 def delete_tag(user_id, tag_name):
