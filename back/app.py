@@ -11,7 +11,7 @@ import datetime
 #sys.path.append('../')
 from database.tag import insert_tag, get_tags, delete_tag, exists
 from database.user import add_new_user, load_mypage, update_data, delete_data
-from database.chatroom import add_chatroom, check_chatroom, delete_chatroom
+from database.chatroom import add_chatroom, check_chatroom, delete_chatroom, delete_user
 from auth.auth import signup, signin, verify, refresh_token
 from auth.update import update_user
 from auth.delete import delete_user
@@ -23,15 +23,22 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 socketio = SocketIO(app, cors_allowed_origins="*")
 
+def _corsify_actual_response(response):
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
+
 @app.route("/user", methods=["POST"])
 def sign_up_user():
     given_json = request.json
 
     # Make token and id
-    access_token, user_id = signup(
-        email=given_json["email"],
-        password=given_json["password"]
-    )
+    try:
+        access_token, user_id = signup(
+            email=given_json["email"],
+            password=given_json["password"]
+        )
+    except:
+        return _corsify_actual_response(jsonify({})), 400
     # provisional
     # access_token = "qawse"
     # user_id = "1010120"
@@ -187,10 +194,6 @@ def delete_account():
     }
     return _corsify_actual_response(jsonify(responsed_json)), 200
 
-def _corsify_actual_response(response):
-    response.headers.add("Access-Control-Allow-Origin", "*")
-    return response
-
 @app.route("/tag", methods=["POST"])
 def insert_db_tag():
     access_token = request.headers.get("access_token")
@@ -227,10 +230,6 @@ def delete_db_tag():
         return _corsify_actual_response(jsonify({})), 404
     delete_tag(user_id, tag_name)
     return _corsify_actual_response(jsonify({})), 204
-      
-def _corsify_actual_response(response):
-    response.headers.add("Access-Control-Allow-Origin", "*")
-    return response
 
 @app.route("/chatrooms/<chatroom_id>", methods=["GET"])
 def get_chatroom_users(chatroom_id):
@@ -240,8 +239,8 @@ def get_chatroom_users(chatroom_id):
         return _corsify_actual_response(jsonify({})), 401
     users = check_chatroom(chatroom_id)
     if users != 4:
-        return _corsify_actual_response(jsonify({})), 205
-    return _corsify_actual_response(jsonify({})), 200
+        return _corsify_actual_response(jsonify({'num_of_users': users})), 205
+    return _corsify_actual_response(jsonify({'num_of_users': users})), 200
 
 @app.route("/chatrooms", methods=["POST"])
 def join_chatroom():
@@ -254,9 +253,16 @@ def join_chatroom():
     chatroom_id = add_chatroom(user_id, tag_name)
     return _corsify_actual_response(jsonify({ 'chatroom_id': chatroom_id })), 200
 
-def _corsify_actual_response(response):
-    response.headers.add("Access-Control-Allow-Origin", "*")
-    return response
+@app.route("/chatrooms/<chatroom_id>/cancel", methods=["POST"])
+def delete_user_from_chatroom(chatroom_id):
+    access_token = request.headers.get("access_token")
+    given_json = request.json
+    user_id = verify(access_token)
+    print(chatroom_id)
+    if user_id == '':
+        return _corsify_actual_response(jsonify({})), 401
+    delete_user(chatroom_id, user_id)
+    return _corsify_actual_response(jsonify({})), 204
 
 class MyNamespace(Namespace):
     def on_connect(self):
