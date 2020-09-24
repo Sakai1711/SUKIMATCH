@@ -2,30 +2,6 @@ import React, { Component } from 'react';
 import { MessageBox } from 'react-chat-elements';
 import 'react-chat-elements/dist/main.css';
 
-// class ChatBody extends Component {
-
-//     render() {
-//       return (
-//         <div className='chat-body'>
-//           {this.props.messages.map((message) => {
-//             return (
-//               <div className={message.classname}>
-//                 <MessageBox
-//                   position={message.position}
-//                   type="text"
-//                   text={message.text}
-//                   date={message.date}
-//                 />
-//               </div>
-//             )
-//           })}
-//         </div>
-//       );
-//     }
-// };
-
-// export default ChatBody;
-
 
 export default function ChatBody(props) {
   return (
@@ -33,7 +9,9 @@ export default function ChatBody(props) {
       {props.messages.map((message, index) => {
         return (
           <div className={message.classname} key={index}>
+            {message.user_id !== sessionStorage.getItem('user_id') && <div className="name">{message.username}</div>}
             <MessageBox
+              className={message.classname}
               position={message.position}
               type="text"
               text={message.text}

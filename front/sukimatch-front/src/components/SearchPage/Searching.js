@@ -54,7 +54,6 @@ export default function Searching(props) {
   useEffect(() => {
     // 検索中の場合は3秒に一回 /chatrooms/:chatrood_id を叩く
     if (search) {
-      console.log(sessionStorage.getItem('chatroom_id'));
       const interval = setInterval(() => {
         database.collection("Chatroom")
           .get()
@@ -69,16 +68,7 @@ export default function Searching(props) {
             }
           })
       }, 3000)
-      // const interval = setInterval(() => {
-      //   ApiClient.get(`/chatrooms/${chatroomId}`).then(res => {
-      //     if (res.status == 200) {
-      //       setIsFind(true)
-      //       setSearch(false)
-      //     }
-      //   }).catch(err => {
-      //     console.log(err)
-      //   });
-      // }, 3000)
+
       return function cleanUp() {
         clearInterval(interval);
       }

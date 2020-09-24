@@ -5,7 +5,7 @@ class ChatHeader extends Component {
   constructor() {
     super();
     this.state = {
-      time: 300,
+      time: 65,
     };
     this.countDown = this.countDown.bind(this);
   }
@@ -23,7 +23,6 @@ class ChatHeader extends Component {
     if (this.state.time > -1) {
       setTimeout(this.countDown, 1000);
     } else {
-      sessionStorage.removeItem('chatroom_id');
       this.props.onDisconnectSocket();
       window.alert('Time is done!');
     }
