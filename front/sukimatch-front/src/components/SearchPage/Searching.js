@@ -112,6 +112,7 @@ export default function Searching(props) {
           database.collection("Chatroom")
           .doc(data[0].id)
           .set({
+            tag_name: props.searchTag,
             user_ids: [...data[0].data().user_ids, sessionStorage.getItem('user_id')]
           })
           .then(() => {
