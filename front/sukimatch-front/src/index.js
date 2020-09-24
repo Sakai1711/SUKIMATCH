@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './styles/styles.scss';
 import AppRouter from './routers/AppRouter';
 import * as serviceWorker from './serviceWorker';
+import './firebase/firebase';
 
 ReactDOM.render(
     <AppRouter />,
