@@ -53,7 +53,7 @@ class Login extends Component {
       password: this.state.password,
     }
     ).then(res => {
-      sessionStorage.setItem('user_id', res.data.token);
+      sessionStorage.setItem('user_id', res.data.user_id);
       console.log('Error');
       this.props.history.push('/search')
     }).catch(err => {
