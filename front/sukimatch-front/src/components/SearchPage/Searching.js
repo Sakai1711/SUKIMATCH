@@ -62,7 +62,6 @@ export default function Searching(props) {
           const chatroomId = sessionStorage.getItem('chatroom_id');
           const data = querySnapshot.docs.filter((doc) => doc.id === chatroomId);
           setWaitingNumber(data[0].data().user_ids.length);
-          console.log(data[0].data().user_ids.length);
           if (data[0].data().user_ids.length >= 4) {
             setIsFind(true);
             setSearch(false);
@@ -94,7 +93,7 @@ export default function Searching(props) {
       database.collection("Chatroom")
       .get()
       .then(querySnapshot => {
-        const data = querySnapshot.docs.filter((doc) => doc.data().tag_name === props.searchTag);
+        const data = querySnapshot.docs.filter((doc) => (doc.data().tag_name === props.searchTag)&&(doc.data().user_ids.length < 4));
         console.log(data);
         if (data.toString() == []){
           const doc_id = new Date().getTime().toString()
