@@ -32,7 +32,7 @@ export default function Home() {
         <p className='site-begin'>Let's encounter</p>
         <div className='buttons'>
           <a className='button' href='#about'>LEARN MORE</a>
-          <Link className='button' to='/login'>SIGN IN</Link>
+          <Link className='button' to='/login'>LOG IN</Link>
         </div>
       </section>
       <section id='about'>
