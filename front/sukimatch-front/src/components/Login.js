@@ -54,20 +54,21 @@ class Login extends Component {
     }
     ).then(res => {
       sessionStorage.setItem('user_id', res.data.user_id);
-      console.log('Error');
+      this.setState({ isLoading: false });
       this.props.history.push('/search')
     }).catch(err => {
       this.setState({ invalidPassError: true });
+      this.setState({ isLoading: false });
       console.log('Error!');
     });
   }
 
   isEmptyEmail = () => {
-    if(this.state.email === ''){
-      this.setState({hasEmailError: true});
-    }else{
-      this.setState({hasEmailError: false});
-      this.setState({firstBug: false});
+    if (this.state.email === '') {
+      this.setState({ hasEmailError: true });
+    } else {
+      this.setState({ hasEmailError: false });
+      this.setState({ firstBug: false });
     }
   }
 
