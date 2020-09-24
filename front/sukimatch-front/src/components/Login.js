@@ -54,27 +54,21 @@ class Login extends Component {
     }
     ).then(res => {
       sessionStorage.setItem('access_token', res.data.token);
-      console.log('Error');
+      this.setState({ isLoading: false });
       this.props.history.push('/search')
     }).catch(err => {
       this.setState({ invalidPassError: true });
+      this.setState({ isLoading: false });
       console.log('Error!');
     });
   }
 
   isEmptyEmail = () => {
-<<<<<<< HEAD
     if (this.state.email === '') {
       this.setState({ hasEmailError: true });
     } else {
       this.setState({ hasEmailError: false });
-=======
-    if(this.state.email === ''){
-      this.setState({hasEmailError: true});
-    }else{
-      this.setState({hasEmailError: false});
-      this.setState({firstBug: false});
->>>>>>> 3698e45289c8fe7862eeb442e1d64425a4f874bf
+      this.setState({ firstBug: false });
     }
   }
 
