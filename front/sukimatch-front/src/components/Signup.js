@@ -14,16 +14,17 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Checkbox from '@material-ui/core/Checkbox';
 import { ApiClient } from '../utils/ApiClient';
 import { withRouter } from 'react-router';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 class Signup extends Component {
-  
-  constructor(props){
+
+  constructor(props) {
     super(props);
-    this.state={
-      username:'',
-      email:'',
-      password:'',
-      confirmpass:'',
+    this.state = {
+      username: '',
+      email: '',
+      password: '',
+      confirmpass: '',
       conPassError: false,
       showPassword: false,
       hasNameError: false,
@@ -35,15 +36,16 @@ class Signup extends Component {
       enterLastCheck: false,
       invalidPassError: false,
       firstBug: true,
-      };
+      isLoading: false,
+    };
   }
 
   handleChange = (prop) => (event) => {
-    this.setState({[prop]: event.target.value });
+    this.setState({ [prop]: event.target.value });
   };
 
   handleClickShowPassword = () => {
-    this.setState({showPassword: !this.state.showPassword });
+    this.setState({ showPassword: !this.state.showPassword });
   };
 
   handleMouseDownPassword = (event) => {
@@ -51,45 +53,45 @@ class Signup extends Component {
   };
 
   matchPassword = () => {
-    if (this.state.password !== this.state.confirmpass){
-      this.setState({conPassError: true });
-    }else{
-      this.setState({conPassError: false });
+    if (this.state.password !== this.state.confirmpass) {
+      this.setState({ conPassError: true });
+    } else {
+      this.setState({ conPassError: false });
     }
   };
 
   isEmptyName = () => {
-    if(this.state.username === ''){
-      this.setState({hasNameError: true});
-    }else{
-      this.setState({hasNameError: false});
+    if (this.state.username === '') {
+      this.setState({ hasNameError: true });
+    } else {
+      this.setState({ hasNameError: false });
     }
   };
 
   isEmptyEmail = () => {
-    if(this.state.email === ''){
-      this.setState({hasEmailError: true});
-    }else{
-      this.setState({hasEmailError: false});
-      this.setState({firstBug: false});
+    if (this.state.email === '') {
+      this.setState({ hasEmailError: true });
+    } else {
+      this.setState({ hasEmailError: false });
+      this.setState({ firstBug: false });
     }
   };
 
   isEmptyPass = () => {
-    if(this.state.password.length < 6){
-      this.setState({hasPassError: true});
-    }else{
-      this.setState({hasPassError: false});
+    if (this.state.password.length < 6) {
+      this.setState({ hasPassError: true });
+    } else {
+      this.setState({ hasPassError: false });
     }
   };
 
   confirmSubmit = () => {
-    if (this.state.hasEmailError || this.state.hasNameError || this.state.hasPassError || this.state.isSubmitted || this.state.conPassError || this.state.enterLastCheck || this.state.firstBug){
-      this.setState({canSubmit: false});
-    }else{
-      this.setState({canSubmit: true});
+    if (this.state.hasEmailError || this.state.hasNameError || this.state.hasPassError || this.state.isSubmitted || this.state.conPassError || this.state.enterLastCheck || this.state.firstBug) {
+      this.setState({ canSubmit: false });
+    } else {
+      this.setState({ canSubmit: true });
     }
-    this.setState({firstBug: false});
+    this.setState({ firstBug: false });
   };
 
   lastCheck = () => {
@@ -97,98 +99,101 @@ class Signup extends Component {
     this.isEmptyEmail();
     this.isEmptyPass();
     this.matchPassword();
-    this.setState({enterLastCheck: !this.state.enterLastCheck });
+    this.setState({ enterLastCheck: !this.state.enterLastCheck });
   };
 
   handleClickisSubmitted = () => {
-    this.setState({isSubmitted: !this.state.isSubmitted });
-    ApiClient.post('/user',{
+    this.setState({ isSubmitted: !this.state.isSubmitted });
+    this.setState({ isLoading: true });
+
+    ApiClient.post('/user', {
       username: this.state.username,
       email: this.state.email,
       password: this.state.password,
     }
     ).then(res => {
       sessionStorage.setItem('access_token', res.data.token);
-      console.log('');
+      this.setState({ isLoading: false });
       this.props.history.push('/search')
     }).catch(err => {
-      this.setState({invalidPassError: true});
-      this.setState({isSubmitted: false})
+      this.setState({ invalidPassError: true });
+      this.setState({ isLoading: false });
+      this.setState({ isSubmitted: false })
       console.log('Invalid input.');
     });
   }
 
-  render(){
+  render() {
     return (
       <div className='signup'>
-          <br /><br />
+        <br /><br />
         <Typography className='title' variant="h2" gutterBottom>
           Signup
         </Typography>
         <br />
         <Box textAlign="center">
           <form className='form' noValidate autoComplete="off">
-          <TextField
-            required
-            id="outlined-basic" 
-            label="Name"
-            variant="outlined" 
-            onChange={this.handleChange('username')}
-            onBlur={this.isEmptyName}
+            <TextField
+              required
+              id="outlined-basic"
+              label="Name"
+              variant="outlined"
+              onChange={this.handleChange('username')}
+              onBlur={this.isEmptyName}
             />
             {this.state.hasNameError ?
-            <FormHelperText id="component-error-text">
-              Name is required.
+              <FormHelperText id="component-error-text">
+                Name is required.
             </FormHelperText> : <br />}
-          <br />
-          <TextField
-            id="outlined-basic"
-            type="email"
-            required
-            label="Email"
-            variant="outlined"
-            onChange={this.handleChange('email')}
-            onBlur={this.isEmptyEmail}
+            <br />
+            <TextField
+              id="outlined-basic"
+              type="email"
+              required
+              label="Email"
+              variant="outlined"
+              onChange={this.handleChange('email')}
+              onBlur={this.isEmptyEmail}
             />
             {this.state.hasEmailError ?
-            <FormHelperText id="component-error-text">
-              Email is required.
+              <FormHelperText id="component-error-text">
+                Email is required.
             </FormHelperText> : <br />}
             <br />
 
-      {/* ---通常パスワード--- */}
+            {/* ---通常パスワード--- */}
 
-          <FormControl className="passform" variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-password"
-              type={this.state.showPassword ? 'text' : 'password'}
-              onBlur={this.isEmptyPass}
-              value={this.state.password}
-              onChange={this.handleChange('password')}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={this.handleClickShowPassword}
-                    onMouseDown={this.handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              labelWidth={70}
-            />
-            {this.state.hasPassError ?
-            <FormHelperText id="component-error-text">
-              Password should be at least 6 characters.
+            <FormControl className="passform" variant="outlined">
+              <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-password"
+                type={this.state.showPassword ? 'text' : 'password'}
+                onBlur={this.isEmptyPass}
+                value={this.state.password}
+                onChange={this.handleChange('password')}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={this.handleClickShowPassword}
+                      onMouseDown={this.handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                labelWidth={70}
+              />
+              {this.state.hasPassError ?
+                <FormHelperText id="component-error-text">
+                  Password is required.
             </FormHelperText> : <br />}
-          </FormControl>
-          <br /><br />
+            </FormControl>
+            <br />
 
-      {/* ---通常パスワードのエラー--- */}
-      {/*
+            {/* ---通常パスワードのエラー--- */}
+            {/*
           <FormControl error className="passform" variant="outlined">
             <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
             <OutlinedInput
@@ -215,84 +220,88 @@ class Signup extends Component {
           </FormControl>
           <br /><br />
             */}
-      {/* ---確認用パスワードのエラー--- */}
-      {this.state.conPassError ?
-          <FormControl error className="passform" variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-password"
-              type={this.state.showPassword ? 'text' : 'password'}
-              required
-              value={this.state.confirmpass}
-              onChange={this.handleChange('confirmpass')}
-              onBlur={this.matchPassword}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={this.handleClickShowPassword}
-                    onMouseDown={this.handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              labelWidth={70}
-            />
-            <FormHelperText id="component-error-text">
-              Confirm password do not match.
+            {/* ---確認用パスワードのエラー--- */}
+            {this.state.conPassError ?
+              <FormControl error className="passform" variant="outlined">
+                <InputLabel htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
+                <OutlinedInput
+                  id="outlined-adornment-password"
+                  type={this.state.showPassword ? 'text' : 'password'}
+                  required
+                  value={this.state.confirmpass}
+                  onChange={this.handleChange('confirmpass')}
+                  onBlur={this.matchPassword}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={this.handleClickShowPassword}
+                        onMouseDown={this.handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  labelWidth={70}
+                />
+                <FormHelperText id="component-error-text">
+                  Confirm password do not match.
             </FormHelperText>
-          </FormControl>
-          :
-          <FormControl className="passform" variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-password"
-              type={this.state.showPassword ? 'text' : 'password'}
-              required
-              value={this.state.confirmpass}
-              onChange={this.handleChange('confirmpass')}
-              onBlur={this.matchPassword}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={this.handleClickShowPassword}
-                    onMouseDown={this.handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              labelWidth={70}
-            />
-          </FormControl>
+              </FormControl> :
+              <FormControl className="passform" variant="outlined">
+                <InputLabel htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
+                <OutlinedInput
+                  id="outlined-adornment-password"
+                  type={this.state.showPassword ? 'text' : 'password'}
+                  required
+                  value={this.state.confirmpass}
+                  onChange={this.handleChange('confirmpass')}
+                  onBlur={this.matchPassword}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={this.handleClickShowPassword}
+                        onMouseDown={this.handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  labelWidth={70}
+                />
+              </FormControl>
             }
-        </form>
-        <br /><br />
-        <Checkbox
-            onChange={this.lastCheck}
-            onClick={this.confirmSubmit}
-            name="checkedB"
-            color="primary"
-          />
-          Have you completed the input?
-          <br />
-          {this.state.canSubmit ?
-          <Button variant="contained" color="primary" 
+          </form>
+          <br /><br />
+          {this.state.isLoading ? <CircularProgress /> :
+            <>
+              <Checkbox
+                onChange={this.lastCheck}
+                onClick={this.confirmSubmit}
+                name="checkedB"
+                color="primary"
+              />
+                  Have you completed the input?
+                  <br />
+              {this.state.canSubmit ?
+                <Button variant="contained" color="primary"
                   onChange={this.handleChange('isSubmitted')}
                   onClick={this.handleClickisSubmitted}
-                  >
-              Sign up
-          </Button>
-          : 
-          <Button variant="contained" disabled>
-            Sign up
-          </Button>}
+                >
+                  Sign up
+                  </Button>
+                :
+                <Button variant="contained" disabled>
+                  Sign up
+                  </Button>}
+            </>
+          }
+
           <br /><br /><br />
-      </Box>
+        </Box>
       </div>
     );
   }

@@ -89,11 +89,6 @@ const useStyles = makeStyles((theme) => ({
 export default function StartSearch() {
   const classes = useStyles();
 
-  const [edit, setEdit] = useState(false);
-  const [form, setForm] = useState({
-    username: '',
-    tags: [],
-  })
   const [selectedTag, setSelectedTag] = useState('');
 
   const [mytags, setMyTags] = useState([])

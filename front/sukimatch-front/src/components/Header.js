@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 
 const Header = () => {
+
   return (
     <header className='header'>
       <div className='logo'>
