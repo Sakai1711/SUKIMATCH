@@ -73,6 +73,7 @@ class Signup extends Component {
       this.setState({ hasEmailError: true });
     } else {
       this.setState({ hasEmailError: false });
+      this.setState({ firstBug: false });
     }
   };
 
@@ -117,6 +118,7 @@ class Signup extends Component {
     }).catch(err => {
       this.setState({ invalidPassError: true });
       this.setState({ isLoading: false });
+      this.setState({ isSubmitted: false })
       console.log('Invalid input.');
     });
   }
