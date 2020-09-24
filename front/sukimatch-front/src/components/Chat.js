@@ -17,6 +17,7 @@ function Chat() {
   useEffect(() => {
     if (window.location.pathname === '/chat') {
       //socket = io('https://sukimatch-21753.herokuapp.com/chat');
+      // { transports: ['websocket'] }　つけたら動いた
       setSocket(io('https://sukimatch-21753.herokuapp.com/chat', { transports: ['websocket'] }))
       console.log('aaa')
 
@@ -61,43 +62,41 @@ function Chat() {
     if (!isConnect) {
       socket.on("connect", function () {
         setIsConnect(true)
-        console.log('connected');
-        // socket.emit('connect_req',{user_id: sessionStorage.getItem('user_id'), chatroom_id: sessionStorage.getItem('chatroom_id')});
-        console.log(socket);
 
-        // socket.emit('ping_ping',{},function(){
-        //   console.log('ping sent');
-        // });
         socket.on('pong_pong', function (data) {
           setTimeout(delayFunction(data), 7000);
         });
 
         socket.emit('connect_req', { user_id: sessionStorage.getItem('user_id'), chatroom_id: sessionStorage.getItem('chatroom_id') }, function () {
           console.log('connect_req sent');
+
+        });
+
+        socket.on('connect_res', (data) => {
+          console.log("==================================");
+          console.log(data);
+          console.log("==================================");
+          if (data.status === 'ok') {
+            setStatus(true);
+          } else {
+            setStatus(false);
+          }
+        });
+
+        socket.on('send_message_res', function (data) {
+          console.log("hogehogehoge");
+          console.log(`${data.content} was recieved from ${data.username}`)
+          const position = data.user_id === sessionStorage.getItem('user_id') ? 'right' : 'left';
+          const classname = data.user_id === sessionStorage.getItem('user_id') ? 'my-chat' : 'other-chat';
+          let newMessages = message
+          newMessages.push({ position: position, type: 'text', text: data.content, date: new Date(), classname: classname })
+          setMessage([])
+          setMessage(newMessages)
+          console.log(message);
+          console.log(newMessages)
         });
       });
     }
-
-    socket.on('connect_res', (data) => {
-      console.log("==================================");
-      console.log(data);
-      console.log("==================================");
-      if (data.status === 'ok') {
-        setStatus(true);
-      } else {
-        setStatus(false);
-      }
-    });
-
-    socket.on('send_message_res', function (data) {
-      console.log("hogehogehoge");
-      console.log(`${data.content} was recieved from ${data.username}`)
-      const position = data.user_id === sessionStorage.getItem('user_id') ? 'right' : 'left';
-      const classname = data.user_id === sessionStorage.getItem('user_id') ? 'my-chat' : 'other-chat';
-      setMessage([...message, { position: position, type: 'text', text: data.content, date: new Date(), classname: classname }])
-      console.log(message);
-    });
-
 
     socket.on('disconnect_res', function (data) {
       if (data.status === 'ok') {
@@ -113,9 +112,7 @@ function Chat() {
   const delayFunction = (d) => {
     console.log('pong_pong');
     console.log(`${d.time}`);
-    socket.emit('ping_ping', {}, function () {
-      console.log('ping_sent_from_pong');
-    });
+
   }
 
 

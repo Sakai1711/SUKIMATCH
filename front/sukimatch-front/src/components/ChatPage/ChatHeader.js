@@ -10,7 +10,7 @@ class ChatHeader extends Component {
     this.countDown = this.countDown.bind(this);
   }
 
-  countDown(){
+  countDown() {
     this.setState((prevState) => ({
       time: prevState.time - 1
     }));
@@ -21,23 +21,23 @@ class ChatHeader extends Component {
       document.getElementById('remaining-time').classList.add('alert-time-10');
     };
     if (this.state.time > -1) {
-      setTimeout(this.countDown,1000);
-    }else {
+      setTimeout(this.countDown, 1000);
+    } else {
       sessionStorage.removeItem('chatroom_id');
       this.props.onDisconnectSocket();
       window.alert('Time is done!');
     }
-  } 
+  }
 
   componentDidMount() {
-    setTimeout(this.countDown,1000);
+    setTimeout(this.countDown, 1000);
   }
 
   render() {
     const remainderTime = this.state.time;
     return (
       <div id='remaining-time' className='chat-header'>
-         {`remaining time is: ${parseInt(remainderTime/60)}min ${this.state.time === -1 ? 0 : parseInt(remainderTime%60)}sec`}
+        {`remaining time is: ${parseInt(remainderTime / 60)}min ${this.state.time === -1 ? 0 : parseInt(remainderTime % 60)}sec`}
       </div>
     )
   }
