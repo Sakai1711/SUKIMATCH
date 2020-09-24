@@ -112,7 +112,7 @@ class Signup extends Component {
       password: this.state.password,
     }
     ).then(res => {
-      sessionStorage.setItem('access_token', res.data.token);
+      sessionStorage.setItem('user_id', res.data.token);
       this.setState({ isLoading: false });
       this.props.history.push('/search')
     }).catch(err => {
