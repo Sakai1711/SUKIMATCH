@@ -63,18 +63,11 @@ class Login extends Component {
   }
 
   isEmptyEmail = () => {
-<<<<<<< HEAD
-    if (this.state.email === '') {
-      this.setState({ hasEmailError: true });
-    } else {
-      this.setState({ hasEmailError: false });
-=======
     if(this.state.email === ''){
       this.setState({hasEmailError: true});
     }else{
       this.setState({hasEmailError: false});
       this.setState({firstBug: false});
->>>>>>> 3698e45289c8fe7862eeb442e1d64425a4f874bf
     }
   }
 
