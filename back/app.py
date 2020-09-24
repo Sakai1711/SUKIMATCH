@@ -45,11 +45,13 @@ def sign_up_user():
     print(user_id)
     # Store to database
     print("47")
+    """
     add_new_user(
         user_id=user_id,
         email=given_json["email"],
         name=given_json["username"]
     )
+    """
     print("53")
     
 
