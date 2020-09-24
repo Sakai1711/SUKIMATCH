@@ -57,18 +57,18 @@ export default function Searching(props) {
       console.log(sessionStorage.getItem('chatroom_id'));
       const interval = setInterval(() => {
         database.collection("Chatroom")
-        .get()
-        .then(querySnapshot => {
-          const chatroomId = sessionStorage.getItem('chatroom_id');
-          const data = querySnapshot.docs.filter((doc) => doc.id === chatroomId);
-          setWaitingNumber(data[0].data().user_ids.length);
-          if (data[0].data().user_ids.length >= 4) {
-            setIsFind(true);
-            setSearch(false);
-            clearInterval(interval);
-          }
-        })
-      },3000)
+          .get()
+          .then(querySnapshot => {
+            const chatroomId = sessionStorage.getItem('chatroom_id');
+            const data = querySnapshot.docs.filter((doc) => doc.id === chatroomId);
+            setWaitingNumber(data[0].data().user_ids.length);
+            if (data[0].data().user_ids.length >= 4) {
+              setIsFind(true);
+              setSearch(false);
+              clearInterval(interval);
+            }
+          })
+      }, 3000)
       // const interval = setInterval(() => {
       //   ApiClient.get(`/chatrooms/${chatroomId}`).then(res => {
       //     if (res.status == 200) {
@@ -91,32 +91,34 @@ export default function Searching(props) {
       setOpen(true)
       setSearch(true);
       database.collection("Chatroom")
-      .get()
-      .then(querySnapshot => {
-        const data = querySnapshot.docs.filter((doc) => (doc.data().tag_name === props.searchTag)&&(doc.data().user_ids.length < 4));
-        console.log(data);
-        if (data.toString() == []){
-          const doc_id = new Date().getTime().toString()
-          database.collection("Chatroom")
-          .doc(doc_id)
-          .set({tag_name: props.searchTag, user_ids: [sessionStorage.getItem('user_id')]})
-          .then(() => {
-            sessionStorage.setItem('chatroom_id', doc_id);
-            console.log('success making chatroom');
-          });
-        }else{
-          database.collection("Chatroom")
-          .doc(data[0].id)
-          .set({
-            tag_name: props.searchTag,
-            user_ids: [...data[0].data().user_ids, sessionStorage.getItem('user_id')]
-          })
-          .then(() => {
-            sessionStorage.setItem('chatroom_id', data[0].id)
-            console.log('success updating chatroom')
-          })
-        }
-      })
+        .get()
+        .then(querySnapshot => {
+          const data = querySnapshot.docs.filter((doc) => (doc.data().tag_name === props.searchTag) && (doc.data().user_ids.length < 4));
+          console.log(data);
+          if (data.toString() == []) {
+            const doc_id = new Date().getTime().toString()
+            database.collection("Chatroom")
+              .doc(doc_id)
+              .set({ tag_name: props.searchTag, user_ids: [sessionStorage.getItem('user_id')] })
+              .then(() => {
+                sessionStorage.setItem('chatroom_id', doc_id);
+                console.log('success making chatroom');
+              });
+          } else {
+            database.collection("Chatroom")
+              .doc(data[0].id)
+              .set({
+                tag_name: props.searchTag,
+                user_ids: [...data[0].data().user_ids, sessionStorage.getItem('user_id')]
+              })
+              .then(() => {
+                sessionStorage.setItem('chatroom_id', data[0].id)
+                // 検索開始時に待機人数をインクリメント
+                setWaitingNumber(data[0].data().user_ids.length + 1)
+                console.log('success updating chatroom')
+              })
+          }
+        })
 
 
       // ApiClient.post('/chatrooms', {
@@ -133,8 +135,33 @@ export default function Searching(props) {
   const handleClose = () => {
     // 閉じるときはchatroomのメンバーから削除
     const chatroomId = sessionStorage.getItem('chatroom_id');
+    const userId = sessionStorage.getItem('user_id')
     setSearch(false);
     setOpen(false);
+
+    database.collection("Chatroom")
+      .get()
+      .then(querySnapshot => {
+        const doc = querySnapshot.docs.find((doc) => doc.id === chatroomId);
+        const chatroomInfo = doc.data()
+        if (chatroomInfo.user_ids.length === 1) {
+          // 他に検索中の人がいないchatroomだったとき、そのchatroomは削除
+          doc.ref.delete().then(() => {
+            console.log("deleted chatroom")
+          })
+        } else {
+          // 他に検索中の人がいるchatroomだったとき、自分をuser_idsから削除
+          chatroomInfo.user_ids.splice(chatroomInfo.user_ids.indexOf(userId), 1)
+          doc.ref.set({
+            tag_name: props.searchTag,
+            user_ids: chatroomInfo.user_ids
+          }).then(() => {
+            console.log("eliminated from chatroom")
+          }).catch((err) => {
+            console(err)
+          })
+        }
+      })
 
 
     // ApiClient.post(`/chatrooms/${chatroomId}/delete`).then(res => {

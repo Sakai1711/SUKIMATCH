@@ -177,12 +177,6 @@ export default function Edit() {
 
   const submit = () => {
     setIsLoading(true)
-    const editBody = {
-      username: form.username,
-      new_tag_names: form.newTagNames,
-      delete_tag_ids: form.deleteTagNames
-    }
-    console.log(editBody)
 
     const userId = sessionStorage.getItem('user_id');
 
@@ -204,20 +198,6 @@ export default function Edit() {
           setIsLoading(false)
         })
       });
-
-
-    // ApiClient.post('/user/edit', editBody
-    // ).then(res => {
-    //   setForm({
-    //     ...form,
-    //     newTagNames: [],
-    //     deleteTagNames: []
-    //   })
-    //   setIsLoading(false)
-    // }).catch(err => {
-    //   console.log(err)
-    //   setIsLoading(false)
-    // });
   }
 
 
