@@ -134,6 +134,10 @@ export default function Searching(props) {
   const handleClose = () => {
     // 閉じるときはchatroomのメンバーから削除
     const chatroomId = sessionStorage.getItem('chatroom_id');
+    setSearch(false);
+    setOpen(false);
+
+
     // ApiClient.post(`/chatrooms/${chatroomId}/delete`).then(res => {
     //   setSearch(false)
     // }).catch(err => {
