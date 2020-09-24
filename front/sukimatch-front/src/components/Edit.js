@@ -15,6 +15,9 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { ApiClient } from '../utils/ApiClient';
+import * as firebase from 'firebase';
+import 'firebase/firestore';
+import { database } from '../firebase/firebase'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -92,19 +95,38 @@ export default function Edit() {
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
+    const userId = sessionStorage.getItem('user_id');
     setIsLoading(true)
-    ApiClient.get('/user/load'
-    ).then(res => {
-      setForm({
-        ...form,
-        username: res.data.username,
-      })
-      setMyTags(res.data.tag)
-      setIsLoading(false)
-    }).catch(err => {
-      console.log(err)
-      setIsLoading(false)
-    });
+
+    database.collection("User")
+      .get()
+      .then(querySnapshot => {
+        const data = querySnapshot.docs.filter((doc) => doc.id === userId);
+        console.log(data[0].data())
+        const userInfo = data[0].data()
+        setForm({
+          ...form,
+          username: userInfo.name,
+        })
+        if (userInfo.hasOwnProperty('tags')) {
+          setMyTags(userInfo.tags)
+        }
+        setIsLoading(false)
+      });
+    // ApiClient.get('/user/load'
+    // ).then(res => {
+    //   setForm({
+    //     ...form,
+    //     username: res.data.username,
+    //   })
+    //   setMyTags(res.data.tag)
+    //   setIsLoading(false)
+    // }).catch(err => {
+    //   console.log(err)
+    //   setIsLoading(false)
+    // });
+
+
   }, []);
 
   const updateUsername = (ev) => setForm({
@@ -174,18 +196,41 @@ export default function Edit() {
       delete_tag_names: form.deleteTagNames
     }
     console.log(editBody)
-    ApiClient.post('/user/edit', editBody
-    ).then(res => {
-      setForm({
-        ...form,
-        newTagNames: [],
-        deleteTagNames: []
+
+    const userId = sessionStorage.getItem('user_id');
+
+    // 更新したいユーザのdocument
+    var userRef;
+
+    database.collection("User")
+      .get()
+      .then(querySnapshot => {
+        const docs = querySnapshot.docs.filter((doc) => doc.id === userId);
+        userRef = docs[0].ref
       })
-      setIsLoading(false)
-    }).catch(err => {
-      console.log(err)
-      setIsLoading(false)
-    });
+      .then(() => {
+        userRef.update({
+          name: form.username,
+          tags: mytags
+        }).then(() => {
+          console.log('success')
+          setIsLoading(false)
+        })
+      });
+
+
+    // ApiClient.post('/user/edit', editBody
+    // ).then(res => {
+    //   setForm({
+    //     ...form,
+    //     newTagNames: [],
+    //     deleteTagNames: []
+    //   })
+    //   setIsLoading(false)
+    // }).catch(err => {
+    //   console.log(err)
+    //   setIsLoading(false)
+    // });
   }
 
 

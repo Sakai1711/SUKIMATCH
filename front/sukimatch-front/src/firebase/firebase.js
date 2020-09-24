@@ -15,7 +15,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-const database = firebase.firestore();
+export const database = firebase.firestore();
 
 // database.collection("User")
 // .get()
@@ -24,22 +24,23 @@ const database = firebase.firestore();
 //   console.log(data);
 // });
 
-export const userInfo = (user_id) => {
+export const userInfo = async (user_id) => {
   // or get all docs matching the query
-  database.collection("User")
-  .get()
-  .then(querySnapshot => {
-    const data = querySnapshot.docs.filter((doc) => doc.id === user_id);
-    return data[0].data()
-  });
+  await database.collection("User")
+    .get()
+    .then(querySnapshot => {
+      const data = querySnapshot.docs.filter((doc) => doc.id === user_id);
+      console.log(data[0].data())
+      return data[0].data()
+    });
 }
 
 
 export const waitingNumber = (chatroom_id) => {
   database.collection("Chatroom")
-  .get()
-  .then(querySnapshot => {
-    const data = querySnapshot.docs.filter((doc) => doc.id === chatroom_id);
-    return data[0].data().user_ids.length
-  })
+    .get()
+    .then(querySnapshot => {
+      const data = querySnapshot.docs.filter((doc) => doc.id === chatroom_id);
+      return data[0].data().user_ids.length
+    })
 }
