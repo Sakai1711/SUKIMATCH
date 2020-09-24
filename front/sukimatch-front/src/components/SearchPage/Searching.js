@@ -54,7 +54,6 @@ export default function Searching(props) {
   useEffect(() => {
     // 検索中の場合は3秒に一回 /chatrooms/:chatrood_id を叩く
     if (search) {
-      console.log(sessionStorage.getItem('chatroom_id'));
       const interval = setInterval(() => {
         database.collection("Chatroom")
         .get()
@@ -69,16 +68,6 @@ export default function Searching(props) {
           }
         })
       },3000)
-      // const interval = setInterval(() => {
-      //   ApiClient.get(`/chatrooms/${chatroomId}`).then(res => {
-      //     if (res.status == 200) {
-      //       setIsFind(true)
-      //       setSearch(false)
-      //     }
-      //   }).catch(err => {
-      //     console.log(err)
-      //   });
-      // }, 3000)
       return function cleanUp() {
         clearInterval(interval);
       }
@@ -94,7 +83,6 @@ export default function Searching(props) {
       .get()
       .then(querySnapshot => {
         const data = querySnapshot.docs.filter((doc) => (doc.data().tag_name === props.searchTag)&&(doc.data().user_ids.length < 4));
-        console.log(data);
         if (data.toString() == []){
           const doc_id = new Date().getTime().toString()
           database.collection("Chatroom")
@@ -102,7 +90,6 @@ export default function Searching(props) {
           .set({tag_name: props.searchTag, user_ids: [sessionStorage.getItem('user_id')]})
           .then(() => {
             sessionStorage.setItem('chatroom_id', doc_id);
-            console.log('success making chatroom');
           });
         }else{
           database.collection("Chatroom")
@@ -113,21 +100,9 @@ export default function Searching(props) {
           })
           .then(() => {
             sessionStorage.setItem('chatroom_id', data[0].id)
-            console.log('success updating chatroom')
           })
         }
       })
-
-
-      // ApiClient.post('/chatrooms', {
-      //   tag_name: props.searchTag
-      // }).then(res => {
-      //   console.log(res)
-      //   sessionStorage.setItem('chatroom_id', res.data.chatroom_id);
-      // }).catch(err => {
-      //   console.log(err)
-      // });
-    }
   };
 
   const handleClose = () => {
@@ -135,15 +110,6 @@ export default function Searching(props) {
     const chatroomId = sessionStorage.getItem('chatroom_id');
     setSearch(false);
     setOpen(false);
-
-
-    // ApiClient.post(`/chatrooms/${chatroomId}/delete`).then(res => {
-    //   setSearch(false)
-    // }).catch(err => {
-    //   console.log(err)
-    //   setSearch(false)
-    // });
-    // setOpen(false)
   };
   const body = (
     <div className={classes.paper}>

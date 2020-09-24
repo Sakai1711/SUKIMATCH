@@ -123,11 +123,9 @@ class Signup extends Component {
         email: this.state.email,
         name: this.state.username
       }).then(() => {
-        console.log('success')
         this.setState({ isLoading: false });
         window.location.href = "/search"
       }).catch(err => {
-        console.log(err)
       })
 
     }).catch(err => {

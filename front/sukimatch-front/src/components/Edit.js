@@ -182,7 +182,7 @@ export default function Edit() {
       new_tag_names: form.newTagNames,
       delete_tag_ids: form.deleteTagNames
     }
-    console.log(editBody)
+    // console.log(editBody)
 
     const userId = sessionStorage.getItem('user_id');
 

@@ -60,7 +60,6 @@ class Login extends Component {
     }).catch(err => {
       this.setState({ invalidPassError: true });
       this.setState({ isLoading: false });
-      console.log('Error!');
     });
   }
 
