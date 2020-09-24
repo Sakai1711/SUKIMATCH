@@ -102,27 +102,28 @@ export default function StartSearch() {
   useEffect(() => {
     setIsLoading(true)
     database.collection("User")
-    .get()
-    .then(querySnapshot => {
-      const data = querySnapshot.docs.filter((doc) => doc.id === sessionStorage.getItem('user_id'));
-      const tags = data[0].data().tags.toString() == [] ? [] : data[0].data().tags
-      setMyTags(tags)
-      setIsLoading(false);
-    })
-    .catch(err => {
-      setIsLoading(false);
-    })
+      .get()
+      .then(querySnapshot => {
+        const data = querySnapshot.docs.filter((doc) => doc.id === sessionStorage.getItem('user_id'));
+        const tags = data[0].data().tags.toString() == [] ? [] : data[0].data().tags
+        setMyTags(tags)
+        sessionStorage.setItem("username", data[0].data().name)
+        setIsLoading(false);
+      })
+      .catch(err => {
+        setIsLoading(false);
+      })
 
     database.collection("Chatroom")
-    .get()
-    .then(querySnapshot => {
-      let datas = querySnapshot.docs.map((doc) => doc.data());
-      datas = datas.filter((data) => (data.user_ids.length < 4))
-      datas = datas.map((data) => {
-        return [data.tag_name,data.user_ids.length]
-      });
-      setWaitingChat(datas.slice(0,5));
-    })
+      .get()
+      .then(querySnapshot => {
+        let datas = querySnapshot.docs.map((doc) => doc.data());
+        datas = datas.filter((data) => (data.user_ids.length < 4))
+        datas = datas.map((data) => {
+          return [data.tag_name, data.user_ids.length]
+        });
+        setWaitingChat(datas.slice(0, 5));
+      })
 
   }, []);
 
@@ -175,21 +176,21 @@ export default function StartSearch() {
       <div className="waiting-chat">
         <h2>Chats that are waiting for you!!</h2>
         {waitingChat.toString() !== [] ?
-        waitingChat.map((value) => {
-          return(
-            <div className="chat">
-              <div className="topic">
-                Topic <div className="topicName">{value[0]}</div>
+          waitingChat.map((value) => {
+            return (
+              <div className="chat">
+                <div className="topic">
+                  Topic <div className="topicName">{value[0]}</div>
+                </div>
+                <div className="numberofwait">
+                  {value[1]}/4 People waiting
               </div>
-              <div className="numberofwait">
-                {value[1]}/4 People waiting
               </div>
-            </div>
-          )
-        }) 
-        :
-        <div className="nothing">
-          No chat is currently waiting...
+            )
+          })
+          :
+          <div className="nothing">
+            No chat is currently waiting...
           <br></br>
           Please start one!
         </div>

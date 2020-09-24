@@ -46,7 +46,7 @@ export default function Searching(props) {
   const [isFind, setIsFind] = useState(false);
   const [open, setOpen] = useState(false);
   // 検索中に現在集まっている人数
-  const [waitingNumber, setWaitingNumber ] = useState(1);
+  const [waitingNumber, setWaitingNumber] = useState(1);
 
   const [currentMemberNum, setCurrentMemberNum] = useState(1)
 
