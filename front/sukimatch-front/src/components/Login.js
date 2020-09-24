@@ -55,7 +55,8 @@ class Login extends Component {
     ).then(res => {
       sessionStorage.setItem('user_id', res.data.user_id);
       this.setState({ isLoading: false });
-      this.props.history.push('/search')
+      // this.props.history.push('/search')
+      window.location.href = '/search';
     }).catch(err => {
       this.setState({ invalidPassError: true });
       this.setState({ isLoading: false });
