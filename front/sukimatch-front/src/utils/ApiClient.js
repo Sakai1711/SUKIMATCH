@@ -19,7 +19,7 @@ function createAxiosInstance() {
   axiosInstance.interceptors.request.use((request) => {
     // TODO: ログインが実装できたらセッションから取得する
     if (sessionStorage.getItem('user_id')) {
-      request.headers['user_id'] = sessionStorage.getItem('access_token')
+      request.headers['user_id'] = sessionStorage.getItem('user_id')
     } else {
       // location.href
     }
