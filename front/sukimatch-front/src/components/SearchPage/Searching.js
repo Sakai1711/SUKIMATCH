@@ -54,12 +54,17 @@ export default function Searching(props) {
   useEffect(() => {
     // 検索中の場合は3秒に一回 /chatrooms/:chatrood_id を叩く
     if (search) {
-      const chatroomId = sessionStorage.getItem('chatroom_id');
+      console.log(sessionStorage.getItem('chatroom_id'));
       const interval = setInterval(() => {
         database.collection("Chatroom")
         .get()
         .then(querySnapshot => {
+          const chatroomId = sessionStorage.getItem('chatroom_id');
           const data = querySnapshot.docs.filter((doc) => doc.id === chatroomId);
+          console.log("===================");
+          console.log(data);
+          console.log(data[0]);
+          console.log("===================");
           if (data[0].data().user_ids.length >= 4) {
             setWaitingNumber(data[0].data().user_ids.length);
             setIsFind(true);
@@ -93,7 +98,8 @@ export default function Searching(props) {
       .get()
       .then(querySnapshot => {
         const data = querySnapshot.docs.filter((doc) => doc.data().tag_name === props.searchTag);
-        if (data === []){
+        console.log(data);
+        if (data.toString() == []){
           const doc_id = new Date().getTime().toString()
           database.collection("Chatroom")
           .doc(doc_id)
@@ -130,13 +136,13 @@ export default function Searching(props) {
   const handleClose = () => {
     // 閉じるときはchatroomのメンバーから削除
     const chatroomId = sessionStorage.getItem('chatroom_id');
-    ApiClient.post(`/chatrooms/${chatroomId}/delete`).then(res => {
-      setSearch(false)
-    }).catch(err => {
-      console.log(err)
-      setSearch(false)
-    });
-    setOpen(false)
+    // ApiClient.post(`/chatrooms/${chatroomId}/delete`).then(res => {
+    //   setSearch(false)
+    // }).catch(err => {
+    //   console.log(err)
+    //   setSearch(false)
+    // });
+    // setOpen(false)
   };
   const body = (
     <div className={classes.paper}>
