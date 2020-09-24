@@ -16,7 +16,7 @@ function Header() {
   }
 
   const showLoginorNot = () => {
-    if (!!sessionStorage.getItem('access_token')) {
+    if (!!sessionStorage.getItem('user_id')) {
       return(
         <nav className='global-nav'>
           <NavLink to="/" className='nav-item' activeClassName='is-active' exact={true} >Home</NavLink>

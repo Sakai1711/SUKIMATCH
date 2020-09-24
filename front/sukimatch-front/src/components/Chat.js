@@ -14,10 +14,10 @@ function Chat() {
 
   const sendHandler = (msgs) => {
     const msg = msgs;
-    socket.emit('send_message_req',{access_token: sessionStorage.getItem('access_token'), chatroom_id:"culxeiDi0XNmVkFIiI6h", content: msg, username: "makoto"},() => {
+    socket.emit('send_message_req',{user_id: sessionStorage.getItem('user_id'), chatroom_id:"culxeiDi0XNmVkFIiI6h", content: msg, username: "makoto"},() => {
       console.log('send_message_req has been sent')
     });
-    // access_token: sessionStorage.getItem('access_token'), 
+    // user_id: sessionStorage.getItem('user_id'), 
     // chatroom_id: sessionStorage.getItem('chatroom_id'),
     console.log('=========================');
     console.log(msg);
@@ -28,7 +28,7 @@ function Chat() {
     if(window.location.pathname === '/chat'){
       socket.on("connect", function() {
         console.log('connected');
-        // socket.emit('connect_req',{access_token: sessionStorage.getItem('access_token'), chatroom_id: sessionStorage.getItem('chatroom_id')});
+        // socket.emit('connect_req',{user_id: sessionStorage.getItem('user_id'), chatroom_id: sessionStorage.getItem('chatroom_id')});
         console.log(socket);
     
         // socket.emit('ping_ping',{},function(){
@@ -38,7 +38,7 @@ function Chat() {
           setTimeout(delayFunction(data),7000);
         });
     
-        socket.emit('connect_req',{access_token: sessionStorage.getItem('access_token'), chatroom_id:"culxeiDi0XNmVkFIiI6h"},function(){
+        socket.emit('connect_req',{user_id: sessionStorage.getItem('user_id'), chatroom_id:"culxeiDi0XNmVkFIiI6h"},function(){
           console.log('connect_req sent');
         });
       });
@@ -61,7 +61,7 @@ function Chat() {
   socket.on('send_message_res',function(data) {
     console.log("hogehogehoge");
     console.log(`${data.content} was recieved from ${data.username}`)
-    const position = data.access_token === sessionStorage.getItem('access_token') ? 'right' : 'left' ;
+    const position = data.user_id === sessionStorage.getItem('user_id') ? 'right' : 'left' ;
     setMessage([...message,{position: position, type: 'text', text: data.content, date: new Date() }])
     console.log(message);
   });
@@ -76,11 +76,11 @@ function Chat() {
   });
 
   async function disconnectSocket() {
-    await socket.emit('disconnect_req',{access_token: sessionStorage.getItem('access_token'), chatroom_id:"culxeiDi0XNmVkFIiI6h"},function() {
+    await socket.emit('disconnect_req',{user_id: sessionStorage.getItem('user_id'), chatroom_id:"culxeiDi0XNmVkFIiI6h"},function() {
       socket.disconnect();
       console.log('disconnected complete');
     });
-    // access_token: sessionStorage.getItem('access_token'), 
+    // user_id: sessionStorage.getItem('user_id'), 
     // chatroom_id: sessionStorage.getItem('chatroom_id'),
 
     // Todo delete this line and implement it to on('disconnect_res')
