@@ -14,7 +14,7 @@ function Chat() {
 
   const sendHandler = (msgs) => {
     const msg = msgs;
-    socket.emit('send_message_req',{user_id: sessionStorage.getItem('user_id'), chatroom_id:"culxeiDi0XNmVkFIiI6h", content: msg, username: "makoto"},() => {
+    socket.emit('send_message_req',{user_id: sessionStorage.getItem('user_id'), chatroom_id: sessionStorage.getItem('chatroom_id'), content: msg, username: "makoto"},() => {
       console.log('send_message_req has been sent')
     });
     // user_id: sessionStorage.getItem('user_id'), 
@@ -38,7 +38,7 @@ function Chat() {
           setTimeout(delayFunction(data),7000);
         });
     
-        socket.emit('connect_req',{user_id: sessionStorage.getItem('user_id'), chatroom_id:"culxeiDi0XNmVkFIiI6h"},function(){
+        socket.emit('connect_req',{user_id: sessionStorage.getItem('user_id'), chatroom_id: sessionStorage.getItem('chatroom_id')},function(){
           console.log('connect_req sent');
         });
       });
@@ -76,7 +76,7 @@ function Chat() {
   });
 
   async function disconnectSocket() {
-    await socket.emit('disconnect_req',{user_id: sessionStorage.getItem('user_id'), chatroom_id:"culxeiDi0XNmVkFIiI6h"},function() {
+    await socket.emit('disconnect_req',{user_id: sessionStorage.getItem('user_id'), chatroom_id: sessionStorage.getItem('chatroom_id')},function() {
       socket.disconnect();
       console.log('disconnected complete');
     });

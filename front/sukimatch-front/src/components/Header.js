@@ -3,6 +3,14 @@ import { NavLink } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 
 function Header() {
+
+  const deleteToken = () => {
+    if (sessionStorage.getItem('user_id') !== 'undefined') {
+      sessionStorage.removeItem('user_id');
+      window.location.href = '/';
+    }
+  } 
+
   const showHeader = () => {
     if (window.location.pathname !== '/chat'){
       return (
@@ -23,7 +31,7 @@ function Header() {
           <a href="/#about" className='nav-item'>About</a>
           <NavLink to="/search" className='nav-item' activeClassName='is-active' >Search</NavLink>
           <NavLink to="/user/edit" className='nav-item' activeClassName='is-active' >Edit</NavLink>
-          <NavLink to="/" className='nav-item' >Log out</NavLink>
+          <NavLink to="/" onClick={deleteToken} className='nav-item' >Log out</NavLink>
         </nav>
       )
     }else{
@@ -42,8 +50,7 @@ function Header() {
     <header className='header'>
       <div className='logo'>
         <Typography variant='h2' gutterBottom>
-          SukiMatch
-      </Typography>
+        </Typography>
       </div>
       {showHeader()}
     </header>

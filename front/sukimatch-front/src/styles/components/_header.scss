@@ -1,10 +1,14 @@
 .header {
   .logo{
-    margin-top: 16px;
+    margin: 0 auto;
     text-align: center;
+    width:45vw;
+    max-width: 715px;
+    min-width: 230px;
+    background-repeat: repeat-x;
     background-image: url('../images/logo.png');
-    // background-size: ;
-    height:200px;
+    background-size: contain;
+    height:100px;
   }
 
   .global-nav {
