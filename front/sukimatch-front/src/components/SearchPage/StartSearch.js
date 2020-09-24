@@ -105,7 +105,7 @@ export default function StartSearch() {
     .get()
     .then(querySnapshot => {
       const data = querySnapshot.docs.filter((doc) => doc.id === sessionStorage.getItem('user_id'));
-      const tags = !!data[0].data().tag ? data[0].data().tag : []
+      const tags = data[0].data().tags.toString() == [] ? [] : data[0].data().tags
       setMyTags(tags)
       setIsLoading(false);
     })
