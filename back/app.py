@@ -3,7 +3,7 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 from flask_socketio import SocketIO
-from flask_socketio import Namespace, emit, join_room, disconnect, rooms
+from flask_socketio import Namespace, emit, join_room, disconnect, rooms, close_room
 from flask_cors import CORS
 import sys
 import time
@@ -291,6 +291,7 @@ class MyNamespace(Namespace):
     def on_connect(self):
         print("connect")
         print("rooms: ", rooms())
+        close_room(rooms()[0])
         dt_now = datetime.datetime.now()
         emit('pong_pong', {'time': dt_now.strftime('%Y-%m-%d %H:%M:%S')}, broadcast=False)
 
