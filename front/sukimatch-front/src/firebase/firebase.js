@@ -16,21 +16,12 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 export const database = firebase.firestore();
-
-// database.collection("User")
-// .get()
-// .then(querySnapshot => {
-//   const data = querySnapshot.docs.map(doc => doc.data());
-//   console.log(data);
-// });
-
 export const userInfo = async (user_id) => {
   // or get all docs matching the query
   await database.collection("User")
     .get()
     .then(querySnapshot => {
       const data = querySnapshot.docs.filter((doc) => doc.id === user_id);
-      console.log(data[0].data())
       return data[0].data()
     });
 }

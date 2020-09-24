@@ -13,7 +13,6 @@ class ChatInsert extends Component {
 
   clickHandler(e) {
     e.preventDefault();
-    console.log("hoges")
     if (this.state.value === "") {
       return
     }else {
