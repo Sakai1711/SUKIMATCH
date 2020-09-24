@@ -356,7 +356,7 @@ class MyNamespace(Namespace):
             print(chatroom_id == data['chatroom_id'])
             result = {'username': username, 'content': content, 'user_id': user_id}
             emit('send_message_res', result, room=data['chatroom_id']) 
-            emit('send_message_res', result, room=chatroom_id)
+            #emit('send_message_res', result, room=chatroom_id)
             print("sent send_message_res")
         else:
             emit('send_message_res', {'status': 'incorrect access token'}, broadcast=False)
