@@ -51,7 +51,8 @@ def sign_up_user():
     )
 
     responsed_json = {
-        "token": access_token
+        #"token": access_token
+        "user_id": user_id
     }
 
     return _corsify_actual_response(jsonify(responsed_json)), 200
@@ -62,7 +63,13 @@ def sign_in_user():
     given_json = request.json
 
     # Authentication
+    """
     access_token = signin(
+        email=given_json["email"],
+        password=given_json["password"]
+    )
+    """
+    user_id = signin(
         email=given_json["email"],
         password=given_json["password"]
     )
@@ -71,7 +78,8 @@ def sign_in_user():
     # user_id = "1010120"
 
     responsed_json = {
-        "token": access_token
+        #"token": access_token
+        "user_id": user_id
     }
 
     return _corsify_actual_response(jsonify(responsed_json)), 200

@@ -31,7 +31,8 @@ def signin(email, password):
     print(user)
     access_token = user['idToken']
     print(user)
-    return access_token
+    user_id = user['localId']
+    return user_id #access_token
 
 def verify(access_token):
     """
