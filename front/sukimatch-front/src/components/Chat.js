@@ -31,6 +31,36 @@ function Chat() {
           console.log('connect_req sent');
         });
       });
+
+
+      socket.on('connect_res',(data) => {
+        console.log("==================================");
+        console.log(data);
+        console.log("==================================");
+        if(data.status==='ok'){
+          setStatus(true);
+        }else{
+          setStatus(false);
+        }
+      });
+
+      socket.on('send_message_res',function(data) {
+        console.log("hogehogehoge");
+        console.log(`${data.content} was recieved from ${data.username}`)
+        const position = data.user_id === sessionStorage.getItem('user_id') ? 'right' : 'left' ;
+        const classname = data.user_id === sessionStorage.getItem('user_id') ? 'my-chat' : 'other-chat' ;
+        setMessage([...message,{position: position, type: 'text', text: data.content, date: new Date(),classname: classname }])
+        console.log(message);
+      });
+
+
+      socket.on('disconnect_res',function(data) {
+        if (data.status === 'ok') {
+
+        }else{
+
+        }
+      });
     }
 
   },[]);
@@ -47,34 +77,6 @@ function Chat() {
     console.log('=========================');
   };
 
-  socket.on('connect_res',(data) => {
-    console.log("==================================");
-    console.log(data);
-    console.log("==================================");
-    if(data.status==='ok'){
-      setStatus(true);
-    }else{
-      setStatus(false);
-    }
-  });
-
-  socket.on('send_message_res',function(data) {
-    console.log("hogehogehoge");
-    console.log(`${data.content} was recieved from ${data.username}`)
-    const position = data.user_id === sessionStorage.getItem('user_id') ? 'right' : 'left' ;
-    const classname = data.user_id === sessionStorage.getItem('user_id') ? 'my-chat' : 'other-chat' ;
-    setMessage([...message,{position: position, type: 'text', text: data.content, date: new Date(),classname: classname }])
-    console.log(message);
-  });
-
-
-  socket.on('disconnect_res',function(data) {
-    if (data.status === 'ok') {
-
-    }else{
-
-    }
-  });
 
   async function disconnectSocket() {
     await socket.emit('disconnect_req',{user_id: sessionStorage.getItem('user_id'), chatroom_id: sessionStorage.getItem('chatroom_id')},function() {
