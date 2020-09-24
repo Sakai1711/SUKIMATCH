@@ -96,7 +96,7 @@ def load_user_page():
     if user_id == "":
         return _corsify_actual_response(jsonify({})), 401
 
-    username, email = load_mypage(user_id)
+    #username, email = load_mypage(user_id)
     tags = get_tags(user_id)
 
     # provisional
@@ -111,10 +111,15 @@ def load_user_page():
     #         "tag_name": "test2"
     #     }
     # ]
-
+    """
     responsed_json = {
         "username": username,
         "email": email,
+        "tag": tags
+    }"""
+    responsed_json = {
+        "username": "username removed",
+        "email": "email removed",
         "tag": tags
     }
 
