@@ -44,13 +44,13 @@ def sign_up_user():
     # user_id = "1010120"
 
     # Store to database
-    """
+    
     add_new_user(
         user_id=user_id,
         email=given_json["email"],
         name=given_json["username"]
     )
-    """
+    
 
     responsed_json = {
         #"token": access_token
