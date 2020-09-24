@@ -102,7 +102,6 @@ export default function Edit() {
       .get()
       .then(querySnapshot => {
         const data = querySnapshot.docs.filter((doc) => doc.id === userId);
-        console.log(data[0].data())
         const userInfo = data[0].data()
         setForm({
           ...form,
@@ -113,18 +112,6 @@ export default function Edit() {
         }
         setIsLoading(false)
       });
-    // ApiClient.get('/user/load'
-    // ).then(res => {
-    //   setForm({
-    //     ...form,
-    //     username: res.data.username,
-    //   })
-    //   setMyTags(res.data.tag)
-    //   setIsLoading(false)
-    // }).catch(err => {
-    //   console.log(err)
-    //   setIsLoading(false)
-    // });
 
 
   }, []);
