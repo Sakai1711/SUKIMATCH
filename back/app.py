@@ -324,6 +324,7 @@ class MyNamespace(Namespace):
         user_id = data['user_id']
         chatroom_id = data['chatroom_id']
         print("chatroom_id: ", chatroom_id)
+        print("user_id: ", user_id)
         #if verify(access_token) != "":
         if user_id == "":
             join_room(chatroom_id)
