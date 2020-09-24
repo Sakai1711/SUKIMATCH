@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 
 function Header() {
+
+  useEffect(() => {
+    sessionStorage.removeItem('chatroom_id');
+  },[]);
 
   const deleteToken = () => {
     if (sessionStorage.getItem('user_id') !== 'undefined') {
