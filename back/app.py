@@ -89,7 +89,7 @@ def sign_in_user():
 def load_user_page():
 
     #access_token = request.headers.get("access_token")
-    user_id = request.header.get("user_id")
+    user_id = request.headers.get("user_id")
 
     # Convert token to ID
     #user_id = verify(access_token)
@@ -297,10 +297,12 @@ class MyNamespace(Namespace):
 
     def on_connect_req(self, data): # connect
         print("connect_req")
-        access_token = data['access_token']
+        #access_token = data['access_token']
+        user_id = data['user_id']
         chatroom_id = data['chatroom_id']
         print("chatroom_id: ", chatroom_id)
-        if verify(access_token) != "":
+        #if verify(access_token) != "":
+        if user_id == "":
             join_room(chatroom_id)
             emit('connect_res', {'status': 'ok'}, broadcast=False)
             print("sent connect_res")
@@ -309,18 +311,19 @@ class MyNamespace(Namespace):
 
     def on_send_message_req(self, data): # send message
         print("send_message_req")
-        access_token = data['access_token']
+        #access_token = data['access_token']
+        user_id = data['user_id']
         chatroom_id = data['chatroom_id']
         content = data['content']
         username = data['username']
         print("chatroom_id: ", chatroom_id)
         print("content: ", content)
-        user_id = verify(access_token)
+        #user_id = verify(access_token)
         print("1. sent send_message_res")
         if user_id != "":
             #username, _ = load_mypage(user_id)
             print("2. sent send_message_res")
-            result = {'username': username, 'content': content, 'access_token': access_token}
+            result = {'username': username, 'content': content} #, 'access_token': access_token}
             print("3. sent send_message_res")
             emit('send_message_res', result, broadcast=True, room=chatroom_id)
             print("4. sent send_message_res")
@@ -329,9 +332,10 @@ class MyNamespace(Namespace):
 
     def on_disconnect_req(self, data): # disconnect
         print("disconnect")
-        access_token = data['access_token']
+        #access_token = data['access_token']
+        user_id = data['user_id']
         chatroom_id = data['chatroom_id']
-        user_id = verify(access_token)
+        #user_id = verify(access_token)
         if user_id != "":
             delete_chatroom(chatroom_id)
 
