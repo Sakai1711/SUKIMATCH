@@ -7,6 +7,7 @@ function Header() {
   const deleteToken = () => {
     if (sessionStorage.getItem('user_id') !== 'undefined') {
       sessionStorage.removeItem('user_id');
+      sessionStorage.removeItem('username');
       window.location.href = '/';
     }
   } 

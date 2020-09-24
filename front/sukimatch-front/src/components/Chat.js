@@ -36,7 +36,7 @@ function Chat() {
 
   const sendHandler = (msgs) => {
     const msg = msgs;
-    socket.emit('send_message_req',{user_id: sessionStorage.getItem('user_id'), chatroom_id:"culxeiDi0XNmVkFIiI6h", content: msg, username: "makoto"},() => {
+    socket.emit('send_message_req',{user_id: sessionStorage.getItem('user_id'), chatroom_id: sessionStorage.getItem('chatroom_id'), content: msg, username: sessionStorage.getItem('username')},() => {
       console.log('send_message_req has been sent')
     });
     // user_id: sessionStorage.getItem('user_id'), 
