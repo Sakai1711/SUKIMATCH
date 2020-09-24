@@ -291,9 +291,12 @@ class MyNamespace(Namespace):
     def on_connect(self):
         print("connect")
         print("rooms: ", rooms())
-        close_room(rooms()[0])
-        dt_now = datetime.datetime.now()
-        emit('pong_pong', {'time': dt_now.strftime('%Y-%m-%d %H:%M:%S')}, broadcast=False)
+        if rooms() is not None:
+            close_room(rooms()[0])
+            disconnect()
+        else:
+            dt_now = datetime.datetime.now()
+            emit('pong_pong', {'time': dt_now.strftime('%Y-%m-%d %H:%M:%S')}, broadcast=False)
 
     def on_ping_ping(self, data):
         time.sleep(7)
