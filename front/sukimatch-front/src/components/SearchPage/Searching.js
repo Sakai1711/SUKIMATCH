@@ -46,7 +46,7 @@ export default function Searching(props) {
   const [isFind, setIsFind] = useState(false);
   const [open, setOpen] = useState(false);
   // 検索中に現在集まっている人数
-  const [waitingNumber, setWaitingNumber ] = useState(1);
+  const [waitingNumber, setWaitingNumber] = useState(1);
 
   const [currentMemberNum, setCurrentMemberNum] = useState(1)
 
@@ -57,19 +57,19 @@ export default function Searching(props) {
       console.log(sessionStorage.getItem('chatroom_id'));
       const interval = setInterval(() => {
         database.collection("Chatroom")
-        .get()
-        .then(querySnapshot => {
-          const chatroomId = sessionStorage.getItem('chatroom_id');
-          const data = querySnapshot.docs.filter((doc) => doc.id === chatroomId);
-          setWaitingNumber(data[0].data().user_ids.length);
-          console.log(data[0].data().user_ids.length);
-          if (data[0].data().user_ids.length >= 4) {
-            setIsFind(true);
-            setSearch(false);
-            clearInterval(interval);
-          }
-        })
-      },3000)
+          .get()
+          .then(querySnapshot => {
+            const chatroomId = sessionStorage.getItem('chatroom_id');
+            const data = querySnapshot.docs.filter((doc) => doc.id === chatroomId);
+            setWaitingNumber(data[0].data().user_ids.length);
+            console.log(data[0].data().user_ids.length);
+            if (data[0].data().user_ids.length >= 4) {
+              setIsFind(true);
+              setSearch(false);
+              clearInterval(interval);
+            }
+          })
+      }, 3000)
       // const interval = setInterval(() => {
       //   ApiClient.get(`/chatrooms/${chatroomId}`).then(res => {
       //     if (res.status == 200) {
@@ -92,32 +92,32 @@ export default function Searching(props) {
       setOpen(true)
       setSearch(true);
       database.collection("Chatroom")
-      .get()
-      .then(querySnapshot => {
-        const data = querySnapshot.docs.filter((doc) => doc.data().tag_name === props.searchTag);
-        console.log(data);
-        if (data.toString() == []){
-          const doc_id = new Date().getTime().toString()
-          database.collection("Chatroom")
-          .doc(doc_id)
-          .set({tag_name: props.searchTag, user_ids: [sessionStorage.getItem('user_id')]})
-          .then(() => {
-            sessionStorage.setItem('chatroom_id', doc_id);
-            console.log('success making chatroom');
-          });
-        }else{
-          database.collection("Chatroom")
-          .doc(data[0].id)
-          .set({
-            tag_name: props.searchTag,
-            user_ids: [...data[0].data().user_ids, sessionStorage.getItem('user_id')]
-          })
-          .then(() => {
-            sessionStorage.setItem('chatroom_id', data[0].id)
-            console.log('success updating chatroom')
-          })
-        }
-      })
+        .get()
+        .then(querySnapshot => {
+          const data = querySnapshot.docs.filter((doc) => doc.data().tag_name === props.searchTag);
+          console.log(data);
+          if (data.toString() == []) {
+            const doc_id = new Date().getTime().toString()
+            database.collection("Chatroom")
+              .doc(doc_id)
+              .set({ tag_name: props.searchTag, user_ids: [sessionStorage.getItem('user_id')] })
+              .then(() => {
+                sessionStorage.setItem('chatroom_id', doc_id);
+                console.log('success making chatroom');
+              });
+          } else {
+            database.collection("Chatroom")
+              .doc(data[0].id)
+              .set({
+                tag_name: props.searchTag,
+                user_ids: [...data[0].data().user_ids, sessionStorage.getItem('user_id')]
+              })
+              .then(() => {
+                sessionStorage.setItem('chatroom_id', data[0].id)
+                console.log('success updating chatroom')
+              })
+          }
+        })
 
 
       // ApiClient.post('/chatrooms', {
