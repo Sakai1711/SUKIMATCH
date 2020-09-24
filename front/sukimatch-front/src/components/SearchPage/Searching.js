@@ -44,7 +44,7 @@ export default function Searching(props) {
   const [isFind, setIsFind] = useState(false);
   const [open, setOpen] = useState(false);
   // 検索中に現在集まっている人数
-  const [currentMember, setCuurentMember] = useState('')
+  const [currentMemberNum, setCurrentMemberNum] = useState(1)
 
 
   useEffect(() => {
@@ -53,6 +53,7 @@ export default function Searching(props) {
       const chatroomId = sessionStorage.getItem('chatroom_id');
       const interval = setInterval(() => {
         ApiClient.get(`/chatrooms/${chatroomId}`).then(res => {
+          setCurrentMemberNum(res.data.num_of_users)
           if (res.status == 200) {
             setIsFind(true)
             setSearch(false)
@@ -115,7 +116,8 @@ export default function Searching(props) {
         :
         <>
           <Typography variant='h4' className={classes.modalItem}>
-            Searching friend who talk with you about {props.searchTag} ...
+            Searching friend who talk with you about #{props.searchTag}. <br />
+            Found {currentMemberNum} / 4 now. Please wait a moment ...
           </Typography>
           <LinearProgress />
           <Button
