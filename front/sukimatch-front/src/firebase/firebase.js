@@ -15,7 +15,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-const database = firebase.firestore();
+export const database = firebase.firestore();
 
 // database.collection("User")
 // .get()
@@ -41,5 +41,19 @@ export const waitingNumber = (chatroom_id) => {
   .then(querySnapshot => {
     const data = querySnapshot.docs.filter((doc) => doc.id === chatroom_id);
     return data[0].data().user_ids.length
+  })
+}
+
+
+export const waitingChat = () => {
+  database.collection("Chatroom")
+  .get()
+  .then(querySnapshot => {
+    let datas = querySnapshot.docs.map((doc) => doc.data());
+    datas = datas.filter((data) => (data.user_ids.length < 4));
+    datas = datas.map((data) => {
+      return [data.tag_name, data.length]
+    })
+    return datas.slice(0,5);
   })
 }

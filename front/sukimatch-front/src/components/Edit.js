@@ -171,7 +171,7 @@ export default function Edit() {
     const editBody = {
       username: form.username,
       new_tag_names: form.newTagNames,
-      delete_tag_names: form.deleteTagNames
+      delete_tag_ids: form.deleteTagNames
     }
     console.log(editBody)
     ApiClient.post('/user/edit', editBody

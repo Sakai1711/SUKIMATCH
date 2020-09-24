@@ -21,6 +21,10 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Searching from './Searching'
 import { ApiClient } from '../../utils/ApiClient';
 import CircularProgress from '@material-ui/core/CircularProgress';
+// import * as firebase from 'firebase';
+import 'firebase/firestore';
+import { database } from '../../firebase/firebase';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -96,14 +100,18 @@ export default function StartSearch() {
 
   useEffect(() => {
     setIsLoading(true)
-    ApiClient.get('/user/load'
-    ).then(res => {
-      setMyTags(res.data.tag)
-      setIsLoading(false)
-    }).catch(err => {
-      console.log(err)
-      setIsLoading(false)
-    });
+    database.collection("User")
+    .get()
+    .then(querySnapshot => {
+      const data = querySnapshot.docs.filter((doc) => doc.id === sessionStorage.getItem('user_id'));
+      const tags = !!data[0].data().tag ? data[0].data().tag : []
+      setMyTags(tags)
+      setIsLoading(false);
+    })
+    .catch(err => {
+      setIsLoading(false);
+    })
+
   }, []);
 
   const handleTagChange = (event) => {
@@ -133,6 +141,8 @@ export default function StartSearch() {
             <div>
               <FormControl component="fieldset">
                 <FormLabel component="legend">Select Search Tag</FormLabel>
+                <FormLabel component="legend">Don't have one?</FormLabel>
+                <FormLabel component="legend"> Click the edit button and make one!</FormLabel>
                 {isLoading ? <CircularProgress className={classes.loading} /> :
                   <RadioGroup className={classes.tagList} aria-label="gender" name="gender1" value={selectedTag} onChange={handleTagChange} row>
                     {mytags.map((tag, index) => (

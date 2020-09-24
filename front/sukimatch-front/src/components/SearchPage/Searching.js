@@ -8,6 +8,8 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import CloseIcon from '@material-ui/icons/Close';
 import { ApiClient } from '../../utils/ApiClient';
 import { Link } from 'react-router-dom';
+import 'firebase/firestore';
+import { database } from '../../firebase/firebase';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -44,7 +46,8 @@ export default function Searching(props) {
   const [isFind, setIsFind] = useState(false);
   const [open, setOpen] = useState(false);
   // 検索中に現在集まっている人数
-  const [currentMember, setCuurentMember] = useState('')
+  const [waitingNumber, setWaitingNumber ] = useState(1);
+
 
 
   useEffect(() => {
@@ -52,15 +55,28 @@ export default function Searching(props) {
     if (search) {
       const chatroomId = sessionStorage.getItem('chatroom_id');
       const interval = setInterval(() => {
-        ApiClient.get(`/chatrooms/${chatroomId}`).then(res => {
-          if (res.status == 200) {
-            setIsFind(true)
-            setSearch(false)
+        database.collection("Chatroom")
+        .get()
+        .then(querySnapshot => {
+          const data = querySnapshot.docs.filter((doc) => doc.id === chatroomId);
+          if (data[0].data().user_ids.length >= 4) {
+            setWaitingNumber(data[0].data().user_ids.length);
+            setIsFind(true);
+            setSearch(false);
+            clearInterval(interval);
           }
-        }).catch(err => {
-          console.log(err)
-        });
-      }, 3000)
+        })
+      },3000)
+      // const interval = setInterval(() => {
+      //   ApiClient.get(`/chatrooms/${chatroomId}`).then(res => {
+      //     if (res.status == 200) {
+      //       setIsFind(true)
+      //       setSearch(false)
+      //     }
+      //   }).catch(err => {
+      //     console.log(err)
+      //   });
+      // }, 3000)
       return function cleanUp() {
         clearInterval(interval);
       }
@@ -72,14 +88,38 @@ export default function Searching(props) {
     if (props.searchTag) {
       setOpen(true)
       setSearch(true);
-      ApiClient.post('/chatrooms', {
-        tag_name: props.searchTag
-      }).then(res => {
-        console.log(res)
-        sessionStorage.setItem('chatroom_id', res.data.chatroom_id);
-      }).catch(err => {
-        console.log(err)
-      });
+      database.collection("Chatroom")
+      .get()
+      .then(querySnapshot => {
+        const data = querySnapshot.docs.filter((doc) => doc.data().tag_name === props.searchTag);
+        if (data === []){
+          database.collection("Chatroom")
+          .doc(new Date().getTime().toString())
+          .set({tag_name: props.searchTag, user_ids: [sessionStorage.getItem('user_id')]})
+          .then(() => (
+            console.log('success making chatroom')
+          ));
+        }else{
+          database.collection("Chatroom")
+          .doc(data[0].doc.id)
+          .set({
+            user_ids: [...data[0].data().user_ids, sessionStorage.getItem('user_id')]
+          })
+          .then(() => {
+            console.log('success updating chatroom')
+          })
+        }
+      })
+
+
+      // ApiClient.post('/chatrooms', {
+      //   tag_name: props.searchTag
+      // }).then(res => {
+      //   console.log(res)
+      //   sessionStorage.setItem('chatroom_id', res.data.chatroom_id);
+      // }).catch(err => {
+      //   console.log(err)
+      // });
     }
   };
 
@@ -118,6 +158,10 @@ export default function Searching(props) {
             Searching friend who talk with you about {props.searchTag} ...
           </Typography>
           <LinearProgress />
+          <div className="numberWaiting">
+            {`${waitingNumber}/4 has been matched so far`}
+          </div>
+
           <Button
             variant="contained"
             startIcon={<CloseIcon />}

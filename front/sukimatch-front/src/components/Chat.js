@@ -31,7 +31,6 @@ function Chat() {
       });
     }
 
-
   },[]);
 
   const sendHandler = (msgs) => {
