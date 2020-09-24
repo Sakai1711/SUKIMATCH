@@ -24,14 +24,15 @@ export const database = firebase.firestore();
 //   console.log(data);
 // });
 
-export const userInfo = (user_id) => {
+export const userInfo = async (user_id) => {
   // or get all docs matching the query
-  database.collection("User")
-  .get()
-  .then(querySnapshot => {
-    const data = querySnapshot.docs.filter((doc) => doc.id === user_id);
-    return data[0].data()
-  });
+  await database.collection("User")
+    .get()
+    .then(querySnapshot => {
+      const data = querySnapshot.docs.filter((doc) => doc.id === user_id);
+      console.log(data[0].data())
+      return data[0].data()
+    });
 }
 
 

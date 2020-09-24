@@ -48,6 +48,7 @@ export default function Searching(props) {
   // 検索中に現在集まっている人数
   const [waitingNumber, setWaitingNumber ] = useState(1);
 
+  const [currentMemberNum, setCurrentMemberNum] = useState(1)
 
 
   useEffect(() => {
@@ -155,7 +156,8 @@ export default function Searching(props) {
         :
         <>
           <Typography variant='h4' className={classes.modalItem}>
-            Searching friend who talk with you about {props.searchTag} ...
+            Searching friend who talk with you about #{props.searchTag}. <br />
+            Found {currentMemberNum} / 4 now. Please wait a moment ...
           </Typography>
           <LinearProgress />
           <div className="numberWaiting">
