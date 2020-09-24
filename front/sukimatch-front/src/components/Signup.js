@@ -15,6 +15,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import { ApiClient } from '../utils/ApiClient';
 import { withRouter } from 'react-router';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import 'firebase/firestore';
+import { database } from '../firebase/firebase'
 
 class Signup extends Component {
 
@@ -95,12 +97,12 @@ class Signup extends Component {
   };
 
   lastCheck = (e) => {
-      this.isEmptyName();
-      this.isEmptyEmail();
-      this.isEmptyPass();
-      this.matchPassword();
-      this.setState({ enterLastCheck: !this.state.enterLastCheck });
-      this.confirmSubmit();
+    this.isEmptyName();
+    this.isEmptyEmail();
+    this.isEmptyPass();
+    this.matchPassword();
+    this.setState({ enterLastCheck: !this.state.enterLastCheck });
+    this.confirmSubmit();
   };
 
   handleClickisSubmitted = () => {
@@ -114,8 +116,20 @@ class Signup extends Component {
     }
     ).then(res => {
       sessionStorage.setItem('user_id', res.data.user_id);
-      this.setState({ isLoading: false });
-      this.props.history.push('/search')
+
+      // firebaseのauthenticationに通ったらfirestoreに追加
+      const userRef = database.collection("User").doc(res.data.user_id)
+      userRef.set({
+        email: this.state.email,
+        name: this.state.username
+      }).then(() => {
+        console.log('success')
+        this.setState({ isLoading: false });
+        this.props.history.push('/search')
+      }).catch(err => {
+        console.log(err)
+      })
+
     }).catch(err => {
       this.setState({ invalidPassError: true });
       this.setState({ isLoading: false });
