@@ -1,0 +1,52 @@
+.header {
+  .logo{
+    margin: 0 auto;
+    text-align: center;
+    width:45vw;
+    max-width: 715px;
+    min-width: 230px;
+    background-repeat: repeat-x;
+    background-image: url('../images/logo.png');
+    background-size: contain;
+    height:100px;
+  }
+
+  .global-nav {
+    margin-top:15px;
+    text-align: center;
+
+    .nav-item{
+      display:inline-block;
+      margin: 0 10px;
+      width: 100px;
+      height:30px;
+      line-height: 30px;
+      text-align: center;
+      border-radius: 8px;
+      color: $gray;
+      font-size:$s-size;
+      letter-spacing: 1px;
+      transition: 0.15s;
+      text-decoration:none;
+    }
+    .nav-item:hover {
+      background-color: $main-color;
+      color: black;
+    }
+
+    .is-active {
+      background-color: $main-color;
+    }
+  }
+}
+
+
+@media (max-width: 768px) {
+  .header{
+    .global-nav {
+      .nav-item{
+        width: 50px;
+      }
+    }
+  }
+}

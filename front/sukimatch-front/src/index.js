@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import './styles/styles.scss';
+import AppRouter from './routers/AppRouter';
 import * as serviceWorker from './serviceWorker';
+import './firebase/firebase';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+    <AppRouter />,
   document.getElementById('root')
 );
 

@@ -1,0 +1,52 @@
+.waiting-chat{
+  padding-top:50px;
+  padding-bottom:50px;
+  margin:0 auto;
+  width: 50vw;
+  text-align: center;
+
+  h2{
+    font-size: $l-size;
+    padding-bottom:24px;
+  }
+
+  .chat{
+    padding: 8px;
+    border-radius: 4px;
+    margin: 4px;
+    border: 2px solid $gray;
+    display: inline-block;
+    width: 20vw;
+    font-size:$m-size;
+    box-shadow: 4px 4px $main-color;
+  }
+  
+  .topic{
+    font-size: calc(#{$l-size}-5px);
+  }
+  .topicName{
+    font-size:$l-size;
+  }
+  .nothing{
+    font-size: $xl-size;
+  }
+}
+
+@media (max-width: 900px) {
+  .waiting-chat{
+    .chat{
+      width:45vw;
+      margin: 30px auto;
+      display:block;
+    }
+    .topic{
+      font-size: calc(#{$s-size});
+    }
+    .topicName{
+      font-size:calc(#{$m-size}-5px);
+    }
+    .nothing{
+      font-size: $l-size;
+    }
+  }
+}

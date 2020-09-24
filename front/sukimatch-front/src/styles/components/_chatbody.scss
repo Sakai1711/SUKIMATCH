@@ -1,0 +1,26 @@
+.chat-body {
+  height: 80vh;
+  width: 60vw;
+  overflow: scroll;
+  margin: 0 auto;
+  background: #f5f5f5 ;
+}
+
+.my-chat{
+  .rce-mbox-right-notch{
+    fill: $main-color !important;
+  }
+  .rce-mbox{
+    background:$main-color !important;
+  }
+}
+
+
+.other-chat{
+  .name{
+    font-size: $s-size;
+    padding-left:20px;
+    margin:2px;
+  }
+
+}
