@@ -48,8 +48,7 @@ def get_waiting_chatroom():
     chatroom_ref = db.collection(u'Chatroom')
     chatroom_docs = chatroom_ref.stream()
     for chatroom_doc in chatroom_docs:
-        chatroom_id = chatroom_doc.id
-        users = check_chatroom(chatroom_id)
+        users = check_chatroom(chatroom_doc.id)
         if users < 4:
-            waiting_chatrooms.append(chatroom_id)
+            waiting_chatrooms.append(chatroom_doc.to_dict()['tag_name'])
     return waiting_chatrooms
