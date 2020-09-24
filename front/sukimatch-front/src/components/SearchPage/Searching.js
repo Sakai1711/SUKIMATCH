@@ -98,10 +98,10 @@ export default function Searching(props) {
           database.collection("Chatroom")
           .doc(doc_id)
           .set({tag_name: props.searchTag, user_ids: [sessionStorage.getItem('user_id')]})
-          .then(() => (
+          .then(() => {
             sessionStorage.setItem('chatroom_id', doc_id);
             console.log('success making chatroom');
-          ));
+          });
         }else{
           database.collection("Chatroom")
           .doc(data[0].id)

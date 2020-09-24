@@ -4,7 +4,7 @@ import ChatHeader from './ChatPage/ChatHeader';
 import ChatInsert from './ChatPage/ChatInsert';
 import io from 'socket.io-client';
 import 'firebase/firestore';
-import { database } from '../../firebase/firebase';
+import { database } from '../firebase/firebase';
 
 function Chat() {
   const [message, setMessage] = useState([]);
