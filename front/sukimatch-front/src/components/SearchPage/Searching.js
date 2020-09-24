@@ -94,12 +94,14 @@ export default function Searching(props) {
       .then(querySnapshot => {
         const data = querySnapshot.docs.filter((doc) => doc.data().tag_name === props.searchTag);
         if (data === []){
+          const doc_id = new Date().getTime().toString()
           database.collection("Chatroom")
-          .doc(new Date().getTime().toString())
+          .doc(doc_id)
           .set({tag_name: props.searchTag, user_ids: [sessionStorage.getItem('user_id')]})
-          .then(() => (
-            console.log('success making chatroom')
-          ));
+          .then(() => {
+            sessionStorage.setItem('chatroom_id', doc_id);
+            console.log('success making chatroom');
+          });
         }else{
           database.collection("Chatroom")
           .doc(data[0].id)
@@ -107,6 +109,7 @@ export default function Searching(props) {
             user_ids: [...data[0].data().user_ids, sessionStorage.getItem('user_id')]
           })
           .then(() => {
+            sessionStorage.setItem('chatroom_id', data[0].id)
             console.log('success updating chatroom')
           })
         }

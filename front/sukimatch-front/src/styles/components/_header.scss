@@ -39,3 +39,14 @@
     }
   }
 }
+
+
+@media (max-width: 768px) {
+  .header{
+    .global-nav {
+      .nav-item{
+        width: 50px;
+      }
+    }
+  }
+}
