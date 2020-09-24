@@ -347,4 +347,4 @@ class MyNamespace(Namespace):
 socketio.on_namespace(MyNamespace('/chat'))
 
 if __name__ == '__main__':
-    socketio.run(app)
+    socketio.run(app, debug=True)
