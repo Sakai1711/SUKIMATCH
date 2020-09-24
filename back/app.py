@@ -88,10 +88,11 @@ def sign_in_user():
 @app.route("/user/load", methods=["GET"])
 def load_user_page():
 
-    access_token = request.headers.get("access_token")
+    #access_token = request.headers.get("access_token")
+    user_id = request.header.get("user_id")
 
     # Convert token to ID
-    user_id = verify(access_token)
+    #user_id = verify(access_token)
     if user_id == "":
         return _corsify_actual_response(jsonify({})), 401
 
@@ -122,9 +123,10 @@ def load_user_page():
 
 @app.route("/user/edit", methods=["POST"])
 def edit_user_page():
-    access_token = request.headers.get("access_token")
+    #access_token = request.headers.get("access_token")
+    user_id = request.headers.get("user_id")
     # Convert token to ID
-    user_id = verify(access_token)
+    #user_id = verify(access_token)
     if user_id == "":
         return _corsify_actual_response(jsonify({})), 401
 
@@ -157,7 +159,8 @@ def edit_user_page():
     # new_token = refresh_token(given_json["token"])
 
     responsed_json = {
-        "token": access_token
+        #"token": access_token
+        "user_id": user_id
     }
 
     return _corsify_actual_response(jsonify(responsed_json)), 200
@@ -183,9 +186,10 @@ def transform_tags_dict(tags):
 
 @app.route("/user/delete", methods=["POST"])
 def delete_account():
-    access_token = request.headers.get("access_token")
+    #access_token = request.headers.get("access_token")
+    user_id = request.headers.get("user_id")
     # Convert token to ID
-    user_id = verify(access_token)
+    #user_id = verify(access_token)
     if user_id == "":
         return _corsify_actual_response(jsonify({})), 401
 
@@ -204,10 +208,11 @@ def delete_account():
 
 @app.route("/tag", methods=["POST"])
 def insert_db_tag():
-    access_token = request.headers.get("access_token")
+    #access_token = request.headers.get("access_token")
+    user_id = request.headers.get("user_id")
     given_json = request.json
     tag_name = given_json['tag_name']
-    user_id = verify(access_token)
+    #user_id = verify(access_token)
     if user_id == '':
         return _corsify_actual_response(jsonify({})), 401
     exist_flag = exists(user_id, tag_name)
@@ -218,8 +223,9 @@ def insert_db_tag():
 
 @app.route("/tags", methods=["GET"])
 def get_db_tags():
-    access_token = request.headers.get("access_token")
-    user_id = verify(access_token)
+    #access_token = request.headers.get("access_token")
+    #user_id = verify(access_token)
+    user_id = request.headers.get("user_id")
     if user_id == '':
         return _corsify_actual_response(jsonify({})), 401
     tags = get_tags(user_id)
@@ -227,10 +233,11 @@ def get_db_tags():
 
 @app.route("/tag/delete", methods=["POST"])
 def delete_db_tag():
-    access_token = request.headers.get("access_token")
+    #access_token = request.headers.get("access_token")
+    user_id = request.headers.get("user_id")
     given_json = request.json
     tag_name = given_json['tag_name']
-    user_id = verify(access_token)
+    #user_id = verify(access_token)
     if user_id == '':
         return _corsify_actual_response(jsonify({})), 401
     exist_flag = exists(user_id, tag_name)
@@ -241,8 +248,9 @@ def delete_db_tag():
 
 @app.route("/chatrooms/<chatroom_id>", methods=["GET"])
 def get_chatroom_users(chatroom_id):
-    access_token = request.headers.get("access_token")
-    user_id = verify(access_token)
+    #access_token = request.headers.get("access_token")
+    user_id = request.headers.get("user_id")
+    #user_id = verify(access_token)
     if user_id == '':
         return _corsify_actual_response(jsonify({})), 401
     users = check_chatroom(chatroom_id)
@@ -252,10 +260,11 @@ def get_chatroom_users(chatroom_id):
 
 @app.route("/chatrooms", methods=["POST"])
 def join_chatroom():
-    access_token = request.headers.get("access_token")
+    #access_token = request.headers.get("access_token")
+    user_id = request.headers.get("user_id")
     given_json = request.json
     tag_name = given_json['tag_name']
-    user_id = verify(access_token)
+    #user_id = verify(access_token)
     if user_id == '':
         return _corsify_actual_response(jsonify({})), 401
     chatroom_id = add_chatroom(user_id, tag_name)
@@ -263,9 +272,10 @@ def join_chatroom():
 
 @app.route("/chatrooms/<chatroom_id>/cancel", methods=["POST"])
 def delete_user_from_chatroom(chatroom_id):
-    access_token = request.headers.get("access_token")
+    #access_token = request.headers.get("access_token")
+    user_id = request.headers.get("user_id")
     given_json = request.json
-    user_id = verify(access_token)
+    #user_id = verify(access_token)
     print(chatroom_id)
     if user_id == '':
         return _corsify_actual_response(jsonify({})), 401
