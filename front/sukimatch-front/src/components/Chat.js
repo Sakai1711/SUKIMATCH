@@ -25,22 +25,24 @@ function Chat() {
   };
 
   useEffect(() => {
-    socket.on("connect", function() {
-      console.log('connected');
-      // socket.emit('connect_req',{access_token: sessionStorage.getItem('access_token'), chatroom_id: sessionStorage.getItem('chatroom_id')});
-      console.log(socket);
-  
-      // socket.emit('ping_ping',{},function(){
-      //   console.log('ping sent');
-      // });
-      socket.on('pong_pong',function(data) {
-        setTimeout(delayFunction(data),7000);
+    if(window.location.pathname === '/chat'){
+      socket.on("connect", function() {
+        console.log('connected');
+        // socket.emit('connect_req',{access_token: sessionStorage.getItem('access_token'), chatroom_id: sessionStorage.getItem('chatroom_id')});
+        console.log(socket);
+    
+        // socket.emit('ping_ping',{},function(){
+        //   console.log('ping sent');
+        // });
+        socket.on('pong_pong',function(data) {
+          setTimeout(delayFunction(data),7000);
+        });
+    
+        socket.emit('connect_req',{access_token: sessionStorage.getItem('access_token'), chatroom_id:"culxeiDi0XNmVkFIiI6h"},function(){
+          console.log('connect_req sent');
+        });
       });
-  
-      socket.emit('connect_req',{access_token: sessionStorage.getItem('access_token'), chatroom_id:"culxeiDi0XNmVkFIiI6h"},function(){
-        console.log('connect_req sent');
-      });
-    });
+    }
 
 
   },[]);
