@@ -11,7 +11,7 @@ import datetime
 #sys.path.append('../')
 from database.tag import insert_tag, get_tags, delete_tag, exists
 from database.user import add_new_user, load_mypage, update_data, delete_data
-from database.chatroom import add_chatroom, check_chatroom, delete_chatroom, delete_user
+from database.chatroom import add_chatroom, check_chatroom, delete_chatroom, delete_user, get_waiting_chatroom
 from auth.auth import signup, signin, verify, refresh_token
 from auth.update import update_user
 from auth.delete import delete_user
@@ -286,6 +286,15 @@ def delete_user_from_chatroom(chatroom_id):
         return _corsify_actual_response(jsonify({})), 401
     delete_user(chatroom_id, user_id)
     return _corsify_actual_response(jsonify({})), 204
+
+@app.route("/chatrooms/tag_name", methods=["GET"])
+def get_waiting_chatrooms():
+    access_token = request.headers.get("access_token")
+    user_id = verify(access_token)
+    if user_id == '':
+        return _corsify_actual_response(jsonify({})), 401
+    waiting_chatrooms = get_waiting_chatroom()
+    return _corsify_actual_response(jsonify({ 'waiting_chatrooms': waiting_chatrooms })), 200
 
 class MyNamespace(Namespace):
     def on_connect(self):
