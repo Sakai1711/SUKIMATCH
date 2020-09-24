@@ -77,12 +77,12 @@ def sign_in_user():
     # access_token = "qawse"
     # user_id = "1010120"
     print("79")
-    username, _ = load_mypage(user_id)
+    #username, _ = load_mypage(user_id)
     print("81")
     responsed_json = {
         #"token": access_token
         "user_id": user_id,
-        "username": username
+        #"username": username
     }
 
     return _corsify_actual_response(jsonify(responsed_json)), 200
@@ -100,7 +100,7 @@ def load_user_page():
         return _corsify_actual_response(jsonify({})), 401
     print("101")
     #username, email = load_mypage(user_id)
-    tags = get_tags(user_id)
+    #tags = get_tags(user_id)
     print("104")
     # provisional
     # username = "hoge"
@@ -123,7 +123,7 @@ def load_user_page():
     responsed_json = {
         "username": "username removed",
         "email": "email removed",
-        "tag": tags
+        "tag": "tags"
     }
 
     return _corsify_actual_response(jsonify(responsed_json)), 200
@@ -236,8 +236,8 @@ def get_db_tags():
     user_id = request.headers.get("user_id")
     if user_id == '':
         return _corsify_actual_response(jsonify({})), 401
-    tags = get_tags(user_id)
-    return _corsify_actual_response(jsonify({ 'tags': tags })), 200
+    #tags = get_tags(user_id)
+    return _corsify_actual_response(jsonify({ 'tags': "tags" })), 200
 
 @app.route("/tag/delete", methods=["POST"])
 def delete_db_tag():
@@ -261,7 +261,8 @@ def get_chatroom_users(chatroom_id):
     #user_id = verify(access_token)
     if user_id == '':
         return _corsify_actual_response(jsonify({})), 401
-    users = check_chatroom(chatroom_id)
+    #users = check_chatroom(chatroom_id)
+    users = 1
     if users != 4:
         return _corsify_actual_response(jsonify({'num_of_users': users})), 205
     return _corsify_actual_response(jsonify({'num_of_users': users})), 200
