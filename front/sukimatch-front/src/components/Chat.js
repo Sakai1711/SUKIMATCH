@@ -62,7 +62,8 @@ function Chat() {
     console.log("hogehogehoge");
     console.log(`${data.content} was recieved from ${data.username}`)
     const position = data.user_id === sessionStorage.getItem('user_id') ? 'right' : 'left' ;
-    setMessage([...message,{position: position, type: 'text', text: data.content, date: new Date() }])
+    const classname = data.user_id === sessionStorage.getItem('user_id') ? 'my-chat' : 'other-chat' ;
+    setMessage([...message,{position: position, type: 'text', text: data.content, date: new Date(),classname: classname }])
     console.log(message);
   });
 
