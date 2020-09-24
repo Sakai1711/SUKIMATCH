@@ -19,21 +19,6 @@ import * as firebase from 'firebase';
 import 'firebase/firestore';
 import { database } from '../firebase/firebase'
 
-// const firebaseConfig = {
-//   apiKey: "AIzaSyBZVqFfWYUaRK4hUvypjWF3DzkLTdn3U44",
-//   authDomain: "sukimatch-21753.firebaseapp.com",
-//   databaseURL: "https://sukimatch-21753.firebaseio.com",
-//   projectId: "sukimatch-21753",
-//   storageBucket: "sukimatch-21753.appspot.com",
-//   messagingSenderId: "162386429266",
-//   appId: "1:162386429266:web:9c7256ae9d7a231c6f268b",
-//   measurementId: "G-2698PD0QWJ"
-// };
-
-// Initialize Firebase
-// firebase.initializeApp(firebaseConfig);
-// const database = firebase.firestore();
-
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -123,6 +108,9 @@ export default function Edit() {
           ...form,
           username: userInfo.name,
         })
+        if (userInfo.hasOwnProperty('tags')) {
+          setMyTags(userInfo.tags)
+        }
         setIsLoading(false)
       });
     // ApiClient.get('/user/load'
@@ -208,18 +196,41 @@ export default function Edit() {
       delete_tag_names: form.deleteTagNames
     }
     console.log(editBody)
-    ApiClient.post('/user/edit', editBody
-    ).then(res => {
-      setForm({
-        ...form,
-        newTagNames: [],
-        deleteTagNames: []
+
+    const userId = sessionStorage.getItem('user_id');
+
+    // 更新したいユーザのdocument
+    var userRef;
+
+    database.collection("User")
+      .get()
+      .then(querySnapshot => {
+        const docs = querySnapshot.docs.filter((doc) => doc.id === userId);
+        userRef = docs[0].ref
       })
-      setIsLoading(false)
-    }).catch(err => {
-      console.log(err)
-      setIsLoading(false)
-    });
+      .then(() => {
+        userRef.update({
+          name: form.username,
+          tags: mytags
+        }).then(() => {
+          console.log('success')
+          setIsLoading(false)
+        })
+      });
+
+
+    // ApiClient.post('/user/edit', editBody
+    // ).then(res => {
+    //   setForm({
+    //     ...form,
+    //     newTagNames: [],
+    //     deleteTagNames: []
+    //   })
+    //   setIsLoading(false)
+    // }).catch(err => {
+    //   console.log(err)
+    //   setIsLoading(false)
+    // });
   }
 
 
