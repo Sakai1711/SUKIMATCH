@@ -77,9 +77,11 @@ def sign_in_user():
     # access_token = "qawse"
     # user_id = "1010120"
 
+    username, _ = load_mypage(user_id)
     responsed_json = {
         #"token": access_token
-        "user_id": user_id
+        "user_id": user_id,
+        "username": username
     }
 
     return _corsify_actual_response(jsonify(responsed_json)), 200
@@ -333,7 +335,7 @@ class MyNamespace(Namespace):
         if user_id != "":
             #username, _ = load_mypage(user_id)
             print("2. sent send_message_res")
-            result = {'username': username, 'content': content} #, 'access_token': access_token}
+            result = {'username': username, 'content': content, 'user_id': user_id} #, 'access_token': access_token}
             print("3. sent send_message_res")
             emit('send_message_res', result, broadcast=True, room=chatroom_id)
             print("4. sent send_message_res")
