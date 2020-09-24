@@ -125,7 +125,7 @@ class Signup extends Component {
       }).then(() => {
         console.log('success')
         this.setState({ isLoading: false });
-        this.props.history.push('/search')
+        window.location.href = "/search"
       }).catch(err => {
         console.log(err)
       })

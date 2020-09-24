@@ -50,7 +50,7 @@ function Chat() {
 
     // Todo delete this line and implement it to on('disconnect_res')
     database.collection("Chatroom")
-      .doc(sessionStorage.getItem('chatroom_id'))
+      .doc(sessionStorage.getItem('chatroom_id').toString())
       .delete()
       .then(function () {
         sessionStorage.removeItem('chatroom_id')
@@ -89,7 +89,7 @@ function Chat() {
           const position = data.user_id === sessionStorage.getItem('user_id') ? 'right' : 'left';
           const classname = data.user_id === sessionStorage.getItem('user_id') ? 'my-chat' : 'other-chat';
           let newMessages = message
-          newMessages.push({ position: position, type: 'text', text: data.content, date: new Date(), classname: classname })
+          newMessages.push({ position: position, type: 'text', text: data.content, date: new Date(), classname: classname, username: data.username, user_id: data.user_id })
           setMessage([])
           setMessage(newMessages)
           console.log(message);
