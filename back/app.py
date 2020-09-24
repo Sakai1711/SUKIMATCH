@@ -340,8 +340,10 @@ class MyNamespace(Namespace):
         chatroom_id = data['chatroom_id']
         content = data['content']
         username = data['username']
+        print("user_id: ", user_id)
         print("chatroom_id: ", chatroom_id)
         print("content: ", content)
+        print("username: ", username)
         #user_id = verify(access_token)
         if user_id != "":
             #username, _ = load_mypage(user_id)
