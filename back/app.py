@@ -348,12 +348,15 @@ class MyNamespace(Namespace):
         print("rooms: ", rooms())
         print('wvmBS9SONe15DQuyk1qp' == chatroom_id)
         print('wvmBS9SONe15DQuyk1qp' == data['chatroom_id'])
-        #user_id = verify(access_token)
+        print(chatroom_id == data['chatroom_id'])
         if user_id != "":
-            #username, _ = load_mypage(user_id)
             chatroom_id = 'wvmBS9SONe15DQuyk1qp'
-            result = {'username': username, 'content': content, 'user_id': user_id} #, 'access_token': access_token}
-            emit('send_message_res', result, room=data['chatroom_id']) #, broadcast=True), room=chatroom_id)
+            print('wvmBS9SONe15DQuyk1qp' == chatroom_id)
+            print('wvmBS9SONe15DQuyk1qp' == data['chatroom_id'])
+            print(chatroom_id == data['chatroom_id'])
+            result = {'username': username, 'content': content, 'user_id': user_id}
+            emit('send_message_res', result, room=data['chatroom_id']) 
+            emit('send_message_res', result, room=chatroom_id)
             print("sent send_message_res")
         else:
             emit('send_message_res', {'status': 'incorrect access token'}, broadcast=False)
