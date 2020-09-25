@@ -1,3 +1,5 @@
+// Author Makoto Shiraishi
+
 import React, { Component } from 'react';
 import Work from './Work.js';
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';

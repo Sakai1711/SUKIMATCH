@@ -1,3 +1,6 @@
+// Author Makoto Shiraishi - firebase connection, html
+// Author Iimori MasaMichi - firebase connection
+
 import React, { useState, useEffect } from 'react';
 import ChatBody from './ChatPage/ChatBody';
 import ChatHeader from './ChatPage/ChatHeader';
@@ -11,43 +14,25 @@ function Chat() {
   const [status, setStatus] = useState(false);
   const [socket, setSocket] = useState('')
   const [isConnect, setIsConnect] = useState(false)
-  //let socket = "";
 
 
   useEffect(() => {
     if (window.location.pathname === '/chat') {
-      //socket = io('https://sukimatch-21753.herokuapp.com/chat');
       // { transports: ['websocket'] }　つけたら動いた
       setSocket(io('https://sukimatch-21753.herokuapp.com/chat', { transports: ['websocket'] }))
-
     }
-
   }, []);
 
   const sendHandler = (msgs) => {
     const msg = msgs;
     socket.emit('send_message_req', { user_id: sessionStorage.getItem('user_id'), chatroom_id: sessionStorage.getItem('chatroom_id'), content: msg, username: sessionStorage.getItem('username') }, () => {
-      // console.log('send_message_req has been sent')
     });
-    // user_id: sessionStorage.getItem('user_id'), 
-    // chatroom_id: sessionStorage.getItem('chatroom_id'),
-    // console.log('=========================');
-    // console.log(msg);
-    // console.log(sessionStorage.getItem('user_id'))
-    // console.log(sessionStorage.getItem('chatroom_id'))
-    // console.log('=========================');
   };
-
 
   async function disconnectSocket() {
     await socket.emit('disconnect_req', { user_id: sessionStorage.getItem('user_id'), chatroom_id: sessionStorage.getItem('chatroom_id') }, function () {
       socket.disconnect();
-      // console.log('disconnected complete');
     });
-    // user_id: sessionStorage.getItem('user_id'), 
-    // chatroom_id: sessionStorage.getItem('chatroom_id'),
-
-    // Todo delete this line and implement it to on('disconnect_res')
     database.collection("Chatroom")
       .doc(sessionStorage.getItem('chatroom_id').toString())
       .delete()
@@ -56,25 +41,16 @@ function Chat() {
         window.location.href = "/search";
       });
   }
-  // console.log("if (socket)")
   if (socket) {
     if (!isConnect) {
       socket.on("connect", function () {
         setIsConnect(true)
 
-        socket.on('pong_pong', function (data) {
-          setTimeout(delayFunction(data), 7000);
-        });
-
         socket.emit('connect_req', { user_id: sessionStorage.getItem('user_id'), chatroom_id: sessionStorage.getItem('chatroom_id') }, function () {
-          // console.log('connect_req sent');
 
         });
 
         socket.on('connect_res', (data) => {
-          // console.log("==================================");
-          // console.log(data);
-          // console.log("==================================");
           if (data.status === 'ok') {
             setStatus(true);
           } else {
@@ -83,7 +59,6 @@ function Chat() {
         });
 
         socket.on('send_message_res', function (data) {
-          // console.log(`${data.content} was recieved from ${data.username}`)
           const position = data.user_id === sessionStorage.getItem('user_id') ? 'right' : 'left';
           const classname = data.user_id === sessionStorage.getItem('user_id') ? 'my-chat' : 'other-chat';
           let newMessages = message
@@ -102,16 +77,6 @@ function Chat() {
       }
     });
   }
-
-
-
-  const delayFunction = (d) => {
-    // console.log('pong_pong');
-    // console.log(`${d.time}`);
-
-  }
-
-
 
   return (
     <div className='chat-page'>

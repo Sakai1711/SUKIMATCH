@@ -1,3 +1,5 @@
+// Author Makoto Shiraishi
+
 import React, { Component } from 'react';
 
 
