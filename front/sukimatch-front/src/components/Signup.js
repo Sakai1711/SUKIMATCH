@@ -12,6 +12,8 @@ import FormControl from '@material-ui/core/FormControl';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Checkbox from '@material-ui/core/Checkbox';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 import { ApiClient } from '../utils/ApiClient';
 import { withRouter } from 'react-router';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -138,183 +140,166 @@ class Signup extends Component {
 
   render() {
     return (
-      <div className='signup'>
-        <br /><br />
-        <Typography className='title' variant="h2" gutterBottom>
-          Signup
-        </Typography>
-        <br />
-        <Box textAlign="center">
-          <form className='form' noValidate autoComplete="off">
-            <TextField
-              required
-              id="outlined-basic"
-              label="Name"
-              variant="outlined"
-              onChange={this.handleChange('username')}
-              onBlur={this.isEmptyName}
-            />
-            {this.state.hasNameError ?
-              <FormHelperText id="component-error-text">
-                Name is required.
+      <Grid container alignItems="center" justify="center">
+        <Grid item xs={8}>
+          <div className='signup'>
+            <Paper elevation={3} style={{ margin: 40, padding: 24, textAlign: 'center' }}>
+              <Typography variant="h3" gutterBottom>
+                Sign up
+              </Typography>
+              <br />
+              <Box textAlign="center">
+                <form className='form' noValidate autoComplete="off">
+                  <TextField
+                    required
+                    id="outlined-basic"
+                    label="Name"
+                    variant="outlined"
+                    onChange={this.handleChange('username')}
+                    onBlur={this.isEmptyName}
+                    style={{
+                      width: '40%'
+                    }}
+                  />
+                  {this.state.hasNameError ?
+                    <FormHelperText id="component-error-text">
+                      Name is required.
+                  </FormHelperText> : <br />}
+                  <br />
+                  <TextField
+                    id="outlined-basic"
+                    type="email"
+                    required
+                    label="Email"
+                    variant="outlined"
+                    onChange={this.handleChange('email')}
+                    onBlur={this.isEmptyEmail}
+                    style={{
+                      width: '40%'
+                    }}
+                  />
+                  {this.state.hasEmailError ?
+                    <FormHelperText id="component-error-text">
+                      Email is required.
             </FormHelperText> : <br />}
-            <br />
-            <TextField
-              id="outlined-basic"
-              type="email"
-              required
-              label="Email"
-              variant="outlined"
-              onChange={this.handleChange('email')}
-              onBlur={this.isEmptyEmail}
-            />
-            {this.state.hasEmailError ?
-              <FormHelperText id="component-error-text">
-                Email is required.
+                  <br />
+
+                  {/* ---通常パスワード--- */}
+
+                  <FormControl className="passform" variant="outlined" style={{ width: '40%' }}>
+                    <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                    <OutlinedInput
+                      id="outlined-adornment-password"
+                      type={this.state.showPassword ? 'text' : 'password'}
+                      onBlur={this.isEmptyPass}
+                      value={this.state.password}
+                      onChange={this.handleChange('password')}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={this.handleClickShowPassword}
+                            onMouseDown={this.handleMouseDownPassword}
+                            edge="end"
+                          >
+                            {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                      labelWidth={70}
+                    />
+                    {this.state.hasPassError ?
+                      <FormHelperText id="component-error-text">
+                        Password is required.
             </FormHelperText> : <br />}
-            <br />
+                  </FormControl>
+                  <br />
 
-            {/* ---通常パスワード--- */}
-
-            <FormControl className="passform" variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-password"
-                type={this.state.showPassword ? 'text' : 'password'}
-                onBlur={this.isEmptyPass}
-                value={this.state.password}
-                onChange={this.handleChange('password')}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={this.handleClickShowPassword}
-                      onMouseDown={this.handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                labelWidth={70}
-              />
-              {this.state.hasPassError ?
-                <FormHelperText id="component-error-text">
-                  Password is required.
-            </FormHelperText> : <br />}
-            </FormControl>
-            <br />
-
-            {/* ---通常パスワードのエラー--- */}
-            {/*
-          <FormControl error className="passform" variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-password"
-              type={this.state.showPassword ? 'text' : 'password'}
-              required
-              value={this.state.password}
-              onChange={this.handleChange('password')}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={this.handleClickShowPassword}
-                    onMouseDown={this.handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              labelWidth={70}
-            />
-            <FormHelperText id="component-error-text">A password is invalid.</FormHelperText>
-          </FormControl>
-          <br /><br />
-            */}
-            {/* ---確認用パスワードのエラー--- */}
-            {this.state.conPassError ?
-              <FormControl error className="passform" variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
-                <OutlinedInput
-                  id="outlined-adornment-password"
-                  type={this.state.showPassword ? 'text' : 'password'}
-                  required
-                  value={this.state.confirmpass}
-                  onChange={this.handleChange('confirmpass')}
-                  onBlur={this.matchPassword}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={this.handleClickShowPassword}
-                        onMouseDown={this.handleMouseDownPassword}
-                        edge="end"
-                      >
-                        {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
-                      </IconButton>
-                    </InputAdornment>
+                  {/* ---確認用パスワードのエラー--- */}
+                  {this.state.conPassError ?
+                    <FormControl error className="passform" variant="outlined" style={{ width: '40%' }}>
+                      <InputLabel htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
+                      <OutlinedInput
+                        id="outlined-adornment-password"
+                        type={this.state.showPassword ? 'text' : 'password'}
+                        required
+                        value={this.state.confirmpass}
+                        onChange={this.handleChange('confirmpass')}
+                        onBlur={this.matchPassword}
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={this.handleClickShowPassword}
+                              onMouseDown={this.handleMouseDownPassword}
+                              edge="end"
+                            >
+                              {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
+                            </IconButton>
+                          </InputAdornment>
+                        }
+                        labelWidth={70}
+                      />
+                      <FormHelperText id="component-error-text">
+                        Confirm password do not match.
+                    </FormHelperText>
+                    </FormControl> :
+                    <FormControl className="passform" variant="outlined" style={{ width: '40%' }}>
+                      <InputLabel htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
+                      <OutlinedInput
+                        id="outlined-adornment-password"
+                        type={this.state.showPassword ? 'text' : 'password'}
+                        required
+                        value={this.state.confirmpass}
+                        onChange={this.handleChange('confirmpass')}
+                        onBlur={this.matchPassword}
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={this.handleClickShowPassword}
+                              onMouseDown={this.handleMouseDownPassword}
+                              edge="end"
+                            >
+                              {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
+                            </IconButton>
+                          </InputAdornment>
+                        }
+                        labelWidth={70}
+                      />
+                    </FormControl>
                   }
-                  labelWidth={70}
-                />
-                <FormHelperText id="component-error-text">
-                  Confirm password do not match.
-            </FormHelperText>
-              </FormControl> :
-              <FormControl className="passform" variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
-                <OutlinedInput
-                  id="outlined-adornment-password"
-                  type={this.state.showPassword ? 'text' : 'password'}
-                  required
-                  value={this.state.confirmpass}
-                  onChange={this.handleChange('confirmpass')}
-                  onBlur={this.matchPassword}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={this.handleClickShowPassword}
-                        onMouseDown={this.handleMouseDownPassword}
-                        edge="end"
-                      >
-                        {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                  labelWidth={70}
-                />
-              </FormControl>
-            }
-          </form>
-          <br /><br />
-          {this.state.isLoading ? <CircularProgress /> :
-            <>
-              <Checkbox
-                onChange={this.lastCheck}
-                name="checkedB"
-                color="primary"
-              />
+                </form>
+                <br /><br />
+                {this.state.isLoading ? <CircularProgress /> :
+                  <>
+                    <Checkbox
+                      onChange={this.lastCheck}
+                      name="checkedB"
+                      color="primary"
+                    />
                   Have you completed the input?
                   <br />
-              {this.state.canSubmit ?
-                <Button variant="contained" color="primary"
-                  onChange={this.handleChange('isSubmitted')}
-                  onClick={this.handleClickisSubmitted}
-                >
-                  Sign up
+                    {this.state.canSubmit ?
+                      <Button variant="contained" color="primary"
+                        onChange={this.handleChange('isSubmitted')}
+                        onClick={this.handleClickisSubmitted}
+                      >
+                        Sign up
                   </Button>
-                :
-                <Button variant="contained" disabled>
-                  Sign up
+                      :
+                      <Button variant="contained" disabled>
+                        Sign up
                 </Button>}
-            </>
-          }
+                  </>
+                }
 
-          <br /><br /><br />
-        </Box>
-      </div>
+                <br /><br /><br />
+              </Box>
+            </Paper>
+          </div>
+        </Grid>
+      </Grid>
     );
   }
 }

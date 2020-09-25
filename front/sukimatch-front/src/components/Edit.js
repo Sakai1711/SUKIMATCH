@@ -36,16 +36,15 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     textAlign: 'center',
     margin: theme.spacing(5),
+    padding: theme.spacing(3),
     color: theme.palette.text.secondary,
   },
   accountInfo: {
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
     alignContent: 'center',
-    //width: '70%',
-    marginLeft: theme.spacing(15),
-    marginRight: theme.spacing(15),
+    marginTop: theme.spacing(3)
 
   },
   inputForm: {
@@ -61,13 +60,18 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(5),
   },
   card: {
-    minWidth: '20%',
+    minWidth: '100px',
+    width: '25%',
     margin: theme.spacing(1)
+  },
+  tagListParent: {
+    width: '70%',
   },
   tagList: {
     margin: theme.spacing(1),
     display: 'flex',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    justifyContent: 'center',
   },
   tagContent: {
     display: 'flex',
@@ -76,7 +80,10 @@ const useStyles = makeStyles((theme) => ({
   },
   loading: {
     margin: theme.spacing(5)
-  }
+  },
+  resize: {
+    fontSize: 20
+  },
 }));
 
 
@@ -203,7 +210,7 @@ export default function Edit() {
   const tagList = mytags.map((tag, index) => (
     <Card className={classes.card} key={index}>
       <CardContent className={classes.tagContent}>
-        <Typography variant='h5' color="textSecondary" gutterBottom>
+        <Typography variant='h5' gutterBottom>
           {tag.tag_name}
         </Typography>
         <IconButton aria-label="add to shopping cart" onClick={() => handleDeleteTag(tag)}>
@@ -217,17 +224,28 @@ export default function Edit() {
     <Grid container alignItems="center" justify="center">
       <Grid item xs={8}>
         <div className={classes.main}>
-          <Paper className={classes.paper}>
-            <Typography variant='h3'>My page</Typography>
+          <Paper className={classes.paper} elevation={3}>
+            <Typography variant='h3' color='textPrimary'>My page</Typography>
             {isLoading ? <CircularProgress className={classes.loading} /> :
               <>
                 <div className={classes.accountInfo}>
-                  <AccountCircleIcon />
+                  <AccountCircleIcon style={{ fontSize: 50 }} />
                 </div>
 
-                <TextField required id="standard-required" label="username" variant="outlined" value={form.username} onChange={updateUsername} className={classes.inputForm} />
+                <TextField required id="standard-required"
+                  label="username"
+                  variant="outlined"
+                  InputProps={{
+                    classes: {
+                      input: classes.resize,
+                    },
+                  }}
+                  value={form.username}
+                  onChange={updateUsername}
+                  className={classes.inputForm}
+                />
 
-                <Typography>my tags</Typography>
+                <Typography variant='h5'>my tags</Typography>
 
                 <div className={classes.tagList}>
                   {tagList}
@@ -238,7 +256,14 @@ export default function Edit() {
                           required
                           id="standard-required"
                           value={newTagName}
+                          autoFocus
                           onChange={updateNewTagName}
+                          onKeyDown={e => {
+                            if (e.keyCode === 13) {
+                              // エンターキー押下時の処理
+                              handleAddTag()
+                            }
+                          }}
                         />
                         <IconButton color="primary" aria-label="add to shopping cart" onClick={() => handleAddTag()}>
                           <AddCircleOutlineIcon />
