@@ -1,3 +1,7 @@
+// Author Iimori MasaMichi - styles, html, to firebase connection(handleClose,handleSearchClick) and tohers
+// Author Makoto Shiraishi - to firebase connecition (handleClose,handleSearchClick)
+
+
 import React, { useState, useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button'
@@ -109,16 +113,6 @@ export default function Searching(props) {
               })
           }
         })
-
-
-      // ApiClient.post('/chatrooms', {
-      //   tag_name: props.searchTag
-      // }).then(res => {
-      //   console.log(res)
-      //   sessionStorage.setItem('chatroom_id', res.data.chatroom_id);
-      // }).catch(err => {
-      //   console.log(err)
-      // });
     }
   };
 
@@ -152,15 +146,6 @@ export default function Searching(props) {
           })
         }
       })
-
-
-    // ApiClient.post(`/chatrooms/${chatroomId}/delete`).then(res => {
-    //   setSearch(false)
-    // }).catch(err => {
-    //   console.log(err)
-    //   setSearch(false)
-    // });
-    // setOpen(false)
   };
   const body = (
     <div className={classes.paper}>

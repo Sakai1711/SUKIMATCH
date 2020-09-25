@@ -1,3 +1,7 @@
+// Author Makoto Shiraishi - Html, implemented fundamental of Component
+// Author Iimori MasaMichi - added Link component
+// Author Watanabe Mihane - added Link component
+
 import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';

@@ -1,3 +1,5 @@
+// Author Makoto Shiraishi
+
 import React, { Component } from 'react';
 import { MessageBox } from 'react-chat-elements';
 import 'react-chat-elements/dist/main.css';

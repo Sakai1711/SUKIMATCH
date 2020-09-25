@@ -1,3 +1,5 @@
+// Author Makoto Shiraishi - lp icons and styles
+
 import React, { Component } from 'react';
 
 class Feature extends Component {

@@ -1,3 +1,5 @@
+// Author Iimori MasaMichi
+
 import React, { useState, useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
@@ -6,22 +8,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import TextField from '@material-ui/core/TextField';
 import EditIcon from '@material-ui/icons/Edit';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import IconButton from '@material-ui/core/IconButton';
-import SearchIcon from '@material-ui/icons/Search';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import Searching from './Searching'
-import { ApiClient } from '../../utils/ApiClient';
 import CircularProgress from '@material-ui/core/CircularProgress';
-// import * as firebase from 'firebase';
 import 'firebase/firestore';
 import { database } from '../../firebase/firebase';
 
@@ -52,7 +46,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     alignItems: 'center',
     alignContent: 'center',
-    //width: '70%',
     marginLeft: theme.spacing(15),
     marginRight: theme.spacing(15),
 
