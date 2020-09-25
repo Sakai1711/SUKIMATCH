@@ -1,3 +1,5 @@
+# Author Sakai Atsuya - delete_chatroom, delete_user
+# Author Nagai Ryusei - all except Sakai's part
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore

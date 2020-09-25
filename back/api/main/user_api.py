@@ -1,3 +1,5 @@
+# Author Nagai Ryusei - fix import and _corsify_actual_response
+# Author Tsuneda Toi - all except Nagai's part
 from flask import Flask, request, jsonify
 from . import app
 import sys

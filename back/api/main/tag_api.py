@@ -1,3 +1,5 @@
+# Author Nagai Ryusei - fix import and _corsify_actual_response
+# Author Sakai Atsuya - all except Nagai's part
 from flask import Flask, request, jsonify
 import firebase_admin
 from firebase_admin import credentials

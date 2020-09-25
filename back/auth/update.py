@@ -1,3 +1,4 @@
+# Author Tsuneda Toi
 from firebase_admin import auth
 
 def update_user(uid, display_name=None, email=None, password=None):

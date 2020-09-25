@@ -1,3 +1,5 @@
+# Author Nagai Ryusei - fix import
+# Author Tsuneda Toi - all except Nagai's part
 from google.cloud.exceptions import NotFound
 from .model import User
 #from database import db
