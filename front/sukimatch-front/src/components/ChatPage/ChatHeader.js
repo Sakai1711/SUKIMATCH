@@ -5,7 +5,7 @@ class ChatHeader extends Component {
   constructor() {
     super();
     this.state = {
-      time: 65,
+      time: 600,
     };
     this.countDown = this.countDown.bind(this);
   }
