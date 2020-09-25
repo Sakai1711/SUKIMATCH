@@ -1,3 +1,5 @@
+<!-- Author Iimori MasaMichi -->
+
 ## [SukiMatch](https://sukimatch2020.herokuapp.com/)
 
 ### ディレクトリ構成

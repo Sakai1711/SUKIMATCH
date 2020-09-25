@@ -1,5 +1,5 @@
-// Author Makoto Shiraishi - firebase connection, html
-// Author Iimori MasaMichi - firebase connection
+// @author Makoto Shiraishi - firebase connection, html
+// @author Iimori MasaMichi - firebase connection
 
 import React, { useState, useEffect } from 'react';
 import ChatBody from './ChatPage/ChatBody';

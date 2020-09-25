@@ -1,3 +1,5 @@
+// Author Iimori MasaMichi
+
 import firebase from 'firebase';
 
 const config = {

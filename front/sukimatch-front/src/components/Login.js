@@ -1,5 +1,5 @@
-// Author Watanabe Mihane
-// Author Iimori MasaMichi - modified styles, and 
+// Author Watanabe Mihane - html, system, styles
+// Author Iimori MasaMichi - modified styles
 
 import React, { Component } from 'react';
 import Typography from '@material-ui/core/Typography';

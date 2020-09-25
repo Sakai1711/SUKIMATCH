@@ -1,3 +1,7 @@
+// Author Watanabe Mihane - html, system, styles
+// Author Iimori MasaMichi - modified styles
+
+
 import React, { Component } from 'react';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';

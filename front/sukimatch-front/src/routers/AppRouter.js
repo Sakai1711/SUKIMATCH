@@ -1,3 +1,7 @@
+// Author Makoto Shiraishi
+// Author Watanabe Mihane
+// Author Iimori MasaMichi
+
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Edit from '../components/Edit'

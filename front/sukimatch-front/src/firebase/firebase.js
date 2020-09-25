@@ -1,4 +1,5 @@
-// import * as firebase from 'firebase';
+// Author Makoto Shiraishi
+
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 
@@ -16,36 +17,3 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 export const database = firebase.firestore();
-export const userInfo = async (user_id) => {
-  // or get all docs matching the query
-  await database.collection("User")
-    .get()
-    .then(querySnapshot => {
-      const data = querySnapshot.docs.filter((doc) => doc.id === user_id);
-      return data[0].data()
-    });
-}
-
-
-export const waitingNumber = (chatroom_id) => {
-  database.collection("Chatroom")
-  .get()
-  .then(querySnapshot => {
-    const data = querySnapshot.docs.filter((doc) => doc.id === chatroom_id);
-    return data[0].data().user_ids.length
-  })
-}
-
-
-export const waitingChat = () => {
-  database.collection("Chatroom")
-  .get()
-  .then(querySnapshot => {
-    let datas = querySnapshot.docs.map((doc) => doc.data());
-    datas = datas.filter((data) => (data.user_ids.length < 4));
-    datas = datas.map((data) => {
-      return [data.tag_name, data.length]
-    })
-    return datas.slice(0,5);
-  })
-}

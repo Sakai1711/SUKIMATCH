@@ -1,6 +1,8 @@
+// Author Iimori MasaMichi
+
+
+
 import axios from "axios";
-
-
 export const ApiClient = createAxiosInstance();
 function createAxiosInstance() {
   axios.defaults.headers.post['Access-Control-Allow-Origin'] = 'https://sukimatch-21753.herokuapp.com';
