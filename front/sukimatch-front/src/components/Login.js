@@ -60,6 +60,7 @@ class Login extends Component {
       // this.props.history.push('/search')
       window.location.href = '/search';
     }).catch(err => {
+      this.setState({ isSubmitted: false });
       this.setState({ invalidPassError: true });
       this.setState({ isLoading: false });
     });
