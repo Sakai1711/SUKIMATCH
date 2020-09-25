@@ -5,26 +5,15 @@ import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import TextField from '@material-ui/core/TextField';
 import EditIcon from '@material-ui/icons/Edit';
+import Searching from './Searching'
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Checkbox from '@material-ui/core/Checkbox';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import IconButton from '@material-ui/core/IconButton';
-import SearchIcon from '@material-ui/icons/Search';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
-import Searching from './Searching'
-import { ApiClient } from '../../utils/ApiClient';
-import CircularProgress from '@material-ui/core/CircularProgress';
-// import * as firebase from 'firebase';
 import 'firebase/firestore';
 import { database } from '../../firebase/firebase';
-
+import ButtonBase from '@material-ui/core/ButtonBase';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -44,18 +33,18 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     textAlign: 'center',
-    padding: theme.spacing(5),
+    margin: theme.spacing(5),
+    padding: theme.spacing(3),
     color: theme.palette.text.secondary,
   },
-  accountInfo: {
+  editButton: {
     display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    alignContent: 'center',
+    justifyContent: 'flex-end',
     //width: '70%',
     marginLeft: theme.spacing(15),
     marginRight: theme.spacing(15),
-
+    marginTop: theme.spacing(1),
+    marginButtom: theme.spacing(1)
   },
   inputForm: {
     width: '70%',
@@ -76,13 +65,22 @@ const useStyles = makeStyles((theme) => ({
   tagList: {
     margin: theme.spacing(1),
     display: 'flex',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
     flexWrap: 'wrap'
   },
   tagContent: {
+    minWidth: '150px',
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center'
+  },
+  card: {
+    minWidth: '150px',
+    width: '25%',
+    margin: theme.spacing(1)
+  },
+  advise: {
+    fontSize: 15
   },
   loading: {
     margin: theme.spacing(5)
@@ -132,16 +130,33 @@ export default function StartSearch() {
     setSelectedTag(event.target.value);
   };
 
+  const handleCardClick = (tag_name) => {
+    setSelectedTag(tag_name);
+  };
+
+  const tagList = mytags.map((tag, index) => (
+    <Card className={classes.card} key={index}>
+      <ButtonBase
+        onClick={() => handleCardClick(tag.tag_name)}>
+        <CardContent className={classes.tagContent}>
+          <Checkbox checked={tag.tag_name === selectedTag} />
+          <Typography variant='h5' gutterBottom>
+            {tag.tag_name}
+          </Typography>
+        </CardContent>
+      </ButtonBase>
+    </Card>
+  ))
+
   return (
     <div>
       <Grid container alignItems="center" justify="center">
         <Grid item xs={8}>
           <div className={classes.main}>
-            <Paper className={classes.paper}>
-              <Typography variant='h3'>Start searching</Typography>
+            <Paper className={classes.paper} elevation={3}>
+              <Typography variant='h3' color='textPrimary'>Start searching</Typography>
 
-              <div className={classes.accountInfo}>
-                <AccountCircleIcon />
+              <div className={classes.editButton}>
                 <Link to="/user/edit">
                   <Button
                     variant="contained"
@@ -154,18 +169,19 @@ export default function StartSearch() {
               </div>
 
               <div>
-                <FormControl component="fieldset">
-                  <FormLabel component="legend">Select Search Tag</FormLabel>
-                  <FormLabel component="legend">Don't have one?</FormLabel>
-                  <FormLabel component="legend"> Click the edit button and make one!</FormLabel>
-                  {isLoading ? <CircularProgress className={classes.loading} /> :
-                    <RadioGroup className={classes.tagList} aria-label="gender" name="gender1" value={selectedTag} onChange={handleTagChange} row>
-                      {mytags.map((tag, index) => (
-                        <FormControlLabel key={index} value={tag.tag_name} control={<Radio />} label={tag.tag_name} />
-                      ))}
-                    </RadioGroup>
-                  }
-                </FormControl>
+                <Typography varient='body' className={classes.advise}>Select Search Tag</Typography>
+                {mytags.length === 0 &&
+                  <>
+                    <Typography varient='body' className={classes.advise}>Don't have one?</Typography>
+                    <Typography varient='body' className={classes.advise}>Click the edit button and make one!</Typography>
+                  </>
+                }
+
+                {isLoading ? <CircularProgress className={classes.loading} /> :
+                  <div className={classes.tagList}>
+                    {tagList}
+                  </div>
+                }
               </div>
               <Searching searchTag={selectedTag} />
 

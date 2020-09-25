@@ -6,10 +6,10 @@ import SearchIcon from '@material-ui/icons/Search';
 import Modal from '@material-ui/core/Modal';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import CloseIcon from '@material-ui/icons/Close';
-import { ApiClient } from '../../utils/ApiClient';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { Link } from 'react-router-dom';
 import 'firebase/firestore';
-import { database, waitingChat } from '../../firebase/firebase';
+import { database } from '../../firebase/firebase';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -33,9 +33,18 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center'
   },
   cancelButton: {
-    minWidth: '40%',
+    width: '40%',
     margin: theme.spacing(10),
   },
+  gotoButton: {
+    minWidth: '40%',
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  link: {
+    display: 'flex',
+    justifyContent: 'center',
+  }
 }));
 
 
@@ -47,8 +56,6 @@ export default function Searching(props) {
   const [open, setOpen] = useState(false);
   // 検索中に現在集まっている人数
   const [waitingNumber, setWaitingNumber] = useState(1);
-
-  const [currentMemberNum, setCurrentMemberNum] = useState(1)
 
 
   useEffect(() => {
@@ -103,22 +110,15 @@ export default function Searching(props) {
               })
               .then(() => {
                 sessionStorage.setItem('chatroom_id', data[0].id)
-                // 検索開始時に待機人数をインクリメント
-                setWaitingNumber(data[0].data().user_ids.length + 1)
+                // ４人揃ってなければ検索開始時に待機人数をインクリメント
+                if (!isFind) {
+                  setWaitingNumber(data[0].data().user_ids.length + 1)
+                }
                 console.log('success updating chatroom')
               })
           }
         })
 
-
-      // ApiClient.post('/chatrooms', {
-      //   tag_name: props.searchTag
-      // }).then(res => {
-      //   console.log(res)
-      //   sessionStorage.setItem('chatroom_id', res.data.chatroom_id);
-      // }).catch(err => {
-      //   console.log(err)
-      // });
     }
   };
 
@@ -128,6 +128,7 @@ export default function Searching(props) {
     const userId = sessionStorage.getItem('user_id')
     setSearch(false);
     setOpen(false);
+    setIsFind(false)
 
     database.collection("Chatroom")
       .get()
@@ -153,14 +154,6 @@ export default function Searching(props) {
         }
       })
 
-
-    // ApiClient.post(`/chatrooms/${chatroomId}/delete`).then(res => {
-    //   setSearch(false)
-    // }).catch(err => {
-    //   console.log(err)
-    //   setSearch(false)
-    // });
-    // setOpen(false)
   };
   const body = (
     <div className={classes.paper}>
@@ -170,15 +163,18 @@ export default function Searching(props) {
             Found some people to talk with you!
           </Typography>
 
-          <Link to="/chat">
+          <Link to="/chat" className={classes.link}>
             <Button
               variant="contained"
-              startIcon={<CloseIcon />}
-              className={classes.cancelButton}
+              color="primary"
+              startIcon={<ExitToAppIcon />}
+              className={classes.gotoButton}
             >
               go to chatroom
             </Button>
           </Link>
+
+
         </>
         :
         <>
@@ -190,17 +186,18 @@ export default function Searching(props) {
           <div className="numberWaiting">
             {`${waitingNumber}/4 has been matched so far`}
           </div>
-
-          <Button
-            variant="contained"
-            startIcon={<CloseIcon />}
-            className={classes.cancelButton}
-            onClick={handleClose}
-          >
-            cancel
-          </Button>
         </>
       }
+      <div className={classes.link}>
+        <Button
+          variant="contained"
+          startIcon={<CloseIcon />}
+          className={classes.cancelButton}
+          onClick={handleClose}
+        >
+          cancel
+      </Button>
+      </div>
     </div>
   );
 
