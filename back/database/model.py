@@ -1,3 +1,6 @@
+# Author Nagai Ryusei - create base classes
+# Author Tsuneda Toi - fix User class
+# Author Sakai Atsuya - fix Chatroom and Tag class
 class Chatroom(object):
     def __init__(self, tag_name, user_ids=[]):
         #self.chatroom_id = chatroom_id

@@ -1,3 +1,4 @@
+# Author Tsuneda Toi 
 from firebase_admin import auth
 
 def delete_user(uid):

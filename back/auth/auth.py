@@ -1,7 +1,5 @@
-#import sys, os
-#sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-#sys.path.append('../')
-#from app import auth
+# Author Tsuneda Toi - refresh_token
+# Author Nagai Ryusei - all except Tsuneda's part
 from . import auth
 
 def signup(email, password):

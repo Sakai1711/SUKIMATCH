@@ -1,3 +1,4 @@
+# Author Nagai Ryusei - copied from api directory and pasted them all
 from flask import Flask, request, jsonify
 import firebase_admin
 from firebase_admin import credentials
