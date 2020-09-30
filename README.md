@@ -18,15 +18,19 @@
 
 共通の話したい話題で盛り上がり、新しいつながりを作りましょう！
 
+### TOP画面
 ![sukimatch_top](https://github.com/Sakai1711/image/blob/master/SUKIMATCH/sukimatch_top.png?raw=true)
 
+### マッチング開始画面
 ![sukimatch_searchdisplay](https://github.com/Sakai1711/image/blob/master/SUKIMATCH/sukimatch_search.png?raw=true)
 
+### チャット画面
 ![sukimatch_chatdisplay](https://github.com/Sakai1711/image/blob/master/SUKIMATCH/sukimatch_chat.png?raw=true)
 
 
 ## 最終発表会結果
-## 7チーム中<span style="color: red; ">**2位**</span>！！
+<span style="font-size: 2em;">7チーム中**2位**！！</span>
+
 素晴らしい結果で終えることができました！
 
 
