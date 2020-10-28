@@ -19,13 +19,13 @@
 共通の話したい話題で盛り上がり、新しいつながりを作りましょう！
 
 ### TOP画面
-![sukimatch_top](https://github.com/Sakai1711/image/blob/master/SUKIMATCH/sukimatch_top.png?raw=true)
+![sukimatch_top](https://drive.google.com/file/d/1s-QU5pptioAuO1uKq_L7sO-anzvUKCcS/view?usp=sharing)
 
 ### マッチング開始画面
-![sukimatch_searchdisplay](https://github.com/Sakai1711/image/blob/master/SUKIMATCH/sukimatch_search.png?raw=true)
+![sukimatch_searchdisplay](https://drive.google.com/file/d/1JhLC8_wMGynzlZzfA4tj-vuYYYYq1NOo/view?usp=sharing)
 
 ### チャット画面
-![sukimatch_chatdisplay](https://github.com/Sakai1711/image/blob/master/SUKIMATCH/sukimatch_chat.png?raw=true)
+![sukimatch_chatdisplay](https://drive.google.com/file/d/18ul6wZ5-cbpS6nsS3RpGJfvHsUefhoP5/view?usp=sharing)
 
 
 ## 最終発表会結果
